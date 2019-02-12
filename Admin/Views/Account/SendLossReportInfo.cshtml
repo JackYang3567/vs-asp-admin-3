@@ -1,0 +1,92 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "后台管理-发送申诉失败邮件";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/layout.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/common.js"></script>
+    <script src="~/Scripts/kindeditor-4.1.10/kindeditor-min.js"></script>
+    <script src="~/Scripts/kindeditor-4.1.10/lang/zh_CN.js"></script>
+</head>
+<body>
+    <!-- 头部菜单 Start -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="title">
+        <tr>
+            <td width="19" height="25" valign="top" class="Lpd10">
+                <div class="arr">
+                </div>
+            </td>
+            <td width="1232" height="25" valign="top" align="left">
+                目前操作功能：发送申诉失败邮件
+            </td>
+        </tr>
+    </table>
+    <!-- 头部菜单 End -->
+    <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="titleOpBg Lpd10">
+                <input type="button" value="关闭" class="btn wd1" onclick="window.close();" />
+                <input type="button" value="发送失败邮件" class="btn wd1" onclick="submit();" />
+            </td>
+        </tr>
+    </table>
+    <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0" class="listBg2">
+        <tr>
+            <td class="listTdLeft">
+                ID号码（UserID）：
+            </td>
+            <td>
+                <input type="text" id="txtReceive"/>
+                &nbsp;<span class="hong">*</span><label>请输入收件人</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">
+                失败原因：
+            </td>
+            <td>
+                <textarea id="txtContent" style="width: 550px; height: 350px; "></textarea>
+            </td>
+        </tr>
+    </table>
+    <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="titleOpBg Lpd10">
+                <input type="button" value="关闭" class="btn wd1" onclick="window.close();" />
+                <input type="button" value="发送失败邮件" class="btn wd1" onclick="submit();" />
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        //编辑器
+        KindEditor.ready(function (K) {
+            window.editor = K.create('#txtContent', { uploadJson: '/Common/UploadImage?op=0&ID=' + pageObj.objID });
+        });
+        function submit() {
+            if (confirm('确定发送申诉失败邮件吗？')) {
+                var data = {};
+                data.ReportId = parseInt('@ViewBag.ReportId');
+                data.Reason = editor.html();
+                AjaxSubmit("/Account/SubmitSendLossReportInfo", data, callBack, "add");
+            }         
+        }
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.close();
+                    window.opener.location.reload();
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

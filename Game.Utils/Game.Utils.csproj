@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1F8C1DFD-68D9-4624-BD66-4571BEB37916}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Game.Utils</RootNamespace>
+    <AssemblyName>Game.Utils</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.JScript" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Game.Utils.Cache\AspNetCache.cs" />
+    <Compile Include="Game.Utils.Cache\CacheType.cs" />
+    <Compile Include="Game.Utils.Cache\CookiesCache.cs" />
+    <Compile Include="Game.Utils.Cache\ICache.cs" />
+    <Compile Include="Game.Utils.Cache\SessionCache.cs" />
+    <Compile Include="Game.Utils.Cache\WHCache.cs" />
+    <Compile Include="Game.Utils.Properties\AppExceptions.cs" />
+    <Compile Include="Game.Utils.Verify\VerifyImageInfo.cs" />
+    <Compile Include="Game.Utils.Verify\VerifyImageVer2.cs" />
+    <Compile Include="Game.Utils\AES.cs" />
+    <Compile Include="Game.Utils\ApplicationSettings.cs" />
+    <Compile Include="Game.Utils\CDATA.cs" />
+    <Compile Include="Game.Utils\CollectionHelper.cs" />
+    <Compile Include="Game.Utils\CtrlHelper.cs" />
+    <Compile Include="Game.Utils\CWHEncryptNet.cs" />
+    <Compile Include="Game.Utils\DataHelper.cs" />
+    <Compile Include="Game.Utils\DES.cs" />
+    <Compile Include="Game.Utils\EnumDescription.cs" />
+    <Compile Include="Game.Utils\FileManager.cs" />
+    <Compile Include="Game.Utils\FilterType.cs" />
+    <Compile Include="Game.Utils\FolderInfo.cs" />
+    <Compile Include="Game.Utils\FrameworkExcption.cs" />
+    <Compile Include="Game.Utils\FsoMethod.cs" />
+    <Compile Include="Game.Utils\GameRequest.cs" />
+    <Compile Include="Game.Utils\IPQuery.cs" />
+    <Compile Include="Game.Utils\JavaScript.cs" />
+    <Compile Include="Game.Utils\MD5ResultMode.cs" />
+    <Compile Include="Game.Utils\MessageRender.cs" />
+    <Compile Include="Game.Utils\ReflectionHelper.cs" />
+    <Compile Include="Game.Utils\RemoveTextMode.cs" />
+    <Compile Include="Game.Utils\SerializationHelper.cs" />
+    <Compile Include="Game.Utils\StringBuffer.cs" />
+    <Compile Include="Game.Utils\SymmetricMethod.cs" />
+    <Compile Include="Game.Utils\Template.cs" />
+    <Compile Include="Game.Utils\Terminator.cs" />
+    <Compile Include="Game.Utils\TextEncrypt.cs" />
+    <Compile Include="Game.Utils\TextFilter.cs" />
+    <Compile Include="Game.Utils\TextLogger.cs" />
+    <Compile Include="Game.Utils\TextLoggerEntity.cs" />
+    <Compile Include="Game.Utils\TextUtility.cs" />
+    <Compile Include="Game.Utils\TypeHelper.cs" />
+    <Compile Include="Game.Utils\TypeParse.cs" />
+    <Compile Include="Game.Utils\UCException.cs" />
+    <Compile Include="Game.Utils\Utility.cs" />
+    <Compile Include="Game.Utils\Validate.cs" />
+    <Compile Include="Game.Utils\XmlOperate.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

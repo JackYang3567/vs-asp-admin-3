@@ -1,0 +1,286 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "充值系统 - 快钱记录";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/layout.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/common.js"></script>
+    <script src="~/Scripts/My97DatePicker/WdatePicker.js"></script>
+    <script src="~/Scripts/pagination.js"></script>
+</head>
+<body>
+    <!-- 头部菜单 Start -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="title">
+        <tr>
+            <td width="19" height="25" valign="center" class="Lpd10">
+                <div class="arr">
+                </div>
+            </td>
+            <td width="1232" height="25" valign="center" align="left">
+                你当前位置：@ViewBag.Title
+            </td>
+        </tr>
+    </table>
+    <!-- 头部菜单 End -->
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="titleQueBg">
+        <tr>
+            <td align="center" style="width: 80px">
+                日期查询：
+            </td>
+            <td>
+                <input type="text" id="txtStartDate" class="text wd2" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'txtEndDate\')}'})" readonly="readonly" /><img src="../Content/images/btn_calendar.gif" onclick="WdatePicker({el:'txtStartDate',dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'txtEndDate\')}'})" style="cursor: pointer; vertical-align: middle" />
+                至
+                <input type="text" id="txtEndDate" class="text wd2" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'txtStartDate\')}'})" readonly="readonly" /><img src="../Content/images/btn_calendar.gif" onclick="    WdatePicker({el:'txtEndDate',dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'txtStartDate\')}'})" style="cursor: pointer; vertical-align: middle" />
+                <select id="ddlStatus">
+                    <option value="0">全部</option>
+                    <option value="10">支付成功</option>
+                    <option value="11">支付失败</option>
+                </select>
+                <input type="button" id="btnQuery" class="btn wd1" value="查询" />
+                <input type="button" id="btnQueryTD" class="btn wd1" value="今天" />
+                <input type="button" id="btnQueryYD" class="btn wd1" value="昨天" />
+                <input type="button" id="btnQueryTW" class="btn wd1" value="上周" />
+                <input type="button" id="btnQueryYW" class="btn wd1" value="本周" />
+            </td>
+        </tr>
+    </table>
+    <div class="clear"></div>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="Tmg7">
+        <tr>
+            <td class="titleOpBg" style="width: 80px">
+                基本查询：
+            </td>
+            <td height="39" class="titleOpBg">
+                <input type="text" id="txtSearch" class="text" style="width:300px;" />
+                <select id="ddlSearchType">
+                    <option value="1">按订单号码</option>
+                    <option value="2">按交易号码</option>
+                    <option value="3">按交易地址</option>
+                </select>
+                <input type="button" id="btnQuery1" class="btn wd1" value="查询" />
+                <input class="btnLine" type="button" />
+                <input type="button" id="btnDelete" class="btn wd1" value="删除" />
+            </td>
+        </tr>
+    </table>
+    <div id="content">
+        <div class="">
+            <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="box" id="list">
+                <thead>
+                    <tr align="center" class="bold">
+                        <td class="listTitle">
+                            <input type="checkbox" name="chkAll" onclick="SelectAll(this.checked);" />
+                        </td>
+                        <td class="listTitle2">
+                            订单号码
+                        </td>
+                        <td class="listTitle2">
+                            快钱交易号
+                        </td>
+                        <td class="listTitle2">
+                            订单金额
+                        </td>
+                        <td class="listTitle2">
+                            实付金额
+                        </td>
+                        <td class="listTitle2">
+                            手续费
+                        </td>
+                        <td class="listTitle2">
+                            订单日期
+                        </td>
+                        <td class="listTitle2">
+                            交易日期
+                        </td>
+                        <td class="listTitle1">
+                            支付结果
+                        </td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="page clearfix">
+            <div class="left page-num">
+                <select id="pagecount">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                <span>页/条</span>
+            </div>
+            <div class="right personal-page" id="downbabyPage">
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    var pageObj = {};
+    var postData = {};//搜索条件
+    $(document).ready(function () {
+        docReady();
+    });
+    function docReady() {
+        //加载数据
+        postData.pageSize = parseInt($("#pagecount").val());
+        postData.Sort = "";
+        postData.Type = 0;
+        postData.pageIndex = 1;
+        AjaxSearch(postData);
+        //选择页码
+        $("#pagecount").change(function (e) {
+            postData.pageSize = parseInt($(this).val());
+            postData.pageIndex = 1;
+            AjaxSearch(postData);
+        });
+
+        //普通搜索事件
+        $("#btnQuery").click(function (e) {
+
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.Type = 1;
+            var txtStartDate = $("#txtStartDate").val();
+            var txtEndDate = $("#txtEndDate").val();
+            if (txtStartDate != "" && txtEndDate != "") {
+                if (StrToDateTime(txtEndDate) < StrToDateTime(txtStartDate)) {
+                    alert("开始日期不能大于结束时间");
+                    return false;
+                }
+            }
+            postData.StartDate = txtStartDate;
+            postData.EndDate = txtEndDate;
+            postData.Status = parseInt($("#ddlStatus").val());
+            AjaxSearch(postData);
+        });
+        //今天查询
+        $("#btnQueryTD").click(function (e) {
+            postData.Type = 2;
+            postData.Status = parseInt($("#ddlStatus").val());
+            AjaxSearch(postData);
+        });
+        //昨天查询
+        $("#btnQueryYD").click(function (e) {
+            postData.Type = 3;
+            postData.Status = parseInt($("#ddlStatus").val());
+            AjaxSearch(postData);
+        });
+        //本周查询
+        $("#btnQueryTW").click(function (e) {
+            postData.Type = 4;
+            postData.Status = parseInt($("#ddlStatus").val());
+            AjaxSearch(postData);
+        });
+        //上周查询
+        $("#btnQueryYW").click(function (e) {
+            postData.Type = 5;
+            postData.Status = parseInt($("#ddlStatus").val());
+            AjaxSearch(postData);
+        });
+        //用户查询
+        $("#btnQuery1").click(function (e) {
+            var keyWord = $("#txtSearch").val();
+            if (keyWord == "") {
+                alert("请输入查询条件");
+                return false;
+            }
+            var searchType = $("#ddlSearchType").val();
+            postData.Type = 6;
+            postData.KeyWord = keyWord;
+            postData.SearchType = parseInt(searchType);
+            AjaxSearch(postData);
+        });
+        //删除
+        $("#btnDelete").click(function (e) {
+            var cid = "";
+            var cids = GelTags("input");
+
+            for (var i = 0; i < cids.length; i++) {
+                if (cids[i].checked) {
+                    if (cids[i].name == "cid")
+                        cid += cids[i].value + ",";
+                }
+            }
+            if (cid == "") {
+                alert("未选中任何数据");
+                return;
+            }
+            data.cid = cid;
+            AjaxSubmit("/Filled/DeleteOrderKQ", data, callBack, "del");
+        })
+    }
+    //回调函数
+    function callBack(jsonData, fname) {
+        switch (fname) {
+            case "del":
+                alert(jsonData.Msg);
+                window.location.reload();
+                //window.opener.location.reload();
+                break;
+        }
+    }
+    //搜索事件
+    function AjaxSearch(postData) {
+        $('#downbabyPage').paging("/Filled/GetOrderKQList", postData, CreatTableBody, postData.pageIndex);
+    }
+    function StrToDateTime(timestr) {
+        var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+        return dt;
+    }
+    //绑定数据
+    function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex) {
+        var html = "";
+        if (jsondata != null && jsondata.length > 0) {
+            $.each(jsondata, function (i, item) {
+                if (i % 2 == 0) {
+                        html += stringFormat("<tr align=\"center\" class=\"list\" onmouseover=\"currentcolor=this.style.backgroundColor;this.style.backgroundColor='#caebfc';this.style.cursor='default';\" onmouseout=\"this.style.backgroundColor=currentcolor\">");
+                        html += stringFormat("<td>{0}</td>", (item.DetailIDStr != "" ? "<input name='cid' type='checkbox' value='" + item.DetailIDStr + "'/>" : ""));
+                        html += stringFormat("<td><a class=\"l\" href=\"javascript:void(0);\" onclick=\"openWindowOwn('@Url.Action("OrderKQInfo", "Filled")?id={0}','{0}',850,600);\">{1}</a></td>", item.DetailID, item.OrderID);
+                        html += stringFormat("<td>{0}</td>", item.DealID);
+                        html += stringFormat("<td>{0}</td>", item.OrderAmount);
+                        html += stringFormat("<td>{0}</td>", item.PayAmount);
+                        html += stringFormat("<td>{0}</td>", item.Fee);
+                        html += stringFormat("<td>{0}</td>", item.OrderTime);
+                        html += stringFormat("<td>{0}</td>", item.DealTime);
+                        html += stringFormat("<td>{0}</td>", (item.PayResult == 10 ? "<span class='lan'>成功<span>" : "<span class='hong'>失败<span>"));
+                        html += "</tr>";
+                    } else {
+                        html += stringFormat("<tr align=\"center\" class=\"listBg\" onmouseover=\"currentcolor=this.style.backgroundColor;this.style.backgroundColor='#caebfc';this.style.cursor='default';\" onmouseout=\"this.style.backgroundColor=currentcolor\">");
+                        html += stringFormat("<td>{0}</td>", (item.DetailIDStr != "" ? "<input name='cid' type='checkbox' value='" + item.DetailIDStr + "'/>" : ""));
+                        html += stringFormat("<td><a class=\"l\" href=\"javascript:void(0);\" onclick=\"openWindowOwn('@Url.Action("OrderKQInfo", "Filled")?id={0}','{0}',850,600);\">{1}</a></td>", item.DetailID, item.OrderID);
+                        html += stringFormat("<td>{0}</td>", item.DealID);
+                        html += stringFormat("<td>{0}</td>", item.OrderAmount);
+                        html += stringFormat("<td>{0}</td>", item.PayAmount);
+                        html += stringFormat("<td>{0}</td>", item.Fee);
+                        html += stringFormat("<td>{0}</td>", item.OrderTime);
+                        html += stringFormat("<td>{0}</td>", item.DealTime);
+                        html += stringFormat("<td>{0}</td>", (item.PayResult == 10 ? "<span class='lan'>成功<span>" : "<span class='hong'>失败<span>"));
+                        html += "</tr>";
+                    }
+                });
+         }
+            $("#list tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * pageObj.pageSize + 1), ((pageIndex * pageObj.pageSize) < pageTotal ? (pageIndex * pageObj.pageSize) : pageTotal), pageTotal));
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+    </script>
+</body>
+</html>

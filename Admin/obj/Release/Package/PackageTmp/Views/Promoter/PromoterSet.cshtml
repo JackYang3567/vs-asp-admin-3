@@ -1,0 +1,143 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "推广系统 - 推广设置";
+}
+@model Game.Entity.Treasure.GlobalSpreadInfo
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <style>
+        .x5 {
+            width: 50px;
+            height: 25px;
+            border: 1px solid #ABADB3;
+            font-size: 14px;
+            background-color: #FFFFFF;
+            line-height: 25px;
+            margin-right: 6px;
+        }
+
+        .col-xs-2 {
+            width: 16%;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+
+                    <div class="panel panel-info">
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">推广设置</h3>
+                        </div>
+                        <div class="panel-body">
+                           
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">一级抽成比例：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="x5" type="text" id="txt_rate1" value="@Model.To1UperRate" />% 
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">二级抽成比例：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="x5" type="text" id="txt_rate2" value="@Model.To2UperRate" />%
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">三级抽成比例：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="x5" type="text" id="txt_rate3" value="@Model.To3UperRate" />%
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">四级抽成比例：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="x5" type="text" id="txt_rate4" value="@Model.To4UperRate" />%
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">五级抽成比例：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="x5" type="text" id="txt_rate5" value="@Model.To5UperRate" />%
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="Save();"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+       
+        function Save() {
+            var rate1 =  $('#txt_rate1').val();
+            var rate2 = $('#txt_rate2').val();
+            var rate3 = $('#txt_rate3').val();
+            var rate4 = $('#txt_rate4').val();
+            var rate5 = $('#txt_rate5').val();
+            
+            if (isNaN(rate1) || isNaN(rate2) || isNaN(rate3) || isNaN(rate4) || isNaN(rate5))
+            {
+                alert("参数错误！")
+                return
+            }
+            rate1 = Number(rate1);
+            rate2 = Number(rate2);
+            rate3 = Number(rate3);
+            rate4 = Number(rate4);
+            rate5 = Number(rate5);
+            if (rate1 < 0 || rate2 < 0 || rate3 < 0 || rate4 < 0 || rate5 < 0)
+            {
+                alert("抽成比例不能为负数！")
+                return
+            }
+
+            if ((rate1 + rate2 + rate3 + rate4 + rate5) > 100)
+            {
+                alert("抽成比例总和不能超过100！")
+                return
+            }
+
+            var postData = {};
+            postData.rate1 = rate1;
+            postData.rate2 = rate2;
+            postData.rate3 = rate3;
+            postData.rate4 = rate4;
+            postData.rate5 = rate5;
+            AjaxSubmit("/Promoter/UpdatePromoterSet", postData, callBack, "save");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "save":
+                    alert(jsonData.Msg);
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

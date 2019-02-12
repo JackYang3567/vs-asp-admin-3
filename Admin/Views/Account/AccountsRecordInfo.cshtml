@@ -1,0 +1,237 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "管理后台-用户信息";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <link href="~/Content/laydate/need/laydate.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <ul class="media nav nav-tabs margin-b-10">
+                    <li>
+                        <a href="AccountsInfo?param=@ViewBag.Param" title="">基本信息</a>
+                    </li>
+                    <li>
+                        <a href="AccountsDetailInfo?param=@ViewBag.Param" title="">详细信息</a>
+                    </li>
+                    <li>
+                        <a href="AccountsTreasureInfo?param=@ViewBag.Param" title="">财富信息</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" title="" style="display:none">积分信息</a>
+                    </li>
+                    <li class="active">
+                        <a href="javascript:void(0);" title="">记录信息</a>
+                    </li>
+                </ul>
+                <div class="tab-content" style="margin-top:-11px">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">记录信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">ID号码：</div>
+                                <div class="col-xs-2 col-md-1"><label>@(ViewBag.GameID != null ? ViewBag.GameID : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right">帐号：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label>@(ViewBag.Accounts != null ? ViewBag.Accounts : "")</label></div>
+                            </div>
+
+                        </div>
+                        <div class="panel-heading" style="background-color:">
+                            <h3 class="panel-title">基本修改记录</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <ul class="list-inline">
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript:openWindowOwn('@Url.Action("RecordAccountsExpendList", "Account")?type=0&param=@ViewBag.Param' ,'raccounts @ViewBag.Param ',800,500);">历史修改帐号记录</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("RecordAccountsExpendList","Account")?type=1&param=@ViewBag.Param', 'RAccounts @ViewBag.Param', 800, 500);">
+                                                历史修改昵称记录
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("RecordPasswdExpendList","Account")?param=@ViewBag.Param', 'RPassword @ViewBag.Param', 800, 500);">
+                                                历史密码记录
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("RecordUserInoutList", "Account")?param=@ViewBag.Param' , 'UserInout @ViewBag.Param' , 1800, 800);">
+                                                进出记录
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">财富信息记录</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <ul class="list-inline">
+                                        
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("RecordDrawInfoList","Account")?param=@ViewBag.Param', 'RDrawInfo @ViewBag.Param', 1200, 500);">
+                                                游戏记录
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("RecordInsureList","Account")?param=@ViewBag.Param', 'RInsure @ViewBag.Param', 1200, 500);">
+                                                保险柜记录
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("ShareInfoList","Filled")?account=@ViewBag.Accounts', 'ShareDetail @ViewBag.Param', 1200, 500);">
+                                                充值记录
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("RecordGlodList","Account")?param=@ViewBag.Param&Account=@ViewBag.Accounts', 'RecordGlodList @ViewBag.Param', 1200, 500);">
+                                                金币变化记录
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("Index","Trade")?param=@ViewBag.Param&Account=@ViewBag.Accounts', 'RecordGlodList @ViewBag.Param', 1200, 500);">
+                                                提现记录
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("AccountGameScore", "Abnormal")?param=@ViewBag.Param&Account=@ViewBag.Accounts', 'AccountGameScore @ViewBag.Param', 1200, 600);">
+                                                游戏总输赢
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="panel-heading" style="display:none">
+                            <h3 class="panel-title">积分信息记录</h3>
+                        </div>
+                        <div class="panel-body" style="display:none">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <ul class="list-inline">
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("RecordUserScoreInoutList","Account")?param=@ViewBag.Param', 'UserScoreInout @ViewBag.Param', 1500, 500);">
+                                                进出记录
+                                            </a>
+                                        </li>
+
+                                    </ul>
+
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="panel-heading" style="display:none">
+                            <h3 class="panel-title">系统赠送记录</h3>
+                        </div>
+                        <div class="panel-body" style="display:none">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <ul class="list-inline">
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("RecordGrantMemberList","Account")?param=@ViewBag.Param', 'RGrantMember @ViewBag.Param', 800, 500);">
+                                                赠送会员记录
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("RecordGrantTreasureList","Account")?param=@ViewBag.Param', 'RGrantTreasure @ViewBag.Param', 800, 500);">
+                                                赠送游戏币记录
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("RecordGrantExperienceList","Account")?param=@ViewBag.Param', 'RGrantExperience @ViewBag.Param', 800, 500);">
+                                                赠送经验记录
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("RecordGrantScoreList","Account")?param=@ViewBag.Param', 'RGrantScore @ViewBag.Param', 800, 500);">
+                                                赠送积分记录
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("RecordGrantGameIDList","Account")?param=@ViewBag.Param', 'RGrantGameID @ViewBag.Param', 800, 500);">
+                                                赠送靓号记录
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("RecordGrantClearScoreList","Account")?param=@ViewBag.Param', 'RGrantClearScore @ViewBag.Param', 800, 500);">
+                                                清零积分记录
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("RecordGrantClearFlee","Account")?param=@ViewBag.Param', 'RGrantClearFlee @ViewBag.Param', 800, 500);">
+                                                清零逃率记录
+                                            </a>
+                                        </li>
+                                        <li></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="panel-heading" style="display:none">
+                            <h3 class="panel-title">魅力兑换记录</h3>
+                        </div>
+                        <div class="panel-body" style="display:none">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <ul class="list-inline">
+                                        <li>
+                                            <a href="javascript:void(0)" class="l" onclick="javascript: openWindowOwn('@Url.Action("RecordConvertPresentList","Account")?param=@ViewBag.Param', 'RConvertPresent @ViewBag.Param', 1200, 500);">
+                                                魅力兑换记录
+                                            </a>
+                                        </li>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+
+                                </li>
+                            </ul>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="window.close();"><i class="glyphicon glyphicon-off"></i>关闭</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+
+</body>
+</html>

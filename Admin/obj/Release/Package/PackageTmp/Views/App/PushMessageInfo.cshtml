@@ -1,0 +1,151 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "系统维护 - 推送消息";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+
+        <div class="carousel box-inner">
+            <div class="box-header well clearfix" data-original-title="">
+                <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+            </div>
+            <div class="tab-content" style="margin-top:0px">
+                <div class="panel panel-info">
+                    <div class="panel-body">
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">推送用户：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtAccounts" style="width: 395px; display: inline;" class="form-control input-sm" type="text" value="">
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+                                不填则为所有玩家
+                            </div>
+                        </div>
+                       
+                        <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">推送设备：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <select id="ddlDevice">
+                                    <option value="all" selected>所有设备</option>
+                                    <option value="android">安卓</option>
+                                    <option value="ios">苹果</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">推送内容：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <textarea id="txtBody" class="form-control input-sm" style="width: 395px; display: inline;" rows="10"></textarea>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px; margin-bottom: 5px; ">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">推送方式：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <select id="ddlSendType">
+                                    <option value="1" selected="selected">及时推送</option>
+                                    <option value="2">定时推送</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+                               
+                            </div>
+                        </div>
+                        <div class="row" id="timediv" style="margin-top: 5px; margin-bottom: 5px; display: none;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">定时推送：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtStartDate" class="input-width-150" type="text" readonly="readonly" placeholder="请输入推送的时间" />
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+                               
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <ul class="list-inline">
+                                <li><a class="btn btn-success search btn-md" href="@Url.Action("PushMessageList", "App")"><i class="glyphicon glyphicon-arrow-left"></i>返回</a></li>
+                                <li><a class="btn btn-primary search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        var data = {};
+        data.Type = 1;
+        $(document).ready(function () {
+            //时间选择器
+            laydate.render({
+                elem: '#txtStartDate'
+              , type: 'datetime'
+            });
+            //选择页码
+            $("#ddlSendType").change(function (e) {
+                data.Type = parseInt($(this).val());
+                if (data.Type == 1) {
+                    $("#timediv").hide();
+                } else {
+                    $("#timediv").show();
+                }
+            });
+        })
+        function add() {
+            
+            var Accounts = $("#txtAccounts").val();
+            data.Accounts = Accounts;
+
+            var Device = $("#ddlDevice").val();
+            data.Device = Device;
+            if (data.Type == 1) {
+                data.SendTime = "";
+            } else {
+                data.SendTime = $("#txtStartDate").val().trim();
+            }
+
+            var Body = $("#txtBody").val();
+            if (Body == "") {
+                alert("内容不能为空");
+                return false;
+            }
+            data.Body = Body;
+           
+            AjaxSubmit("/App/PushMessage", data, callBack, "push");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "push":
+                    alert(jsonData.Msg);
+                    window.location.href = "/App/PushMessageList";
+                    break;
+            }
+        }
+    </script>
+
+</body>
+</html>

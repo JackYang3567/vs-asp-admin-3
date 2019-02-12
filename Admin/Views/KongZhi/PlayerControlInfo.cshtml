@@ -1,0 +1,201 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "控制系统-玩家单控";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <style>
+        /*.panel-default {
+            width: 50%;
+        }*/
+    </style>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@ViewBag.Title</h3>
+                        </div>
+                        <div class="panel-body" id="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">玩家账号：</div>
+                                <div class="col-xs-3 col-md-1"><input id="txtAccounts" class="form-control input-sm" type="text" maxlength="20"></div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="color:#555">
+                                    其他游戏
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                        <div class="col-xs-2 col-md-1" style="text-align:right">输赢：</div>
+                                        <div class="col-xs-3 col-md-1"><input id="txtWinScore0" class="form-control input-sm" type="text" maxlength="12"></div>
+                                        <div class="col-xs-2 col-md-1" style="text-align: right">胜率：</div>
+                                        <div class="col-xs-3 col-md-1">
+                                            <select name="select" id="ddlWinRate0">
+                                                <option value="0">0</option>
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="30">30</option>
+                                                <option value="40">40</option>
+                                                <option value="50">50</option>
+                                                <option value="60">60</option>
+                                                <option value="70">70</option>
+                                                <option value="80">80</option>
+                                                <option value="90">90</option>
+                                                <option value="100">100</option>
+                                            </select>%
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li>
+                                        @if (ViewBag.op == 2)
+                                        {<a class="btn btn-primary search btn-md" href="#" onclick="window.close();"><i class="glyphicon glyphicon-circle-arrow-left"></i>关闭</a>}
+                                        else
+                                        {<a class="btn btn-primary search btn-md" href="@Url.Action("PlayerControlList", "KongZhi")"><i class="glyphicon glyphicon-circle-arrow-left"></i>返回</a>}
+                                    </li>
+                                    <li><a class="btn btn-success search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-send"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    var data = {};
+    var roomJson = [], paramJson = [];
+    $(function () {
+        $.ajaxSettings.async = false;
+        $.get("/Android/RoomList", { kid: 6 }, function (data) {
+            roomJson = $.parseJSON(data);
+            var optHTML = "";
+            $.each(roomJson, function () {
+                optHTML += '<div class="panel panel-default">'
+                         + '    <div class="panel-heading" style="color:#555">'
+                         + this.ServerName
+                         + '    </div>'
+                         + '    <div class="panel-body">'
+                         + '        <div class="row" style="margin-top:5px;margin-bottom:5px;">'
+                         + '            <div class="col-xs-2 col-md-1" style="text-align:right">输赢：</div>'
+                         + '            <div class="col-xs-3 col-md-1"><input id="txtWinScore' + this.ServerID + '" class="form-control input-sm" type="text" maxlength="12"></div>'
+                         + '            <div class="col-xs-2 col-md-1" style="text-align: right">胜率：</div>'
+                         + '            <div class="col-xs-3 col-md-1">'
+                         + '                <select id="ddlWinRate' + this.ServerID + '" name="select">'
+                         + '                    <option value="101">101(不控)</option>'
+                         + '                    <option value="0">0(必输)</option>'
+                         + '                    <option value="100">100(必赢)</option>'
+                         + '                </select>%'
+                         + '            </div>'
+                         + '        </div>'
+                         + '    </div>'
+                         + '</div>'
+            });
+            $('#panel-body').append(optHTML);
+        })
+
+        function setColor() {
+            var userType = '@Request["userType"]';
+            var color = "black";
+            if (userType > 0)
+                color = "#" + colors[userType - 1];
+            $("#txtAccounts").css("color", color)
+        }
+
+        var userId = '@Request["userId"]';
+        if (userId > 0) {
+            $.get("/KongZhi/GetPlayerControl", { userId: userId }, function (data) {
+                var json = $.parseJSON(data);
+                if (json != "") {
+                    $.each(json, function () {
+                        $('#txtWinScore' + this.ServerID).val(this.WinScore);
+                        $('#ddlWinRate' + this.ServerID).val(this.WinRate);
+                    });
+                    $("#txtAccounts").val(json[0].Accounts);
+                    $("#txtAccounts").attr("readonly", false);
+
+                    setColor();
+                } else {
+                    var account = '@Request["account"]';
+                    $("#txtAccounts").val(account);
+
+                    setColor();
+                }
+            })
+        }
+    })
+    function add() {
+        var accounts = $("#txtAccounts").val();
+        if (accounts == "") {
+            alert("玩家账号不能为空");
+            return false;
+        }
+        data.Accounts = accounts;
+        var winScore = $("#txtWinScore0").val();
+        var obj = {};
+        if (winScore != "") {
+            obj.WinScore = parseInt(winScore);
+            obj.WinRate = parseInt($("#ddlWinRate0").val());
+            obj.ServerID = 0;
+            paramJson.push(obj);
+        }
+
+        $.each(roomJson, function () {
+            winScore = $("#txtWinScore" + this.ServerID).val();
+            if (winScore != "") {
+                obj = {};
+                obj.WinScore = parseInt(winScore);
+                obj.WinRate = parseInt($("#ddlWinRate" + this.ServerID).val());
+                obj.ServerID = this.ServerID;
+                paramJson.push(obj);
+            }
+        });
+        data.paramJson = JSON.stringify(paramJson);
+        if (data.paramJson == "[]") {
+            alert("输赢至少需要填一个");
+            return false;
+        }
+        AjaxSubmit("/KongZhi/DoPlayerControlInfo", data, callBack, "add");
+    }
+    //回调函数
+    function callBack(jsonData, fname) {
+        switch (fname) {
+            case "add":
+                alert(jsonData.Msg);
+                window.location.href = "/KongZhi/PlayerControlList"
+                //window.close();
+                break;
+        }
+    }
+    function QueryString(n) {
+        var t = location.href, f = t.substring(t.indexOf("?") + 1, t.length).split("&"), u = {}, r;
+        for (i = 0; j = f[i]; i++)
+            u[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=") + 1, j.length);
+        return r = u[n.toLowerCase()], typeof r == "undefined" ? "" : r;
+    }
+    </script>
+</body>
+</html>

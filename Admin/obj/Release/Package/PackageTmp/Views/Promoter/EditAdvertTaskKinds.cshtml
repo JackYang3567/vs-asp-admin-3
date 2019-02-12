@@ -1,0 +1,115 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "推广平台管理-推广活动游戏管理";
+    System.Data.DataTable dt = ViewData["tb"] == null ? null : ViewData["tb"] as System.Data.DataTable;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+                    <div class="panel panel-primary" style="margin-left:-10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">编辑活动游戏信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">任务名称：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtTaskName" style="width:350px;display:inline;" placeholder="请输入任务名称" class="form-control input-sm" type="text" maxlength="50" disabled="disabled" value="@ViewBag.TaxkName"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">*必填</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">游戏：</div>
+                                <div class="col-xs-8 col-md-4">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                           @if (dt != null && dt.Rows.Count > 0)
+                                            {
+                                                foreach (System.Data.DataRow r in dt.Rows)
+                                                {
+                                                    <ul class="list-inline cursor-style">
+                                                        <li><label><input name="KindID" @(Game.Facade.Tools.TypeUtil.ObjectToInt(r["itemKingId"]) > 0 ? "checked" : "") type="checkbox" value="@r["KindID"]" />@r["KindName"]</label></li>
+                                                        <li>
+                                                            <label class="radio-inline"><input type="radio" name="CountType@(r["KindID"])" value="1" @(Game.Facade.Tools.TypeUtil.ObjectToInt(r["CountTypes"]) == 1 ? "checked" : "")>累计输的</label>
+                                                            <label class="radio-inline"><input type="radio" name="CountType@(r["KindID"])" value="2" @(Game.Facade.Tools.TypeUtil.ObjectToInt(r["CountTypes"]) == 2 ? "checked" : "")>累计赢的</label>
+                                                            <label class="radio-inline"><input type="radio" name="CountType@(r["KindID"])" value="3" @(Game.Facade.Tools.TypeUtil.ObjectToInt(r["CountTypes"]) == 3 ? "checked" : "")>累计输赢</label>
+                                                            <label class="checkbox-inline"><input type="checkbox" name="isWeek"  @(Game.Facade.Tools.TypeUtil.ObjectToInt(r["IsWeek"]) == 1 ? "checked" : "")>是否周统计</label>
+                                                        </li>
+                                                    </ul>
+                                                }
+                                            }
+                                           
+                                        </li>
+                                    </ul>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="window.close();"><i class="glyphicon glyphicon-circle-arrow-left"></i>返回</a></li>
+                                    <li><a class="btn btn-success search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-send"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            
+        });
+        function add() {
+            var arr = [];
+            var TaskID = parseInt('@ViewBag.ID');
+            $("input[name='KindID']:checked").each(function (i, item) {
+                var data = {};
+                data.TaskID = TaskID;
+                data.KindID = parseInt($(item).val());
+                data.CountType = parseInt($(item).parent().parent().next().find("input[type=radio]:checked").val());
+                data.IsWeek = $(item).parent().parent().next().find("input[name='isWeek']").is(":checked") ? 1 : 0;
+                arr.push(data);
+            });
+            if (arr.length < 1) {
+                alert("请编辑数据");
+                return false;
+            }
+            AjaxSubmit("/Promoter/DoAdvertTaskKinds", { "list": JSON.stringify(arr) }, callBack, "add");
+        }
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    //window.close();
+                    //window.location.href = "/Promoter/AdvertTaskList"
+                    break;
+            }
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+    </script>
+</body>
+</html>

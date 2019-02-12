@@ -1,0 +1,130 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "推广平台管理-推广商管理";
+    System.Data.DataTable dt = ViewData["dt"] == null ? null : ViewData["dt"] as System.Data.DataTable;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <ul class="media nav nav-tabs" style="margin-top:-1px;">
+                    <li><a href="/Promoter/RankingList" title="排行榜">排行榜</a></li>
+                    <li class="active"><a href="javascript:void(0)" title="推广商管理">推广商管理</a></li>
+                    <li><a href="/Promoter/AdvertTaskList" title="推广活动管理">推广活动管理</a></li>
+                </ul>
+                <div class="tab-content" style="margin-top:0px">
+                    <div class="panel panel-primary" style="margin-left:-10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@(ViewBag.OP)推广广告商信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">广告商：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtAdvertiser" style="width:350px;display:inline;" placeholder="请输入广告商" class="form-control input-sm" type="text" maxlength="31" value="@(dt != null ? Game.Facade.Tools.TypeUtil.ObjectToString(dt.Rows[0]["Advertiser"]) : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">*必填</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">广告商Key：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtAdKey" style="width:350px;display:inline;" placeholder="请输入广告商Key" class="form-control input-sm" type="text" maxlength="31" value="@(dt != null ? Game.Facade.Tools.TypeUtil.ObjectToString(dt.Rows[0]["AdKey"]) : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">*必填</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">手机地址：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtUrl" style="width:350px;display:inline;" placeholder="请输入手机地址" class="form-control input-sm" type="text" maxlength="31" value="@(dt != null ? Game.Facade.Tools.TypeUtil.ObjectToString(dt.Rows[0]["Url"]) : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">*必填</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">pc地址：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtPcUrl" style="width:350px;display:inline;" placeholder="请输入pc地址" class="form-control input-sm" type="text" maxlength="31" value="@(dt != null ? Game.Facade.Tools.TypeUtil.ObjectToString(dt.Rows[0]["PcUrl"]) : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">*必填</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">描述：</div>
+                                <div class="col-xs-6 col-md-3"><textarea class="form-control" id="txtDescr" style="width:350px;display:inline;" rows="5" placeholder="描述" maxlength="200">@(dt != null ? Game.Facade.Tools.TypeUtil.ObjectToString(dt.Rows[0]["Descr"]) : "")</textarea></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">*必填</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">状态：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <label class="radio-inline"><input type="radio" name="StatusT" class="" value="1" @((dt == null || Game.Facade.Tools.TypeUtil.ObjectToInt(dt.Rows[0]["StatusT"])==1)? "checked=\"checked\"" : "")/>合作中</label>
+                                    <label class="radio-inline"><input type="radio" name="StatusT" class="0" @((dt != null && Game.Facade.Tools.TypeUtil.ObjectToInt(dt.Rows[0]["StatusT"]) == 0) ? "checked=\"checked\"" : "")/>合作结束</label>
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">*必选</div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="@Url.Action("AdvertiserList", "Promoter")"><i class="glyphicon glyphicon-circle-arrow-left"></i>返回</a></li>
+                                    <li><a class="btn btn-success search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-send"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function add() {
+            var Advertiser = $("#txtAdvertiser").val();
+            if (Advertiser == "") {
+                alert("广告商不能为空");
+                return false;
+            }
+            var AdKey = $("#txtAdKey").val();
+            if (AdKey == "") {
+                alert("广告商Key不能为空");
+                return false;
+            }
+            var Url = $("#txtUrl").val();
+            if (Url == "") {
+                alert("手机地址不能为空");
+                return false;
+            }
+            var PcUrl = $("#txtPcUrl").val();
+            if (PcUrl == "") {
+                alert("pc地址不能为空");
+                return false;
+            }
+            var Descr = $("#txtDescr").val();
+            if (Descr == "") {
+                alert("描述不能为空");
+                return false;
+            }
+            var StatusT = $("input[name='StatusT']:checked").val();
+            var data = { Advertiser: Advertiser, AdKey: AdKey, Url: Url, PcUrl: PcUrl, Descr: Descr, StatusT: StatusT ,ID:parseInt('@ViewBag.ID')};
+            AjaxSubmit("/Promoter/DoAdvertiser", data, callBack, "add");
+        }
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.location.href = "/Promoter/AdvertiserList"
+                    break;
+            }
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+    </script>
+</body>
+</html>

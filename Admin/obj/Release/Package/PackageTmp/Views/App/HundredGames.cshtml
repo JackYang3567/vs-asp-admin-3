@@ -1,0 +1,263 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "系统管理-百人游戏设置";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/pagination.js"></script>
+
+    <link href="~/Content/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.10.3.custom.min.js"></script>
+</head>
+<body class="backgroud">
+    <div id="content" class="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box-inner">
+                    <div class="box-header well" data-original-title="">
+                        <h2><i class="glyphicon glyphicon-hand-right"></i> 你当前位置：@ViewBag.Title </h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-round btn-default" onclick="history.go(0);">
+                                <i class="glyphicon glyphicon-repeat"></i>
+                            </a>
+                            <a href="#" class="btn btn-minimize btn-round btn-default">
+                                <i class="glyphicon glyphicon-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <ul class="media nav nav-tabs margin-b-10">
+                        <li class="active"><a href="#" title="百人游戏">百人游戏</a></li>
+                        <li><a href="/App/HundredGamesLog" title="游戏日志">游戏日志</a></li>
+                    </ul>
+                    <div class="box-content" style="overflow: hidden; display: block;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div id="DataTables_Table_0_length" class="dataTables_length">
+                                    <label>
+                                        <select size="1" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" id="pagecount">
+                                            <option value="10" selected="selected">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> 条/页
+                                    </label>
+                                    <div class="dataTables_info" id="DataTables_Table_0_info">显示 1 至 10 共 10 条</div>
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="padding-bottom:5px; padding-top:5px; text-align:right;">
+                                <a href="#" class="btn btn-primary" onclick="history.go(0);"><i class="glyphicon glyphicon-repeat"></i>刷新</a>
+                            </div>
+                        </div>
+                        <!--table开始-->
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                            <table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th>ID</th>
+                                        <th>房间名</th>
+                                        <th>当前库存</th>
+                                        <th>库存衰减‰</th>
+                                        <th>累计衰减</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                            </table>
+                            <!--分页控件-->
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="dataTables_paginate paging_bootstrap pagination" style="float:right;">
+                                        <ul class="pagination" id="pagin"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--table结束-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="AddAcc" style="display: none">
+        <input type="hidden" id="ServerID">
+        <input type="hidden" id="ServerName">
+        <table width="99%" border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#C8C8C8">
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>当前库存：</strong>
+                    <input type="hidden" id="ServerID">
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <span id="spanStorageStart"></span>
+                    <input id="StorageStart" name="StorageStart" type="text" style="width:100px" maxlength="10" value="0" />
+                </td>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>衰减 ：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <input type="text" id="StorageDeduct" maxlength="50" />‰
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>累计衰减：</strong>
+                </td>
+                <td id="CountsText" colspan="3" height="30" align="left" bgcolor="#FBFFFF">
+                    <span id="spanAttenuationScore" class="w100"></span>
+                </td>
+            </tr>
+            <tr style="display:none;">
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>库存1：</strong>
+                </td>
+                <td id="CountsText" height="30" align="left" bgcolor="#FBFFFF">
+                    <input type="text" id="StorageScore1" maxlength="50" /><br />
+                </td>
+                <td height="30" colspan="2" align="left" bgcolor="#FBFFFF">
+                    <strong>胜率：100 %</strong><span id="WinRate1"></span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" align="center">
+                    <input id="Button3" type="button" onclick="AddAcc()" class="btn" width="80" value="确认" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script type="text/javascript">
+        var pageObj = {};
+        var postData = {};//搜索条件
+        var list = [];
+        $(document).ready(function () {
+            docReady();
+        });
+        function docReady() {
+            //加载数据
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.pageIndex = 1;
+            AjaxSearch(postData);
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+            //选择页码
+            $("#pagecount").change(function (e) {
+                postData.pageSize = parseInt($(this).val());
+                postData.pageIndex = 1;
+                AjaxSearch(postData);
+            });
+
+        }
+        //搜索事件
+        function AjaxSearch(postData) {
+            $('#pagin').paging("/App/GetHundredGames", postData, CreatTableBody, postData.pageIndex);
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+        var AddAcc = function () {//StorageScore1: $("#StorageScore1").val(), StorageScore2: $("#StorageScore2").val(), StorageScore3: $("#StorageScore3").val(),StorageScore4: $("#StorageScore4").val(), StorageScore5: $("#StorageScore5").val(), StorageScore6: $("#StorageScore6").val(),StorageScore7: $("#StorageScore7").val(), StorageScore8: $("#StorageScore8").val(), StorageScore9: $("#StorageScore9").val(),StorageScore10: $("#StorageScore10").val(), StorageScore11: $("#StorageScore11").val(),
+
+            var data = {};
+            data.sid = $("#ServerID").val();
+            data.name = $("#ServerName").val();
+            var StorageStart = $("#StorageStart").val();
+            //if (isNaN(StorageStart) && parseInt(StorageStart) > 0) {
+            //    alert("当前库存为正整数");
+            //    return false;
+            //}
+            data.StorageStart = StorageStart;
+            var StorageDeduct = $("#StorageDeduct").val();
+            //if (isNaN(StorageDeduct)) {
+            //    alert("库存衰减为整数");
+            //    return false;
+            //}
+            data.StorageDeduct = StorageDeduct;
+            data.AttenuationScore = 0;
+            AjaxSubmit("/App/AddHundredGames", data, callBack, "add");
+        }
+
+
+        function Show(i) {
+            var item = list[i];
+            OpObj = new OpeIframeWindow("AddAcc", "编辑游戏配置", { autoOpen: true, height: 200, width: 600, modal: true }, true);
+            $("#ServerID").val(item.ServerID);
+            $("#ServerName").val(item.ServerName);
+            $("#StorageDeduct").val(item.StorageDeduct);
+            $('#spanAttenuationScore').html(item.AttenuationScore)
+            $('#spanStorageStart').html(item.StorageStart)
+        }
+
+        //回调函数
+        function callBack(jsonData, fname) {
+            if (fname == "add") {
+                alert(jsonData.Msg);
+                AjaxSearch(postData);
+                OpObj.Close();
+            } else {
+                AjaxSearch(postData);
+            }
+
+        }
+        function setOpen(sid, IsOpen, tid) {
+            var data = {};
+            if (confirm("你确定要此操作吗？")) {
+                data.sid = sid;
+                data.IsOpen = IsOpen;
+                data.tid = tid;
+                AjaxSubmit("/App/UpdateHundredGamesStute", data, callBack, "stu");
+            }
+        }
+        //绑定数据
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex) {
+            var html = "";
+            list = jsondata
+            if (jsondata != null && jsondata.length > 0) {
+                $.each(jsondata, function (i, item) {
+                    html += "<tr>";
+                    html += stringFormat("<td>{0}</td>", item.ServerID);
+                    html += stringFormat("<td>{0}</td>", item.ServerName);
+                    html += stringFormat("<td><label>{0}</label><input style='display:none;' class='form-control input-sm' type='text' value='{0}'/></td>", item.StorageStart);
+                    html += stringFormat("<td><label>{0}</label><input style='display:none;' class='form-control input-sm' type='text' value='{0}'/></td>", item.StorageDeduct);
+                    html += stringFormat("<td><label>{0}</label><input style='display:none;' class='form-control input-sm' type='text' value='{0}'/></td>", item.AttenuationScore);
+                    html += stringFormat("<td>{0}</td>", item.IsOpen == "1" ? "开启" : "<font color='red'>禁止</font>");
+                    html += stringFormat("<td><a class=\"l\" href='#' onclick='Show({0});'>修改</a>&nbsp;" + (item.ServerID == "0" ? "" : (item.IsOpen == "1" ? "<a class=\"l\" href='#' onclick='setOpen({1},0,2)'>关闭</a>" : "<a class=\"l\" href='#' onclick='setOpen({1},1,2)'>开启</a>")) + "</td>", i, item.ServerID);
+                    html += "</tr>";
+                });
+            }
+            $("#DataTables_Table_0_wrapper tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * postData.pageSize + 1), ((pageIndex * postData.pageSize) < pageTotal ? (pageIndex * postData.pageSize) : pageTotal), pageTotal));
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+    </script>
+</body>
+</html>

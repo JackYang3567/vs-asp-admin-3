@@ -1,0 +1,302 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "充值系统 - 充值额度配置";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/pagination.js"></script> 
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box-inner">
+                    <div class="box-header well" data-original-title="">
+                        <h2><i class="glyphicon glyphicon-hand-right"></i> 你当前位置：@ViewBag.Title </h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-round btn-default" onclick="history.go(0);">
+                                <i class="glyphicon glyphicon-repeat"></i>
+                            </a>
+                            <a href="#" class="btn btn-minimize btn-round btn-default">
+                                <i class="glyphicon glyphicon-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-content" style="overflow: hidden; display: block;">
+
+                        <!--查询栏开始-->
+                        <div class="alert alert-info">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <ul class="list-inline cursor-style">
+                                        <li><a href="@Url.Action("GlobalAppInfo", "Filled")?param=0" class="btn btn-success"> <i class="glyphicon glyphicon-plus-sign icon-white"></i>新增 </a></li>
+                                        @*<li><button type="button" class="btn btn-success" onclick="updateMore()"> <i class="glyphicon glyphicon-edit icon-white"></i>批量编辑 </button></li>*@
+                                        <li><button type="button" class="btn btn-warning" onclick="Del()"> <i class="glyphicon glyphicon-trash icon-white"></i>删除 </button></li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <!--查询栏结束-->
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div id="DataTables_Table_0_length" class="dataTables_length">
+                                    <label>
+                                        <select size="1" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" id="pagecount">
+                                            <option value="10" selected="selected">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> 条/页
+                                    </label>
+                                    <div class="dataTables_info" id="DataTables_Table_0_info">显示 1 至 10 共 10 条</div>
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="padding-bottom:5px; padding-top:5px; text-align:right;">
+                                温馨提示：点击表格可修改，点击“编辑按钮”保存当前行数据（如果编辑多行，选中点击“批量编辑”）
+                            </div>
+                        </div>
+                        <!--table开始-->
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                            <table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th><input name="ckall" type="checkbox" value="" onclick="SelectAll(this,'cid')" /></th>
+                                        @*<th>ID</th>*@
+                                        @*<th>商品图片</th>*@
+                                        <th>商品价格（元）</th>
+                                        <th>赠送金币</th>
+                                        @*<th>首充奖励</th>*@
+                                        <th>排序</th>
+                                        @*<th>新增时间</th>*@
+                                        <th>管理</th>
+                                    </tr>
+                                </thead>
+                                <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                            </table>
+                            <!--分页控件-->
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="dataTables_paginate paging_bootstrap pagination" style="float:right;">
+                                        <ul class="pagination" id="pagin"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--table结束-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var pageObj = {};
+        var postData = {};//搜索条件
+        $(document).ready(function () {
+            docReady();
+        });
+        function docReady() {
+            //加载数据
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.Sort = "";
+            postData.pageIndex = 1;
+            AjaxSearch(postData);
+            
+        }
+        //收放事件
+        $('.btn-minimize').click(function (e) {
+            e.preventDefault();
+            var $target = $(this).parent().parent().next('.box-content');
+            if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+            else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+            $target.slideToggle();
+        });
+        //选择页码
+        $("#pagecount").change(function (e) {
+            postData.pageSize = parseInt($(this).val());
+            postData.pageIndex = 1;
+            AjaxSearch(postData);
+        });
+        function Del() {
+            var data = {};
+            var cid = GetSelectValues();
+            if (cid == "") {
+                alert("未选中任何数据");
+                return false;
+            }
+            if (confirm("你确定要此操作吗？")) {
+                data.cid = cid;
+                AjaxSubmit("/Filled/DelGlobalAppInfo", data, callBack, "add");
+            }
+        }
+        function updateMore() {
+            var data = {};
+            var cid = GetSelectValues();
+            if (cid == "") {
+                alert("未选中任何数据");
+                return false;
+            }
+            if (cid.indexOf(',') > -1) {
+                var array = cid.split(',');
+                var id = 0, price = "", currency = "", sort = ""
+                var msg = "";
+                for (x in array)
+                {
+                    id = array[x];
+                    price = $('.price' + id).text();
+                    currency = $('.currency' + id).text();
+                    sort = $('.sort' + id).text();
+
+                    if (price == "") {
+                        msg += "ID(" + id + ")商品价格不能为空\n";
+                        break;
+                    }
+                    if (!(/^\d+(\.\d{1,2})?$/.test(price))) {
+                        msg += "ID(" + id + ")商品价格类型错误\n";
+                        break;
+                    }
+                    if (currency == "") {
+                        msg += "ID(" + id + ")赠送货币不能为空\n";
+                        break;
+                    }
+                    if (!(/^\d+(\.\d{1,2})?$/.test(currency))) {
+                        msg += "ID(" + id + ")赠送货币类型错误\n";
+                        break;
+                    }
+                    if (sort == "") {
+                        msg += "ID(" + id + ")排序不能为空\n";
+                        break;
+                    }
+                    if (isNaN(sort)) {
+                        msg += "ID(" + id + ")排序类型错误\n";
+                        break;
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Filled/DoGlobalAppInfo",
+                        async:false,
+                        data: { AppID: id, Price: price, PresentCurrency: currency, SortID: sort },
+                        dataType: 'json',
+                        success: function (data) {
+                            var result = eval(data);
+                            if (result.IsOk) {
+                                msg += "ID(" + id + ")编辑成功\n"
+                            }
+                            else{
+                                msg += "ID(" + id + ")" + result.Msg
+                            }
+                        }
+                    })
+                }
+                alert(msg);
+                //docReady();
+            } else {
+                update(cid);
+            } 
+        }
+        function update(id)
+        {
+            var price = $('.price' + id).text();
+            var currency = $('.currency' + id).text();
+            var sort = $('.sort' + id).text();
+
+            if (price == "") {
+                alert("商品价格不能为空");
+                return false;
+            }
+            if (!(/^\d+(\.\d{1,2})?$/.test(price))) {
+                alert("商品价格类型错误");
+                return false;
+            }
+            if (currency == "") {
+                alert("赠送货币不能为空");
+                return false;
+            }
+            if (!(/^\d+(\.\d{1,2})?$/.test(currency))) {
+                alert("赠送货币类型错误");
+                return false;
+            }
+            if (sort == "") {
+                alert("排序不能为空");
+                return false;
+            }
+            if (isNaN(sort)) {
+                alert("排序类型错误");
+                return false;
+            }
+
+            var data = { AppID: id, Price: price, PresentCurrency: currency, SortID: sort };
+            AjaxSubmit("/Filled/DoGlobalAppInfo", data, callBack, "update");
+
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.location.reload();
+                    break;
+                case "update":
+                    alert(jsonData.Msg);
+                    //docReady();
+                    break;
+            }
+        }
+        //搜索事件
+        function AjaxSearch(postData) {
+            $('#pagin').paging("/Filled/GetGlobalAppInfoList", postData, CreatTableBody, postData.pageIndex);
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+        //绑定数据
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex) {
+            var html = "";
+            if (jsondata != null && jsondata.length > 0) {
+                $.each(jsondata, function (i, item) {
+                    html += stringFormat("<tr>");
+                    html += stringFormat("<td><input name='cid' type='checkbox' value='{0}'/></td>", item.AppID);
+                    //html += stringFormat("<td>{0}</td>", item.AppId);
+                    //html += stringFormat("<td><img src='/Content/Upload/Shop/{0}' width=40 height=40></td>", item.ImgUrl);
+                    html += stringFormat("<td>{0}</td>", item.Price);
+                    html += stringFormat("<td>{0}</td>", item.PresentCurrency);
+                    //html += stringFormat("<td>{0}</td>", item.AttachCurrency);
+                    html += stringFormat("<td>{0}</td>", item.SortID);
+                    //html += stringFormat("<td>{0}</td>", item.CollectDate);
+                    //html += stringFormat("<td><a class=\"l\" href='javascript:void(0)' onclick='update(" + item.AppId + ")'>编辑</a></td>", item.AppId);
+                    html += stringFormat("<td><a class=\"l\" href=\"@Url.Action("GlobalAppInfo", "Filled")?param={0}\">编辑</a></td>", item.AppID);
+                    html += "</tr>";
+                });
+            }
+            $("#DataTables_Table_0_wrapper tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * postData.pageSize + 1), ((pageIndex * postData.pageSize) < pageTotal ? (pageIndex * postData.pageSize) : pageTotal), pageTotal));
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+</script>
+</body>
+</html>

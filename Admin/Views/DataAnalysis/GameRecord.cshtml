@@ -1,0 +1,296 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "数据分析 - 游戏记录";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+    <script src="~/Scripts/pagination.js"></script> 
+</head>
+<body class="backgroud">
+    <div id="content" class="main-content">
+        <div class="row">
+        <div class="box-inner">
+            <div class="col-md-12">
+                <div class="box-inner">
+                    <div class="box-header well" data-original-title="">
+                        <h2><i class="glyphicon glyphicon-hand-right"></i> 你当前位置：@ViewBag.Title </h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-round btn-default" onclick="history.go(0);">
+                                <i class="glyphicon glyphicon-repeat"></i>
+                            </a>
+                            <a href="#" class="btn btn-minimize btn-round btn-default">
+                                <i class="glyphicon glyphicon-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-content tab-content" style="overflow: hidden; display: block;">
+                        <!--查询栏开始-->
+                        <div class="alert alert-info">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <ul class="list-inline cursor-style">
+                                        <li>日期查询：</li>
+                                        <li>
+
+                                            <input id="txtStartDate" class="input-width-150" type="text" readonly="readonly" value="@ViewBag.StartDate 00:00:00" />至<input type="text" id="txtEndDate" class="input-width-150" readonly="readonly" value="@ViewBag.EndDate 00:00:00" />
+                                        </li>
+                                        <li>
+                                            @Html.HtmlServerSelectBuilder()
+                                        </li>
+                                        <li>
+                                            <a id="btnQuery" class="btn btn-success search" href="#"><i class="glyphicon glyphicon-zoom-in icon-white"></i>查询</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--查询栏结束-->
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div id="DataTables_Table_0_length" class="dataTables_length">
+                                    <label>
+                                        <select size="1" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" id="pagecount">
+                                            <option value="10" selected="selected">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> 条/页
+                                    </label>
+                                    <div class="dataTables_info" id="DataTables_Table_0_info">显示 1 至 10 共 10 条</div>
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="padding-bottom:5px; padding-top:5px; text-align:right;">
+                                <div class="btn-group btn-group">
+                                    <button type="button" id="btntaday" class="btn btn-primary"><i class="glyphicon glyphicon-align-left icon-white"></i>今天</button>
+                                    <button type="button" id="btnyesterday" class="btn btn-primary"><i class="glyphicon glyphicon-align-center icon-white"></i>昨天</button>
+                                    <button type="button" id="btnweeked" class="btn btn-primary"><i class="glyphicon glyphicon-align-right icon-white"></i>本周</button>
+                                    <button type="button" id="btnlastweeked" class="btn btn-primary"><i class="glyphicon glyphicon-align-justify icon-white"></i>上周</button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--table开始-->
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                            <table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th>插入时间</th>
+                                        <th>游戏</th>
+                                        <th>房间</th>
+                                        <th>桌子</th>
+                                        <th>用户数</th>
+                                        <th>机器人数</th>
+                                        <th>损耗</th>
+                                        <th>税收/服务费</th>
+                                        @*<th>元宝</th>*@
+                                        <th>开始时间</th>
+                                        <th>结束时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                            </table>
+                            <!--分页控件-->
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="dataTables_paginate paging_bootstrap pagination" style="float:right;">
+                                        <ul class="pagination" id="pagin"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--table结束-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var pageObj = {};
+        var postData = {};//搜索条件
+        $(document).ready(function () {
+            //时间选择器
+            laydate.render({
+                elem: '#txtStartDate'
+              , type: 'datetime'
+            });
+            laydate.render({
+                elem: '#txtEndDate'
+              , type: 'datetime'
+            });
+            docReady();
+        });
+        function docReady() {
+            //加载数据
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.pageIndex = 1;
+            postData.DateType = 5;
+            postData.StartDate = $("#txtStartDate").val();
+            postData.EndDate = $("#txtEndDate").val();
+            postData.Type = parseInt($("#ddlServerID").val());
+            AjaxSearch(postData);
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+            //选择页码
+            $("#pagecount").change(function (e) {
+                postData.pageSize = parseInt($(this).val());
+                postData.pageIndex = 1;
+                AjaxSearch(postData);
+            });
+            //时间今天查询
+            $("#btntaday").click(function (e) {
+                postData.pageSize = parseInt($("#pagecount").val());
+                postData.Type = parseInt($("#ddlServerID").val());
+                postData.DateType = 1;
+                AjaxSearch(postData);
+            });
+            //时间昨天查询
+            $("#btnyesterday").click(function (e) {
+                postData.pageSize = parseInt($("#pagecount").val());
+                postData.Type = parseInt($("#ddlServerID").val());
+                postData.DateType = 2;
+                AjaxSearch(postData);
+            });
+            //时间本周查询
+            $("#btnweeked").click(function (e) {
+                postData.pageSize = parseInt($("#pagecount").val());
+                postData.Type = parseInt($("#ddlServerID").val());
+                postData.DateType = 3;
+                AjaxSearch(postData);
+            });
+            //时间上周查询
+            $("#btnlastweeked").click(function (e) {
+                postData.pageSize = parseInt($("#pagecount").val());
+                postData.Type = parseInt($("#ddlServerID").val());
+                postData.DateType = 4;
+                AjaxSearch(postData);
+            });
+            //日期查询
+            $("#btnQuery").click(function (e) {
+                var istrue = true;
+                var txtStartDate = $("#txtStartDate").val();
+                var txtEndDate = $("#txtEndDate").val();
+                if (txtStartDate != "" && txtEndDate != "") {
+                    if (StrToDateTime(txtEndDate) < StrToDateTime(txtStartDate)) {
+                        istrue = false;
+                        alert("开始日期不能大于结束时间");
+                        return false;
+                    }
+                }
+                if (istrue) {
+                    if (txtStartDate != "" && txtEndDate != "") {
+                        postData.StartDate = txtStartDate;
+                        postData.EndDate = txtEndDate;
+                    }
+                    postData.pageSize = parseInt($("#pagecount").val());
+                    postData.Type = parseInt($("#ddlServerID").val());
+                    postData.DateType = 5;
+                    AjaxSearch(postData);
+                }
+                AjaxSearch(postData);
+            });
+        }
+        //搜索事件
+        function AjaxSearch(postData) {
+            $('#pagin').paging("/DataAnalysis/GetGameRecord", postData, CreatTableBody, postData.pageIndex);
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+        //绑定数据
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex) {
+            var html = "";
+            if (jsondata != null && jsondata.length > 0) {
+                $.each(jsondata, function (i, item) {
+                    html += stringFormat("<tr id=\"tr{0}\">", item.DrawID);
+                    html += stringFormat("<td>{1}&nbsp;<img id=\"img{0}\" src=\"/Content/images/down.gif\" style=\"cursor: pointer\" alt=\"查看同桌玩家\" title=\"查看同桌玩家\" onclick=\"ShowInfo({0})\" /></td>", item.DrawID, item.InsertTime);
+                    html += stringFormat("<td>{0}</td>", item.GameKindName);
+                    html += stringFormat("<td>{0}</td>", item.GameRoomName);
+                    html += stringFormat("<td>{0}</td>", item.TableID);
+                    html += stringFormat("<td>{0}</td>", item.UserCount);
+                    html += stringFormat("<td>{0}</td>", item.AndroidCount);
+                    html += stringFormat("<td>{0}</td>", item.Waste);
+                    html += stringFormat("<td>{0}</td>", item.Revenue);
+                    //html += stringFormat("<td>{0}</td>", item.UserMedal);
+                    html += stringFormat("<td>{0}</td>", item.StartTime);
+                    html += stringFormat("<td>{0}</td>", item.ConcludeTime);
+                    html += "</tr>";
+                });
+            }
+            $("#DataTables_Table_0_wrapper tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * postData.pageSize + 1), ((pageIndex * postData.pageSize) < pageTotal ? (pageIndex * postData.pageSize) : pageTotal), pageTotal));
+        }
+        function ShowInfo(Id) {
+            pageObj.drawID = Id;
+            var url = $("#img" + Id).attr("src").trim();
+            if (url == "/Content/images/down.gif") {
+                $("#img" + Id).attr("src", "/Content/images/up.gif");
+                AjaxSubmit("/DataAnalysis/GetUserGameRecord", pageObj, callBack, "del");
+            } else {
+                $("#img" + Id).attr("src", "/Content/images/down.gif");
+                $("#tr" + pageObj.drawID).next().remove();
+            }
+           
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "del":
+                    var html = "<tr><td colspan=\"11\"><table class=\"table table-striped table-bordered bootstrap-datatable datatable responsive dataTable\">";
+                    html += "<thead><tr role=\"row\">";
+                    html += " <th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">帐号</th>";
+                    html += " <th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">昵称</th>";
+                    html += " <th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">游戏ID</th>";
+                    html += " <th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">是否机器人</th>";
+                    html += " <th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">椅子编号</th>";
+                    html += " <th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">输赢积分</th>";
+                    html += " <th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">税收/服务费</th>";
+                    //html += " <th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">元宝数目</th>";
+                    html += " <th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">游戏时长</th>";
+                    html += " <th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">插入时间</th>";
+                    html += "</tr></thead>";
+                    html += "<tbody role=\"alert\">";
+                    $.each(jsonData, function (i, item) {
+                        html += "<tr><td>" + item.Accounts + "</td><td>" + item.NickName + "</td><td>" + item.GameID + "</td><td>" + item.IsAndroid + "</td><td>" + item.ChairID + "</td><td>" + item.Score + "</td><td>" + item.Revenue + "</td><td>" + item.PlayTimeCount + "</td><td>" + item.InsertTime + "</td></tr>";
+                    });
+                    html += "</tbody>";
+                    html += "</table></td></tr>";
+                    $("#tr" + pageObj.drawID).after(html);
+                    break;
+            }
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+    </script>
+</body>
+</html>

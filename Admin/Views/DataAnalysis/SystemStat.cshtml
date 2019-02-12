@@ -1,0 +1,319 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "数据分析 - 系统统计";
+    System.Data.DataTable GameTax = ViewData["GameTax"] == null ? null : ViewData["GameTax"] as System.Data.DataTable;
+    System.Data.DataTable RoomTax = ViewData["RoomTax"] == null ? null : ViewData["RoomTax"] as System.Data.DataTable;
+    System.Data.DataTable GameWast = ViewData["GameWast"] == null ? null : ViewData["GameWast"] as System.Data.DataTable;
+    System.Data.DataTable RoomWast = ViewData["RoomWast"] == null ? null : ViewData["RoomWast"] as System.Data.DataTable;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body class="backgroud">
+    <div id="content" class="main-content">
+
+        <div class="carousel box-inner">
+            <div class="box-header well clearfix" data-original-title="">
+                <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn btn-round btn-default" onclick="history.go(0);">
+                        <i class="glyphicon glyphicon-repeat"></i>
+                    </a>
+                    <a href="#" class="btn btn-minimize btn-round btn-default">
+                        <i class="glyphicon glyphicon-chevron-up"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-content" style="overflow: hidden; display: block;">
+
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">用户统计</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">在线人数：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltOnLineCount">@ViewBag.OnLineCount</label>人</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">停权用户：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltDisenableCount">@ViewBag.DisenableCount</label>人</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">注册总人数：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltAllCount">@ViewBag.AllCount</label>人</div>
+                            </div>
+                        </div>
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">游戏币统计</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">游戏币总量：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltScore">@ViewBag.Score</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">保险柜总量：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltInsureScore">@ViewBag.InsureScore</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">保险柜+游戏币总量：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltAllScore">@ViewBag.AllScore</label>游戏币</div>
+                            </div>
+                        </div>
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">赠送统计</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">注册赠送：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltRegPresent">@ViewBag.RegPresent</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;display:none">
+                                <div class="col-md-4" style="text-align:right">代理注册赠送：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltAgentRegPresent">@ViewBag.AgentRegPresent</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">低保赠送：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltDBPresent">@ViewBag.DBPresent</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">签到赠送：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltQDPresent">@ViewBag.QDPresent</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                                <div class="col-md-4" style="text-align:right">元宝兑换赠送：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltYBPresent">@ViewBag.YBPresent</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                                <div class="col-md-4" style="text-align:right">魅力兑换赠送：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltMLPresent">@ViewBag.MLPresent</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">在线时长赠送：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltOnlinePresent">@ViewBag.OnlinePresent</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">任务奖励赠送：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltRWPresent">@ViewBag.RWPresent</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">实名验证赠送：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltSMPresent">@ViewBag.SMPresent</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">会员每日送金：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltDayPresent">@ViewBag.DayPresent</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">比赛奖励：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltMatchPresent">@ViewBag.MatchPresent</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                                <div class="col-md-4" style="text-align:right">等级升级赠送：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltDJPresent">@ViewBag.DJPresent</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">分享赠送：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltSharePresent">@ViewBag.SharePresent</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">转盘赠送：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltLotteryPresent">@ViewBag.LotteryPresent</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">后台赠送：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltWebPresent">@ViewBag.WebPresent</label>游戏币</div>
+                            </div>
+                        </div>
+
+                        @*<div class="panel-heading">
+                                <h3 class="panel-title">魅力统计</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                    <div class="col-md-4" style="text-align:right">魅力总量：</div>
+                                    <div class="col-md-4" style="text-align: left"><label id="ltLoveLiness">@ViewBag.LoveLiness</label>点</div>
+                                </div>
+                                <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                    <div class="col-md-4" style="text-align:right">已兑换魅力总量：</div>
+                                    <div class="col-md-4" style="text-align: left"><label id="ltPresent">@ViewBag.Present</label>点</div>
+                                </div>
+                                <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                    <div class="col-md-4" style="text-align:right">未兑换魅力总量：</div>
+                                    <div class="col-md-4" style="text-align: left"><label id="ltRemainLove">@ViewBag.RemainLove</label>点</div>
+                                </div>
+                                <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                    <div class="col-md-4" style="text-align:right">已兑换游戏币量：</div>
+                                    <div class="col-md-4" style="text-align: left"><label id="ltConvertPresent">@ViewBag.ConvertPresent</label>游戏币</div>
+                                </div>
+                            </div>
+                            <div class="panel-heading">
+                                <h3 class="panel-title">点卡统计</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                    <div class="col-md-4" style="text-align:right">生成张数：</div>
+                                    <div class="col-md-4" style="text-align: left"><label id="ltCardCount">@ViewBag.CardCount</label>张</div>
+                                </div>
+                                <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                    <div class="col-md-4" style="text-align:right">游戏币总量：</div>
+                                    <div class="col-md-4" style="text-align: left"><label id="ltCardGold">@ViewBag.CardGold</label>游戏币</div>
+                                </div>
+                                <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                    <div class="col-md-4" style="text-align:right">面额总量：</div>
+                                    <div class="col-md-4" style="text-align: left"><label id="ltCardPrice">@ViewBag.CardPrice</label>元</div>
+                                </div>
+                                <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                    <div class="col-md-4" style="text-align:right">充值张数：</div>
+                                    <div class="col-md-4" style="text-align: left"><label id="ltCardPayCount">@ViewBag.CardPayCount</label>张</div>
+                                </div>
+                                <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                    <div class="col-md-4" style="text-align:right">充值游戏币：</div>
+                                    <div class="col-md-4" style="text-align: left"><label id="ltCardPayGold">@ViewBag.CardPayGold</label>游戏币</div>
+                                </div>
+                                <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                    <div class="col-md-4" style="text-align:right">充值人民币总数：</div>
+                                    <div class="col-md-4" style="text-align: left"><label id="ltCardPayPrice">@ViewBag.CardPayPrice</label>元</div>
+                                </div>
+                                <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                    <div class="col-md-4" style="text-align:right">会员卡张数：</div>
+                                    <div class="col-md-4" style="text-align: left"><label id="ltMemberCardCount">@ViewBag.MemberCardCount</label>张</div>
+                                </div>
+
+                            </div>*@
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">税收统计</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">游戏总税收：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltRevenue">@ViewBag.Revenue</label>游戏币</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-4" style="text-align:right">转账税收：</div>
+                                <div class="col-md-4" style="text-align: left"><label id="ltTransferRevenue">@ViewBag.TransferRevenue</label>游戏币</div>
+                            </div>
+
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">游戏税收（当日的数据不在统计之内）：</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <ul class="list-group">
+                                    @if (GameTax != null && GameTax.Rows.Count > 0)
+                                    {
+                                        for (int i = 0; i < GameTax.Rows.Count; i++)
+                                        {
+                                            <li class="col-md-4 game-li">@GameTax.Rows[i]["KindName"] [@Game.Facade.Tools.TypeUtil.FormatMoney(GameTax.Rows[i]["Revenue"].ToString())]</li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">房间税收(当日的数据不在统计之内):</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <ul class="list-group">
+                                    @if (RoomTax != null && RoomTax.Rows.Count > 0)
+                                    {
+                                        for (int i = 0; i < RoomTax.Rows.Count; i++)
+                                        {
+                                            <li class="col-md-4 game-li">@RoomTax.Rows[i]["ServerName"] [@Game.Facade.Tools.TypeUtil.FormatMoney(RoomTax.Rows[i]["Revenue"].ToString())]</li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">损耗统计</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-7" style="text-align:right">损耗总量（当日的数据不在统计之内）：</div>
+                                <div class="col-md-4" style="text-align:left"><label id="ltWaste">@ViewBag.Waste</label>游戏币</div>
+                            </div>
+                        </div>
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">游戏损耗（当日的数据不在统计之内）：</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <ul class="list-group">
+                                    @if (GameWast != null && GameWast.Rows.Count > 0)
+                                    {
+                                        for (int i = 0; i < GameWast.Rows.Count; i++)
+                                        {
+                                            <li class="col-md-4 game-li">@GameWast.Rows[i]["KindName"] [@Game.Facade.Tools.TypeUtil.FormatMoney(GameWast.Rows[i]["Waste"].ToString())]</li>
+                                        }
+                                    }
+                                </ul>
+
+                            </div>
+                        </div>
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">房间损耗（当日的数据不在统计之内）：</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <ul class="list-group">
+                                    @if (RoomWast != null && RoomWast.Rows.Count > 0)
+                                    {
+                                        for (int i = 0; i < RoomWast.Rows.Count; i++)
+                                        {
+                                            <li class="col-md-4 game-li">@RoomWast.Rows[i]["ServerName"] [@Game.Facade.Tools.TypeUtil.FormatMoney(RoomWast.Rows[i]["Waste"].ToString())]</li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            docReady();
+        });
+        function docReady() {
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+        }
+    </script>
+</body>
+</html>

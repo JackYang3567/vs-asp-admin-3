@@ -1,0 +1,144 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "充值系统 - 会员类型管理";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>              
+                <div class="tab-content">
+                    <div class="panel panel-primary" style="margin-left:-10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">会员卡信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">会员名称：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lbCardName">@(ViewBag.CardName != null ? ViewBag.CardName : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">任务奖励：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtTaskRate" style="width: 399px; display: inline; " class="form-control input-sm" type="text" maxlength="9" value="@(ViewBag.TaskRate!=null?ViewBag.TaskRate:"")"></div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">只能为整数[0-9]会员完成任务额外奖励（百分比）</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">商城折扣：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtShopRate" style="width: 399px; display: inline; " class="form-control input-sm" type="text" maxlength="9" value="@(ViewBag.ShopRate != null ? ViewBag.ShopRate : "")"></div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">只能为整数[0-9]会员购买道具礼物可享有优惠（百分比）</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">转账费率：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtInsureRate" style="width: 399px; display: inline; " class="form-control input-sm" type="text" maxlength="9" value="@(ViewBag.InsureRate != null ? ViewBag.InsureRate : "")"></div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">只能为整数[0-9]会员转帐手续费不同（千分比）</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">每日送金：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtPresentScore" style="width: 399px; display: inline; " class="form-control input-sm" type="text" maxlength="9" value="@(ViewBag.PresentScore != null ? ViewBag.PresentScore : "")"></div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">只能为整数[0-9]</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">登录礼包：</div>
+                                <div class="col-xs-6 col-md-3">@Html.HtmlDayGiftSelectBuilder((int)ViewBag.GiftID)</div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">会员权限：</div>
+                                <div class="col-xs-6 col-md-3">@Html.HtmlUserRightCHKListBuilder((int)ViewBag.UserID)</div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left"></div>
+                            </div>
+                           
+                           
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right"></div>
+                                <div class="col-xs-6 col-md-3">注意：修改成功后游戏中生效的时间为20分钟</div>
+                            </div>
+                        </div>
+
+                       
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="@Url.Action("MemberTypeList","Filled")"><i class="glyphicon glyphicon-circle-arrow-left"></i>返回</a></li>
+                                    <li><a class="btn btn-success search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-send"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function add() {
+            var data = {};
+            data.ID = parseInt('@ViewBag.ID');
+            var TaskRate = $("#txtTaskRate").val();
+            if (TaskRate.trim() == "" || isNaN(TaskRate)) {
+                alert("任务奖励不能为空");
+                return false;
+            }
+            data.TaskRate = TaskRate;
+            var ShopRate = $("#txtShopRate").val();
+            if (ShopRate.trim() == "" || isNaN(ShopRate)) {
+                alert("商城折扣不能为空");
+                return false;
+            }
+            data.ShopRate = ShopRate;
+            var InsureRate = $("#txtInsureRate").val();
+            if (InsureRate.trim() == "" || isNaN(InsureRate)) {
+                alert("转账费率不能为空");
+                return false;
+            }
+            data.InsureRate = InsureRate;
+            var PresentScore = $("#txtPresentScore").val();
+            if (PresentScore.trim() == "" || isNaN(PresentScore)) {
+                alert("每日送金不能为空");
+                return false;
+            }
+            data.PresentScore = PresentScore;
+            var DayGiftID = $("#ddlDayGiftID").val();
+            if (parseInt(DayGiftID) == 0) {
+                alert("请选择礼包");
+                return false;
+            }
+            data.DayGiftID = DayGiftID;
+            var UserRight = 0;
+            $("input[name='ckbUserRight']:checked").each(function () {
+                UserRight += parseInt(this.value);
+            });
+            data.UserRight = UserRight;
+            AjaxSubmit("/Filled/UpdateMemberTypeInfo", data, callBack, "add");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    //window.location.reload();
+                    window.close();
+                    window.opener.location.reload();
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

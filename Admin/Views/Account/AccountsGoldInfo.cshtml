@@ -1,0 +1,278 @@
+﻿@{
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    ViewBag.Title = "管理后台-用户信息";
+    System.Data.DataTable dt = ViewBag.Data == null ? null : ViewBag.Data as System.Data.DataTable;
+} 
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="titleOpBg Lpd10">
+            <input type="button" value="关闭" class="btn wd1" onclick="window.close();" />
+        </td>
+    </tr>
+</table>
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0" class="listBg2">
+    <tr>
+        <td height="35" colspan="2" class="f14 bold Lpd10 Rpd10">
+            <div class="hg3  pd7">
+                财富信息
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            ID号码(GameID)：
+        </td>
+        <td>
+            <span class="Rpd20 lan bold">
+               <label id="ltGameID">@(ViewBag.GameID!=null?ViewBag.GameID:"")</label>
+            </span>
+            帐号：
+            <span class="Rpd20 lan bold">
+               <label id="ltAccounts">@(ViewBag.Accounts!=null?ViewBag.Accounts:"")</label>
+            </span>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            游戏豆数：
+        </td>
+        <td>
+            <label id="ltCurrency">@(ViewBag.Currency!=null?ViewBag.Currency:"0")</label>           
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            携带金额：
+        </td>
+        <td>
+            <label id="ltScore">@(ViewBag.Score!=null?ViewBag.Score:"0")</label>      
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            保险柜金额：
+        </td>
+        <td>
+            <label id="ltInsureScore">@(ViewBag.InsureScore!=null?ViewBag.InsureScore:"0")</label>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            元宝数：
+        </td>
+        <td>
+           <label id="ltUserModel">@(ViewBag.UserMedal!=null?ViewBag.UserMedal:"0")</label>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            魅力值：
+        </td>
+        <td>
+            <label id="ltLove">@(ViewBag.Love!=null?ViewBag.Love:"0")</label>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            赢局：
+        </td>
+        <td>
+            <label id="ltWinCount">@(ViewBag.WinCount!=null?ViewBag.WinCount:"0")</label>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            输局：
+        </td>
+        <td>
+            <label id="ltLostCount">@(ViewBag.LostCount!=null?ViewBag.LostCount:"0")</label> 
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            和局：
+        </td>
+        <td>
+            <label id="ltDrawCount">@(ViewBag.DrawCount!=null?ViewBag.DrawCount:"0")</label>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            逃局：
+        </td>
+        <td>
+            <label id="ltFleeCount">@(ViewBag.FleeCount!=null?ViewBag.FleeCount:"0")</label>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            游戏税收：
+        </td>
+        <td>
+            <label id="ltRevenue">@(ViewBag.Revenue!=null?ViewBag.Revenue:"0")</label>
+        </td>
+    </tr>
+    <tr>
+        <td height="35" colspan="2" class="f14 bold Lpd10 Rpd10">
+            <div class="hg3  pd7">
+                登录信息
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            登录房间次数：
+        </td>
+        <td>
+            <label id="ltGameLogonTimes">@(ViewBag.AllLogonTimes!=null?ViewBag.AllLogonTimes:"0")</label>次
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            在线时长（秒）：
+        </td>
+        <td>
+            <label id="ltOnLineTimeCount">@(ViewBag.OnLineTimeCount!=null?ViewBag.OnLineTimeCount:"0")</label>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            游戏时长（秒）：
+        </td>
+        <td>
+            <label id="ltPlayTimeCount">@(ViewBag.PlayTimeCount!=null?ViewBag.PlayTimeCount:"0")</label>
+            <span style="padding-left: 10px;"></span>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            登录房间时间：
+        </td>
+        <td>
+            <label id="ltLastLogonDate">@(ViewBag.LastLogonDate != null ? ViewBag.LastLogonDate : "0")</label>&nbsp;&nbsp;
+            <label id="ltLogonSpacingTime">@(ViewBag.LogonSpacingTime != null ? ViewBag.LogonSpacingTime : "0")</label>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            登录地址：
+        </td>
+        <td>
+            <label id="ltLastLogonIP">@(ViewBag.LastLogonIP!=null?ViewBag.LastLogonIP:"")</label>&nbsp;&nbsp;
+            <label id="ltLogonIPInfo">@(ViewBag.LogonIPInfo!=null?ViewBag.LogonIPInfo:"")</label>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            登录机器：
+        </td>
+        <td>
+            <label id="ltLastLogonMachine">@(ViewBag.LastLogonMachine!=null?ViewBag.LastLogonMachine:"")</label>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            注册时间：
+        </td>
+        <td>
+            <label id="ltRegisterDate">@(ViewBag.RegisterDate!=null?ViewBag.RegisterDate:"")</label>&nbsp;&nbsp;
+            <label id="ltRegSpacingTime"></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            注册地址：
+        </td>
+        <td>
+            <label id="ltRegisterIP">@(ViewBag.RegisterIP!=null?ViewBag.RegisterIP:"")</label>&nbsp;&nbsp;
+            <label id="ltRegIPInfo">@(ViewBag.RegIPInfo!=null?ViewBag.RegIPInfo:"")</label>
+        </td>
+    </tr>
+    <tr>
+        <td class="listTdLeft">
+            注册机器：
+        </td>
+        <td>
+            <label id="ltRegisterMachine">@(ViewBag.RegisterMachine!=null?ViewBag.RegisterMachine:"")</label>
+        </td>
+    </tr>
+
+</table>
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0" class="listBg2">
+    <tr>
+        <td height="35" colspan="5" class="f14 bold Lpd10 Rpd10">
+            <div class="hg3  pd7">
+                卡线信息
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="height:10px;"></td>
+    </tr>
+    <tr>
+        <td>
+            <table border="0" align="center" cellpadding="0" cellspacing="0" class="box" id="list">
+                <tr align="center" class="bold">
+                    <td class="listTitle2">
+                        时间
+                    </td>
+                    <td class="listTitle2">
+                        游戏
+                    </td>
+                    <td class="listTitle2">
+                        房间
+                    </td>
+                    <td class="listTitle2">
+                        进入地址
+                    </td>
+                </tr>
+               @if (dt != null && dt.Rows.Count > 0) { 
+                 foreach(System.Data.DataRow r in dt.Rows){
+                   <tr>
+                    <td style="height:35px;">
+                        @r["CollectDate"].ToString()
+                    </td>
+                    <td>
+                      @(Game.Facade.Tools.TypeUtil.GetGameKindName(Convert.ToInt32(r["KindID"])))
+                    </td>
+                    <td>
+                       @(Game.Facade.Tools.TypeUtil.GetGameRoomName(Convert.ToInt32(r["ServerID"])))
+                    </td>
+                    <td>
+                        @r["EnterMachine"].ToString()
+                    </td>
+                 </tr>
+                 }
+               }                  
+            </table>
+        </td>
+    </tr>
+</table>
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="titleOpBg Lpd10">
+            <input type="button" value="关闭" class="btn wd1" onclick="window.close();" /><input type="button" value="清除卡线" class="btn wd2" onclick="Add();" />
+        </td>
+
+    </tr>
+</table>
+<script type="text/javascript">
+        $(document).ready(function () {
+           
+        });
+        function Add() {
+            var istrue = true;
+            if (istrue) {
+                var data = { IntParam: parseInt('@ViewBag.Paras')};
+                AjaxSubmit("/Account/CleanGoldInfo", data, callBack, "add");
+            }
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            if (fname == "add") {
+                alert(jsonData.Msg);
+                window.close();
+                window.opener.location.reload();
+            }
+        }
+</script> 

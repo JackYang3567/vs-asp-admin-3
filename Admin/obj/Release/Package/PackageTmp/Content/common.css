@@ -1,0 +1,450 @@
+﻿@charset "utf-8";
+/* CSS reset */
+html {
+    color: #000;
+    background: #fff;
+    font-family: Arial,'Microsoft YaHei','宋体';
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td, strong {
+    padding: 0;
+    margin: 0;
+    font-family: 'Microsoft YaHei',Arial,'宋体';
+}
+
+img {
+    border: 0;
+}
+
+a {
+    text-decoration: none;
+    outline: none;
+}
+/*此处待添加默认链接颜色*/
+em, strong {
+    font-style: normal;
+}
+
+em, strong, {
+    font-style: inherit;
+    font-weight: inherit;
+}
+
+del, ins {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+caption, th {
+    text-align: left;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+
+q:before, q:after {
+    content: '';
+}
+
+abbr, acronym {
+    border: 0;
+    font-variant: normal;
+}
+
+sup {
+    vertical-align: baseline;
+}
+
+sub {
+    vertical-align: baseline;
+}
+
+legend {
+    color: #000;
+}
+
+input, button, textarea, select, optgroup, option {
+    font-family: inherit;
+    font-size: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+}
+
+input, button, textarea, select {
+    *font-size: 100%;
+}
+
+body { /*-webkit-user-select:none;*/
+    -webkit-text-size-adjust: none;
+}
+
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+a:link,
+a:visited,
+a:active {
+    text-decoration: none;
+}
+
+.wrap,
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+body .main-div-padding-0 div,
+body .padding-margin-0 {
+    padding: 0;
+    margin: 0;
+}
+
+.main-content {
+    width: 98%;
+    padding-bottom: 100px;
+    background-color: #fff;
+}
+
+.min-height-main {
+    min-height: 600px;
+}
+
+.header {
+    width: 100%;
+    height: 90px;
+    background-color: #203c61;
+    color: #bde9f6;
+}
+
+.logo {
+    display: block;
+    width: 190px;
+    height: 90px;
+}
+
+.header-list {
+    margin: 25px 1% 25px 0;
+    background-color: #3274bf;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+
+    .header-list a {
+        float: left;
+        margin: 1% 0;
+        padding: 0 .4rem;
+        border-right: 2px solid #bde9f6;
+        color: #fcfeff;
+        font-size: .7rem;
+    }
+
+        .header-list a span {
+            color: #ff0000;
+        }
+
+.main-list {
+    height: 89%;
+}
+/*左边导航栏start*/
+.menu {
+    float: left;
+    width: 190px;
+    min-height: 100%;
+    background-color: #264572;
+    color: #fff;
+    font-size: 16px;
+}
+
+.one-menu,
+.show-box {
+    padding-left: 30px;
+    border-bottom: 1px solid #68697d;
+    background-color: #264572;
+    line-height: 42px;
+    cursor: pointer;
+}
+
+.menu ul {
+    height: auto;
+    background-color: #1D3558;
+}
+
+.two-menu {
+    display: none;
+}
+
+    .two-menu a {
+        position: relative;
+        display: block;
+        padding-left: 60px;
+        border-bottom: 1px dashed #68697d;
+        line-height: 38px;
+        color: #fff;
+    }
+
+        .two-menu a:hover,
+        .show-box:hover {
+            background-color: #305ea0;
+        }
+
+    .two-menu .active {
+        color: #ff0000;
+    }
+
+        .two-menu .active i:before {
+            display: block;
+            content: "";
+            position: absolute !important;
+            right: 0;
+            top: 2px;
+            border: 8px solid transparent;
+            border-width: 18px 13px;
+            border-right-color: #f5f5f5;
+        }
+/*左边导航栏end*/
+.main {
+    height: 100%;
+    margin-left: 210px;
+}
+
+.main-header {
+    height: 42px;
+    background-color: #f5f5f5;
+}
+
+    .main-header h2 {
+        line-height: 42px;
+        font-size: 16px;
+    }
+
+body .margin-5 {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.width80 {
+    width: 80px;
+    text-align: right;
+}
+
+.l-r-margin {
+    margin: 0 10px;
+}
+
+.r-margin {
+    margin-right: 20px;
+}
+
+.margin-t-b {
+    margin: 10px 0;
+}
+
+.margin-t-0 {
+    margin-bottom: 0;
+}
+
+.margin-b-0 {
+    margin-bottom: 0;
+}
+
+.margin-l-0 {
+    margin-left: 0;
+}
+
+.margin-t-10 {
+    margin-top: 10px;
+}
+
+.margin-b-10 {
+    margin-bottom: 10px;
+}
+
+body .input-width-150 {
+    width: 150px;
+    height: 28px;
+}
+
+body .input-width-200 {
+    width: 200px;
+    height: 28px;
+}
+
+body .input-width-238 {
+    width: 238px;
+    height: 28px;
+}
+
+.cursor-style {
+    cursor: pointer;
+}
+
+.table-center th,
+.table-center td {
+    text-align: center;
+}
+
+    .table-center td a {
+        color: #005ce5;
+    }
+
+.btn-off-section {
+    position: absolute;
+    right: -152px;
+    top: 20px;
+}
+
+.nav > li > a:hover, .nav > li > a:focus {
+    text-decoration: none;
+    background-color: #9DC9E2;
+}
+
+.nav > li > a {
+    background-color: #2fa4e7;
+    color: #f3f3f3;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #fff;
+    background-color: #066BA4;
+}
+
+.new-input-style select,
+.new-input-style > label {
+    width: 135px;
+    margin-right: 5px;
+}
+
+.new-input-style > textarea {
+    width: 400px;
+}
+
+.new-input-style div {
+    width: 240px;
+}
+
+.new-input-style i {
+    color: #ff0000;
+}
+
+.new-add-btn {
+    width: 146px;
+    margin: 0 auto 20px;
+}
+
+.checkbox-radio span {
+    float: left;
+    margin-right: 10px;
+}
+
+.tab1 {
+    background-position: 0px -210px;
+    color: #fff;
+}
+
+.tab1, .tab2 {
+    float: left;
+    background-image: url("../images/QpGameBg.png");
+    height: 34px;
+    width: 104px;
+    margin: 10px 2px 0 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 28px;
+    cursor: pointer;
+}
+
+.footer-absolute {
+    position: absolute;
+    bottom: -75px;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.game-li {
+    line-height: 30px;
+}
+
+body .main-min-height {
+    overflow-x: auto;
+    height: 40rem;
+}
+
+
+.clearfix:after {
+    content: "\200B";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.STYLE1 {
+    color: #FFCC00;
+}
+
+.popstyle {
+    position: fixed;
+    bottom: 40px;
+    border: 4px solid #02bcf3;
+    right: 40px;
+    width: 200px;
+    height: 100px;
+    background-color: #d8ebf1;
+    z-index: 100;
+}
+
+.alert-header {
+    width: 100%;
+    height: 40px;
+    background-color: #02bcf3;
+    line-height: 40px;
+    color: #fff;
+    cursor: move;
+}
+
+    .alert-header h1 {
+        float: left;
+        width: 79%;
+        font-size: 18px;
+        text-align: center;
+        margin: 0;
+        line-height: 40px;
+    }
+
+.pop-content {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.alert-header span {
+    float: left;
+    padding: 0 11px;
+    font-size: 24px;
+    text-align: right;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.table-striped>tbody>tr.over>td {
+background:#bcd4ec;  /*这个将是鼠标高亮行的背景色*/
+}

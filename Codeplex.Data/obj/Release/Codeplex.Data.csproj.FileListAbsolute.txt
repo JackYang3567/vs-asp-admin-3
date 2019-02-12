@@ -1,0 +1,15 @@
+D:\Mywork\haotan\yibiyi\Admin\Codeplex.Data\bin\Release\Codeplex.Data.dll
+D:\Mywork\haotan\yibiyi\Admin\Codeplex.Data\bin\Release\Codeplex.Data.pdb
+D:\Mywork\haotan\yibiyi\Admin\Codeplex.Data\obj\Release\Codeplex.Data.csprojResolveAssemblyReference.cache
+D:\Mywork\haotan\yibiyi\Admin\Codeplex.Data\obj\Release\Codeplex.Data.dll
+D:\Mywork\haotan\yibiyi\Admin\Codeplex.Data\obj\Release\Codeplex.Data.pdb
+D:\qipai\bl\src\网站代码\Admin\Codeplex.Data\bin\Release\Codeplex.Data.dll
+D:\qipai\bl\src\网站代码\Admin\Codeplex.Data\bin\Release\Codeplex.Data.pdb
+D:\qipai\bl\src\网站代码\Admin\Codeplex.Data\obj\Release\Codeplex.Data.csprojResolveAssemblyReference.cache
+D:\qipai\bl\src\网站代码\Admin\Codeplex.Data\obj\Release\Codeplex.Data.dll
+D:\qipai\bl\src\网站代码\Admin\Codeplex.Data\obj\Release\Codeplex.Data.pdb
+D:\works\网站代码3\Admin\Codeplex.Data\bin\Release\Codeplex.Data.dll
+D:\works\网站代码3\Admin\Codeplex.Data\bin\Release\Codeplex.Data.pdb
+D:\works\网站代码3\Admin\Codeplex.Data\obj\Release\Codeplex.Data.csprojResolveAssemblyReference.cache
+D:\works\网站代码3\Admin\Codeplex.Data\obj\Release\Codeplex.Data.dll
+D:\works\网站代码3\Admin\Codeplex.Data\obj\Release\Codeplex.Data.pdb

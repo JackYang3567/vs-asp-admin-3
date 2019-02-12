@@ -1,0 +1,167 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "网站系统 - 活动管理";
+    Game.Entity.NativeWeb.Activity entity = ViewData["data"] == null ? null : ViewData["data"] as Game.Entity.NativeWeb.Activity;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script charset="utf-8" src="~/Scripts/kindeditor-4.1.10/kindeditor-min.js"></script>
+    <script charset="utf-8" src="~/Scripts/kindeditor-4.1.10/lang/zh_CN.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="carousel box-inner">
+            <div class="box-header well clearfix" data-original-title="">
+                <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+            </div>
+            <div class="tab-content" style="margin-top:0px">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">活动管理</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">活动名称：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtActivityTitle" style="width:395px;display:inline;" class="form-control input-sm" maxlength="50" type="text" value="@(entity != null ? entity.Title : "")">
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+                                <label style="color:red;">* 请输入任务名称</label>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">图片地址：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <img id="upImage" src="/Content/Upload/Activity/@(entity != null ? entity.ImageUrl : "")" alt="" title="" class="pull-left" style="width: 395px; height: 150px;" />
+                                <input id="upImageField" name="upImageField" type="file" style="display:none" onchange='UploadImg("upImageField", "/Common/UploadFileToLocal", "upImage",@((Int32)Game.Facade.EnumerationList.UploadFileEnum.ActivityImg));'>
+                                <button type="button" class="form-control btn btn-primary pull-left" onclick="$('input[id=upImageField]').click();"><span class="glyphicon glyphicon-open"></span>更新图片</button>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left;color:red;">
+                                请统一标题设计样式。图片尺寸:1048*136px，png格式
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">排序：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtSortID" style="width:395px;display:inline;" onkeyup="if(isNaN(value))execCommand('undo');" class="form-control input-sm" maxlength="8" type="text" value="@(entity!=null?entity.SortID.ToString():"0")">
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+                                <label style="color:red;">* 请输入排序，数字越大排名越靠后</label>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">是否推荐至首页：</div>
+                            <div class="col-xs-2 col-md-2">
+                               <label><input type="radio" name="rblIsRecommend" value="True" @(entity!=null && entity.IsRecommend?"checked":"") />推荐</label><label><input type="radio" name="rblIsRecommend" value="False" @(entity != null && entity.IsRecommend ? "":"checked") />不推荐</label>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">活动描述：</div>
+                            <div class="col-xs-8 col-md-5">
+                                <textarea id="txtDescribe" class="form-control input-sm" rows="20" style="width: 650px; display: inline;">
+                                    @(entity != null ? entity.Describe : "")
+                                </textarea>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left;color:red;">
+                                宽980px，高度不限，支持：jpg/png
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <ul class="list-inline">
+                                <li><a class="btn btn-success search btn-md" href="@Url.Action("ActivityList", "Web")"><i class="glyphicon glyphicon-arrow-left"></i>返回</a></li>
+                                <li><a class="btn btn-primary search btn-md" href="#" id="btn"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        //编辑器
+        KindEditor.ready(function (K) {
+            window.editor = K.create('#txtDescribe', { uploadJson: '/Common/UploadFileToLocal?op=6' });
+        });
+        $(document).ready(function () {
+            docReady();
+        });
+        function docReady() {
+            $("#btn").click(function (e) {
+                e.preventDefault();
+                add();
+            });
+        }
+        function add() {
+            var data = {};
+            data.ActivityID = parseInt('@ViewBag.ID');
+           
+            var upImage = $("#upImage").attr("src").trim();
+            var ImageUrl = upImage.substring(upImage.lastIndexOf("/") + 1);
+            if (ImageUrl == "") {
+                alert("请上传图片");
+                return false;
+            }
+            data.ImageUrl = ImageUrl;
+            var Title = $("#txtActivityTitle").val().trim()
+            if (Title == "") {
+                alert("活动名称不能为空");
+                return false;
+            }
+            data.Title = Title;
+
+            var SortID = $("#txtSortID").val().trim();
+            if (SortID == "") {
+                alert("排序不能为空");
+                return false;
+            }
+            data.SortID = parseInt(SortID);
+            
+            data.IsRecommend = $("input[name='rblIsRecommend']:checked").val();
+            
+            console.log(data.IsRecommend);
+            
+            var Describe = editor.html();
+            if (Describe == "") {
+                alert("活动描述不能为空");
+                return false;
+            }
+            data.Describe = Describe;
+
+            console.log("data===",data);
+            AjaxSubmit("/Web/DoActivityInfo", data, callBack, "del");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "del":
+                    alert(jsonData.Msg);
+                    window.location.href = "/Web/ActivityList";
+                    //window.opener.location.reload();
+                    break;
+            }
+        }
+    </script>
+
+</body>
+</html>

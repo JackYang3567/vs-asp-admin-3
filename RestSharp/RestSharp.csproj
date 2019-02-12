@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A3B9A1AD-6AAB-4570-8115-CF6DA51ACBCE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RestSharp</RootNamespace>
+    <AssemblyName>RestSharp</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth.Extensions\CollectionExtensions.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth.Extensions\OAuthExtensions.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth.Extensions\StringExtensions.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth.Extensions\TimeExtensions.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth\HttpPostParameter.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth\HttpPostParameterType.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth\OAuthParameterHandling.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth\OAuthSignatureMethod.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth\OAuthSignatureTreatment.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth\OAuthTools.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth\OAuthType.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth\OAuthWebQueryInfo.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth\OAuthWorkflow.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth\WebPair.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth\WebPairCollection.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth\WebParameter.cs" />
+    <Compile Include="RestSharp.Authenticators.OAuth\WebParameterCollection.cs" />
+    <Compile Include="RestSharp.Authenticators\OAuth1Authenticator.cs" />
+    <Compile Include="RestSharp.Contrib\Helpers.cs" />
+    <Compile Include="RestSharp.Contrib\HttpEncoder.cs" />
+    <Compile Include="RestSharp.Contrib\HttpUtility.cs" />
+    <Compile Include="RestSharp.Deserializers\DeserializeAsAttribute.cs" />
+    <Compile Include="RestSharp.Deserializers\DotNetXmlDeserializer.cs" />
+    <Compile Include="RestSharp.Deserializers\IDeserializer.cs" />
+    <Compile Include="RestSharp.Deserializers\JsonDeserializer.cs" />
+    <Compile Include="RestSharp.Deserializers\XmlAttributeDeserializer.cs" />
+    <Compile Include="RestSharp.Deserializers\XmlDeserializer.cs" />
+    <Compile Include="RestSharp.Extensions\MiscExtensions.cs" />
+    <Compile Include="RestSharp.Extensions\ReflectionExtensions.cs" />
+    <Compile Include="RestSharp.Extensions\ResponseExtensions.cs" />
+    <Compile Include="RestSharp.Extensions\ResponseStatusExtensions.cs" />
+    <Compile Include="RestSharp.Extensions\RestClientExtensions.cs" />
+    <Compile Include="RestSharp.Extensions\StringExtensions.cs" />
+    <Compile Include="RestSharp.Extensions\XmlExtensions.cs" />
+    <Compile Include="RestSharp.Reflection\ReflectionUtils.cs" />
+    <Compile Include="RestSharp.Serializers\DotNetXmlSerializer.cs" />
+    <Compile Include="RestSharp.Serializers\ISerializer.cs" />
+    <Compile Include="RestSharp.Serializers\JsonSerializer.cs" />
+    <Compile Include="RestSharp.Serializers\NameStyle.cs" />
+    <Compile Include="RestSharp.Serializers\SerializeAsAttribute.cs" />
+    <Compile Include="RestSharp.Serializers\XmlSerializer.cs" />
+    <Compile Include="RestSharp.Validation\Require.cs" />
+    <Compile Include="RestSharp.Validation\Validate.cs" />
+    <Compile Include="RestSharp\DataFormat.cs" />
+    <Compile Include="RestSharp\DateFormat.cs" />
+    <Compile Include="RestSharp\FileParameter.cs" />
+    <Compile Include="RestSharp\Http.cs" />
+    <Compile Include="RestSharp\HttpBasicAuthenticator.cs" />
+    <Compile Include="RestSharp\HttpCookie.cs" />
+    <Compile Include="RestSharp\HttpFile.cs" />
+    <Compile Include="RestSharp\HttpHeader.cs" />
+    <Compile Include="RestSharp\HttpParameter.cs" />
+    <Compile Include="RestSharp\HttpResponse.cs" />
+    <Compile Include="RestSharp\IAuthenticator.cs" />
+    <Compile Include="RestSharp\IHttp.cs" />
+    <Compile Include="RestSharp\IHttpFactory.cs" />
+    <Compile Include="RestSharp\IHttpResponse.cs" />
+    <Compile Include="RestSharp\IJsonSerializerStrategy.cs" />
+    <Compile Include="RestSharp\IRestClient.cs" />
+    <Compile Include="RestSharp\IRestRequest.cs" />
+    <Compile Include="RestSharp\IRestResponse.cs" />
+    <Compile Include="RestSharp\JsonArray.cs" />
+    <Compile Include="RestSharp\JsonObject.cs" />
+    <Compile Include="RestSharp\Method.cs" />
+    <Compile Include="RestSharp\NtlmAuthenticator.cs" />
+    <Compile Include="RestSharp\OAuth2Authenticator.cs" />
+    <Compile Include="RestSharp\OAuth2AuthorizationRequestHeaderAuthenticator.cs" />
+    <Compile Include="RestSharp\OAuth2UriQueryParameterAuthenticator.cs" />
+    <Compile Include="RestSharp\Parameter.cs" />
+    <Compile Include="RestSharp\ParameterType.cs" />
+    <Compile Include="RestSharp\PocoJsonSerializerStrategy.cs" />
+    <Compile Include="RestSharp\ResponseStatus.cs" />
+    <Compile Include="RestSharp\RestClient.cs" />
+    <Compile Include="RestSharp\RestClientExtensions.cs" />
+    <Compile Include="RestSharp\RestRequest.cs" />
+    <Compile Include="RestSharp\RestRequestAsyncHandle.cs" />
+    <Compile Include="RestSharp\RestResponse.cs" />
+    <Compile Include="RestSharp\RestResponseBase.cs" />
+    <Compile Include="RestSharp\RestResponseCookie.cs" />
+    <Compile Include="RestSharp\SimpleAuthenticator.cs" />
+    <Compile Include="RestSharp\SimpleFactory.cs" />
+    <Compile Include="RestSharp\SimpleJson.cs" />
+    <Compile Include="SharedAssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

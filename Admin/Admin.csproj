@@ -1,0 +1,1276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D9B5D129-26C0-4F4B-B932-BF82447B3F96}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Admin</RootNamespace>
+    <AssemblyName>Admin</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.1.0.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.1.0.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.2.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.0.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.0.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DataVisualization" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BundleConfig.cs" />
+    <Compile Include="Controllers\AbnormalController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AgentController.cs" />
+    <Compile Include="Controllers\AndroidController.cs" />
+    <Compile Include="Controllers\AppController.cs" />
+    <Compile Include="Controllers\BackController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\DailiController.cs" />
+    <Compile Include="Controllers\DataAnalysisController.cs" />
+    <Compile Include="Controllers\FilledController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KongZhiController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MallController.cs" />
+    <Compile Include="Controllers\MatchController.cs" />
+    <Compile Include="Controllers\NoPowerController.cs" />
+    <Compile Include="Controllers\OperationLogController.cs" />
+    <Compile Include="Controllers\PromoterController.cs" />
+    <Compile Include="Controllers\RecordController.cs" />
+    <Compile Include="Controllers\SuperAccountController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
+    <Compile Include="Controllers\TradeController.cs" />
+    <Compile Include="Controllers\WebController.cs" />
+    <Compile Include="FilterConfig.cs" />
+    <Compile Include="Filters\AntiSqlInjectionAttribute.cs" />
+    <Compile Include="Filters\CheckCustomerAttribute.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="handler.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HtmlCreater.cs" />
+    <Compile Include="Models\APIResult.cs" />
+    <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Base_ModuleInfo.cs" />
+    <Compile Include="Models\Base_ModulePermissionInfo.cs" />
+    <Compile Include="Models\Base_ModuleSubInfo.cs" />
+    <Compile Include="Models\ChartResult.cs" />
+    <Compile Include="Models\ExternalLoginConfirmationViewModel.cs" />
+    <Compile Include="Models\GlobalAppInfo.cs" />
+    <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\ManageUserViewModel.cs" />
+    <Compile Include="Models\RegisterViewModel.cs" />
+    <Compile Include="Models\UploadFileInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RouteConfig.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\BillBanks.xml" />
+    <Content Include="App_Data\BillErrorMsg.xml" />
+    <Content Include="App_Data\BillPayType.xml" />
+    <Content Include="App_Data\protection.xml" />
+    <Content Include="App_Data\WebSite.xml" />
+    <Content Include="bootstrap\css\bootstrap-theme.css" />
+    <Content Include="bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="bootstrap\css\bootstrap.css" />
+    <Content Include="bootstrap\css\bootstrap.min.css" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="bootstrap\js\bootstrap.js" />
+    <Content Include="bootstrap\js\bootstrap.min.js" />
+    <Content Include="bootstrap\js\npm.js" />
+    <Content Include="Content\Admin\css\bootstrap-cerulean.min.css" />
+    <Content Include="Content\Admin\css\charisma-app.css" />
+    <Content Include="Content\Admin\css\css.css" />
+    <Content Include="Content\Admin\css\font-awesome.css" />
+    <Content Include="Content\Admin\css\style.css" />
+    <Content Include="Content\Admin\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\common.css" />
+    <Content Include="Content\dialog.css" />
+    <Content Include="Content\images\AdminLogo.png" />
+    <Content Include="Content\images\an_2.png" />
+    <Content Include="Content\images\arrBig.gif" />
+    <Content Include="Content\images\arrBig1.gif" />
+    <Content Include="Content\images\bg2.jpg" />
+    <Content Include="Content\images\btn_calendar.gif" />
+    <Content Include="Content\images\down.gif" />
+    <Content Include="Content\images\gamepic\Avatar0.png" />
+    <Content Include="Content\images\gamepic\Avatar1.png" />
+    <Content Include="Content\images\gamepic\Avatar10.png" />
+    <Content Include="Content\images\gamepic\Avatar100.png" />
+    <Content Include="Content\images\gamepic\Avatar101.png" />
+    <Content Include="Content\images\gamepic\Avatar102.png" />
+    <Content Include="Content\images\gamepic\Avatar103.png" />
+    <Content Include="Content\images\gamepic\Avatar104.png" />
+    <Content Include="Content\images\gamepic\Avatar105.png" />
+    <Content Include="Content\images\gamepic\Avatar106.png" />
+    <Content Include="Content\images\gamepic\Avatar107.png" />
+    <Content Include="Content\images\gamepic\Avatar108.png" />
+    <Content Include="Content\images\gamepic\Avatar109.png" />
+    <Content Include="Content\images\gamepic\Avatar11.png" />
+    <Content Include="Content\images\gamepic\Avatar110.png" />
+    <Content Include="Content\images\gamepic\Avatar111.png" />
+    <Content Include="Content\images\gamepic\Avatar112.png" />
+    <Content Include="Content\images\gamepic\Avatar113.png" />
+    <Content Include="Content\images\gamepic\Avatar114.png" />
+    <Content Include="Content\images\gamepic\Avatar115.png" />
+    <Content Include="Content\images\gamepic\Avatar116.png" />
+    <Content Include="Content\images\gamepic\Avatar117.png" />
+    <Content Include="Content\images\gamepic\Avatar118.png" />
+    <Content Include="Content\images\gamepic\Avatar119.png" />
+    <Content Include="Content\images\gamepic\Avatar12.png" />
+    <Content Include="Content\images\gamepic\Avatar120.png" />
+    <Content Include="Content\images\gamepic\Avatar121.png" />
+    <Content Include="Content\images\gamepic\Avatar122.png" />
+    <Content Include="Content\images\gamepic\Avatar123.png" />
+    <Content Include="Content\images\gamepic\Avatar124.png" />
+    <Content Include="Content\images\gamepic\Avatar125.png" />
+    <Content Include="Content\images\gamepic\Avatar126.png" />
+    <Content Include="Content\images\gamepic\Avatar127.png" />
+    <Content Include="Content\images\gamepic\Avatar128.png" />
+    <Content Include="Content\images\gamepic\Avatar129.png" />
+    <Content Include="Content\images\gamepic\Avatar13.png" />
+    <Content Include="Content\images\gamepic\Avatar130.png" />
+    <Content Include="Content\images\gamepic\Avatar131.png" />
+    <Content Include="Content\images\gamepic\Avatar132.png" />
+    <Content Include="Content\images\gamepic\Avatar133.png" />
+    <Content Include="Content\images\gamepic\Avatar134.png" />
+    <Content Include="Content\images\gamepic\Avatar135.png" />
+    <Content Include="Content\images\gamepic\Avatar136.png" />
+    <Content Include="Content\images\gamepic\Avatar137.png" />
+    <Content Include="Content\images\gamepic\Avatar138.png" />
+    <Content Include="Content\images\gamepic\Avatar139.png" />
+    <Content Include="Content\images\gamepic\Avatar14.png" />
+    <Content Include="Content\images\gamepic\Avatar140.png" />
+    <Content Include="Content\images\gamepic\Avatar141.png" />
+    <Content Include="Content\images\gamepic\Avatar142.png" />
+    <Content Include="Content\images\gamepic\Avatar143.png" />
+    <Content Include="Content\images\gamepic\Avatar144.png" />
+    <Content Include="Content\images\gamepic\Avatar145.png" />
+    <Content Include="Content\images\gamepic\Avatar146.png" />
+    <Content Include="Content\images\gamepic\Avatar147.png" />
+    <Content Include="Content\images\gamepic\Avatar148.png" />
+    <Content Include="Content\images\gamepic\Avatar149.png" />
+    <Content Include="Content\images\gamepic\Avatar15.png" />
+    <Content Include="Content\images\gamepic\Avatar150.png" />
+    <Content Include="Content\images\gamepic\Avatar151.png" />
+    <Content Include="Content\images\gamepic\Avatar152.png" />
+    <Content Include="Content\images\gamepic\Avatar153.png" />
+    <Content Include="Content\images\gamepic\Avatar154.png" />
+    <Content Include="Content\images\gamepic\Avatar155.png" />
+    <Content Include="Content\images\gamepic\Avatar156.png" />
+    <Content Include="Content\images\gamepic\Avatar157.png" />
+    <Content Include="Content\images\gamepic\Avatar158.png" />
+    <Content Include="Content\images\gamepic\Avatar159.png" />
+    <Content Include="Content\images\gamepic\Avatar16.png" />
+    <Content Include="Content\images\gamepic\Avatar160.png" />
+    <Content Include="Content\images\gamepic\Avatar161.png" />
+    <Content Include="Content\images\gamepic\Avatar162.png" />
+    <Content Include="Content\images\gamepic\Avatar163.png" />
+    <Content Include="Content\images\gamepic\Avatar164.png" />
+    <Content Include="Content\images\gamepic\Avatar165.png" />
+    <Content Include="Content\images\gamepic\Avatar166.png" />
+    <Content Include="Content\images\gamepic\Avatar167.png" />
+    <Content Include="Content\images\gamepic\Avatar168.png" />
+    <Content Include="Content\images\gamepic\Avatar169.png" />
+    <Content Include="Content\images\gamepic\Avatar17.png" />
+    <Content Include="Content\images\gamepic\Avatar170.png" />
+    <Content Include="Content\images\gamepic\Avatar171.png" />
+    <Content Include="Content\images\gamepic\Avatar172.png" />
+    <Content Include="Content\images\gamepic\Avatar173.png" />
+    <Content Include="Content\images\gamepic\Avatar174.png" />
+    <Content Include="Content\images\gamepic\Avatar175.png" />
+    <Content Include="Content\images\gamepic\Avatar176.png" />
+    <Content Include="Content\images\gamepic\Avatar177.png" />
+    <Content Include="Content\images\gamepic\Avatar178.png" />
+    <Content Include="Content\images\gamepic\Avatar179.png" />
+    <Content Include="Content\images\gamepic\Avatar18.png" />
+    <Content Include="Content\images\gamepic\Avatar180.png" />
+    <Content Include="Content\images\gamepic\Avatar181.png" />
+    <Content Include="Content\images\gamepic\Avatar182.png" />
+    <Content Include="Content\images\gamepic\Avatar183.png" />
+    <Content Include="Content\images\gamepic\Avatar184.png" />
+    <Content Include="Content\images\gamepic\Avatar185.png" />
+    <Content Include="Content\images\gamepic\Avatar186.png" />
+    <Content Include="Content\images\gamepic\Avatar187.png" />
+    <Content Include="Content\images\gamepic\Avatar188.png" />
+    <Content Include="Content\images\gamepic\Avatar189.png" />
+    <Content Include="Content\images\gamepic\Avatar19.png" />
+    <Content Include="Content\images\gamepic\Avatar190.png" />
+    <Content Include="Content\images\gamepic\Avatar191.png" />
+    <Content Include="Content\images\gamepic\Avatar192.png" />
+    <Content Include="Content\images\gamepic\Avatar193.png" />
+    <Content Include="Content\images\gamepic\Avatar194.png" />
+    <Content Include="Content\images\gamepic\Avatar195.png" />
+    <Content Include="Content\images\gamepic\Avatar196.png" />
+    <Content Include="Content\images\gamepic\Avatar197.png" />
+    <Content Include="Content\images\gamepic\Avatar198.png" />
+    <Content Include="Content\images\gamepic\Avatar199.png" />
+    <Content Include="Content\images\gamepic\Avatar2.png" />
+    <Content Include="Content\images\gamepic\Avatar20.png" />
+    <Content Include="Content\images\gamepic\Avatar21.png" />
+    <Content Include="Content\images\gamepic\Avatar22.png" />
+    <Content Include="Content\images\gamepic\Avatar23.png" />
+    <Content Include="Content\images\gamepic\Avatar24.png" />
+    <Content Include="Content\images\gamepic\Avatar25.png" />
+    <Content Include="Content\images\gamepic\Avatar26.png" />
+    <Content Include="Content\images\gamepic\Avatar27.png" />
+    <Content Include="Content\images\gamepic\Avatar28.png" />
+    <Content Include="Content\images\gamepic\Avatar29.png" />
+    <Content Include="Content\images\gamepic\Avatar3.png" />
+    <Content Include="Content\images\gamepic\Avatar30.png" />
+    <Content Include="Content\images\gamepic\Avatar31.png" />
+    <Content Include="Content\images\gamepic\Avatar32.png" />
+    <Content Include="Content\images\gamepic\Avatar33.png" />
+    <Content Include="Content\images\gamepic\Avatar34.png" />
+    <Content Include="Content\images\gamepic\Avatar35.png" />
+    <Content Include="Content\images\gamepic\Avatar36.png" />
+    <Content Include="Content\images\gamepic\Avatar37.png" />
+    <Content Include="Content\images\gamepic\Avatar38.png" />
+    <Content Include="Content\images\gamepic\Avatar39.png" />
+    <Content Include="Content\images\gamepic\Avatar4.png" />
+    <Content Include="Content\images\gamepic\Avatar40.png" />
+    <Content Include="Content\images\gamepic\Avatar41.png" />
+    <Content Include="Content\images\gamepic\Avatar42.png" />
+    <Content Include="Content\images\gamepic\Avatar43.png" />
+    <Content Include="Content\images\gamepic\Avatar44.png" />
+    <Content Include="Content\images\gamepic\Avatar45.png" />
+    <Content Include="Content\images\gamepic\Avatar46.png" />
+    <Content Include="Content\images\gamepic\Avatar47.png" />
+    <Content Include="Content\images\gamepic\Avatar48.png" />
+    <Content Include="Content\images\gamepic\Avatar49.png" />
+    <Content Include="Content\images\gamepic\Avatar5.png" />
+    <Content Include="Content\images\gamepic\Avatar50.png" />
+    <Content Include="Content\images\gamepic\Avatar51.png" />
+    <Content Include="Content\images\gamepic\Avatar52.png" />
+    <Content Include="Content\images\gamepic\Avatar53.png" />
+    <Content Include="Content\images\gamepic\Avatar54.png" />
+    <Content Include="Content\images\gamepic\Avatar55.png" />
+    <Content Include="Content\images\gamepic\Avatar56.png" />
+    <Content Include="Content\images\gamepic\Avatar57.png" />
+    <Content Include="Content\images\gamepic\Avatar58.png" />
+    <Content Include="Content\images\gamepic\Avatar59.png" />
+    <Content Include="Content\images\gamepic\Avatar6.png" />
+    <Content Include="Content\images\gamepic\Avatar60.png" />
+    <Content Include="Content\images\gamepic\Avatar61.png" />
+    <Content Include="Content\images\gamepic\Avatar62.png" />
+    <Content Include="Content\images\gamepic\Avatar63.png" />
+    <Content Include="Content\images\gamepic\Avatar64.png" />
+    <Content Include="Content\images\gamepic\Avatar65.png" />
+    <Content Include="Content\images\gamepic\Avatar66.png" />
+    <Content Include="Content\images\gamepic\Avatar67.png" />
+    <Content Include="Content\images\gamepic\Avatar68.png" />
+    <Content Include="Content\images\gamepic\Avatar69.png" />
+    <Content Include="Content\images\gamepic\Avatar7.png" />
+    <Content Include="Content\images\gamepic\Avatar70.png" />
+    <Content Include="Content\images\gamepic\Avatar71.png" />
+    <Content Include="Content\images\gamepic\Avatar72.png" />
+    <Content Include="Content\images\gamepic\Avatar73.png" />
+    <Content Include="Content\images\gamepic\Avatar74.png" />
+    <Content Include="Content\images\gamepic\Avatar75.png" />
+    <Content Include="Content\images\gamepic\Avatar76.png" />
+    <Content Include="Content\images\gamepic\Avatar77.png" />
+    <Content Include="Content\images\gamepic\Avatar78.png" />
+    <Content Include="Content\images\gamepic\Avatar79.png" />
+    <Content Include="Content\images\gamepic\Avatar8.png" />
+    <Content Include="Content\images\gamepic\Avatar80.png" />
+    <Content Include="Content\images\gamepic\Avatar81.png" />
+    <Content Include="Content\images\gamepic\Avatar82.png" />
+    <Content Include="Content\images\gamepic\Avatar83.png" />
+    <Content Include="Content\images\gamepic\Avatar84.png" />
+    <Content Include="Content\images\gamepic\Avatar85.png" />
+    <Content Include="Content\images\gamepic\Avatar86.png" />
+    <Content Include="Content\images\gamepic\Avatar87.png" />
+    <Content Include="Content\images\gamepic\Avatar88.png" />
+    <Content Include="Content\images\gamepic\Avatar89.png" />
+    <Content Include="Content\images\gamepic\Avatar9.png" />
+    <Content Include="Content\images\gamepic\Avatar90.png" />
+    <Content Include="Content\images\gamepic\Avatar91.png" />
+    <Content Include="Content\images\gamepic\Avatar92.png" />
+    <Content Include="Content\images\gamepic\Avatar93.png" />
+    <Content Include="Content\images\gamepic\Avatar94.png" />
+    <Content Include="Content\images\gamepic\Avatar95.png" />
+    <Content Include="Content\images\gamepic\Avatar96.png" />
+    <Content Include="Content\images\gamepic\Avatar97.png" />
+    <Content Include="Content\images\gamepic\Avatar98.png" />
+    <Content Include="Content\images\gamepic\Avatar99.png" />
+    <Content Include="Content\images\login_bg.png" />
+    <Content Include="Content\images\login_btn.png" />
+    <Content Include="Content\images\login_main.png" />
+    <Content Include="Content\images\login_main_bg.png" />
+    <Content Include="Content\images\login_title_bg.png" />
+    <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\no_data_bg.jpg" />
+    <Content Include="Content\images\QpGameBg.png" />
+    <Content Include="Content\images\up.gif" />
+    <Content Include="Content\images\welcome_bj.jpg" />
+    <Content Include="Content\images\welcome_i.jpg" />
+    <Content Include="Content\images\xian.jpg" />
+    <Content Include="Content\jquery-ui-1.10.3.custom.min.css" />
+    <Content Include="Content\laydate\laydate.js" />
+    <Content Include="Content\laydate\theme\default\font\iconfont.svg" />
+    <Content Include="Content\laydate\theme\default\laydate.css" />
+    <Content Include="Content\layout.css" />
+    <Content Include="Content\login.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\Sound\info.mp3" />
+    <Content Include="Content\tabs.css" />
+    <Content Include="Content\Upload\Activity\20170904102749.jpg" />
+    <Content Include="Content\Upload\Activity\20170904102804.jpg" />
+    <Content Include="Content\Upload\Activity\20170904102810.jpg" />
+    <Content Include="Content\Upload\Activity\20170913140652.jpg" />
+    <Content Include="Content\Upload\Activity\20170913172737.jpg" />
+    <Content Include="Content\Upload\Activity\20180113155454.jpg" />
+    <Content Include="Content\Upload\Activity\20180113155554.jpg" />
+    <Content Include="Content\Upload\Activity\20180113155648.jpg" />
+    <Content Include="Content\Upload\Activity\20180115164213.jpg" />
+    <Content Include="Content\Upload\Activity\20180115173040.jpg" />
+    <Content Include="Content\Upload\Activity\20180115181252.jpg" />
+    <Content Include="Content\Upload\Activity\20180129144334.jpg" />
+    <Content Include="Content\Upload\Activity\20180129144417.jpg" />
+    <Content Include="Content\Upload\Activity\20180129144436.jpg" />
+    <Content Include="Content\Upload\Activity\20180129144446.jpg" />
+    <Content Include="Content\Upload\Activity\20180212152011.jpg" />
+    <Content Include="Content\Upload\Activity\20180421134816.jpg" />
+    <Content Include="Content\Upload\Activity\20180425010943.jpg" />
+    <Content Include="Content\Upload\Activity\20180514212921.jpg" />
+    <Content Include="Content\Upload\Activity\20180514212923.jpg" />
+    <Content Include="Content\Upload\Activity\20180514212947.jpg" />
+    <Content Include="Content\Upload\Activity\20180514214546.jpg" />
+    <Content Include="Content\Upload\Activity\20180514214623.jpg" />
+    <Content Include="Content\Upload\Editer\20170906111729.jpg" />
+    <Content Include="Content\Upload\Editer\20170906143618.jpg" />
+    <Content Include="Content\Upload\Editer\20170906143739.jpg" />
+    <Content Include="Content\Upload\Editer\20170906144523.jpg" />
+    <Content Include="Content\Upload\Editer\20170923112610.jpg" />
+    <Content Include="Content\Upload\Mobile\20170921141106.jpg" />
+    <Content Include="Content\Upload\Rules\20170907161247.jpg" />
+    <Content Include="Content\Upload\Rules\20170907161638.jpg" />
+    <Content Include="Content\Upload\Rules\20170907161647.jpg" />
+    <Content Include="Content\Upload\Rules\20170912171521.jpg" />
+    <Content Include="Content\Upload\Rules\20170921150930.jpg" />
+    <Content Include="Content\Upload\Rules\20170921150933.jpg" />
+    <Content Include="Content\Upload\Rules\20170921150936.jpg" />
+    <Content Include="Content\Upload\Rules\20171017165741.jpg" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="scripts\ai.0.22.9-build00167.js" />
+    <Content Include="scripts\ai.0.22.9-build00167.min.js" />
+    <Content Include="scripts\bootstrap.js" />
+    <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\comm.js" />
+    <Content Include="scripts\common.js" />
+    <Content Include="scripts\dialog.js" />
+    <Content Include="scripts\highcharts.js" />
+    <Content Include="scripts\jquery-1.10.2.js" />
+    <Content Include="scripts\jquery-1.10.2.min.js" />
+    <Content Include="scripts\jquery-ui-1.10.3.custom.min.js" />
+    <Content Include="scripts\jquery.validate.js" />
+    <Content Include="scripts\jquery.validate.min.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\auto-height.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\colorpicker.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\custom-plugin.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\custom-theme.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\default.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\dialog.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\dynamic-load.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\file-dialog.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\file-manager.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\filter-mode.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\image-dialog.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\index.css" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\index.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\css\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\css\smoothness\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\css\smoothness\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\css\smoothness\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\css\smoothness\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\css\smoothness\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\css\smoothness\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\css\smoothness\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\css\smoothness\images\ui-icons_222222_256x240.png" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\css\smoothness\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\css\smoothness\images\ui-icons_454545_256x240.png" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\css\smoothness\images\ui-icons_888888_256x240.png" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\css\smoothness\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\css\smoothness\jquery-ui-1.9.2.custom.css" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\css\smoothness\jquery-ui-1.9.2.custom.min.css" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\js\jquery-ui-1.9.2.custom.js" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery-ui\js\jquery-ui-1.9.2.custom.min.js" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\jquery.js" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\multi-image-dialog.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\multi-language.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\newline.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\node.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\paste-type.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\qqstyle.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\readonly.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\simple.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\uploadbutton.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\url-type.html" />
+    <Content Include="scripts\kindeditor-4.1.10\examples\word-count.html" />
+    <Content Include="scripts\kindeditor-4.1.10\kindeditor-all-min.js" />
+    <Content Include="scripts\kindeditor-4.1.10\kindeditor-all.js" />
+    <Content Include="scripts\kindeditor-4.1.10\kindeditor-min.js" />
+    <Content Include="scripts\kindeditor-4.1.10\kindeditor.js" />
+    <Content Include="scripts\kindeditor-4.1.10\lang\ar.js" />
+    <Content Include="scripts\kindeditor-4.1.10\lang\en.js" />
+    <Content Include="scripts\kindeditor-4.1.10\lang\ko.js" />
+    <Content Include="scripts\kindeditor-4.1.10\lang\zh_CN.js" />
+    <Content Include="scripts\kindeditor-4.1.10\lang\zh_TW.js" />
+    <Content Include="scripts\kindeditor-4.1.10\license.txt" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\anchor\anchor.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\autoheight\autoheight.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\baidumap\baidumap.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\baidumap\index.html" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\baidumap\map.html" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\clearhtml\clearhtml.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\code\code.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\code\prettify.css" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\code\prettify.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\emoticons.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\0.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\1.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\10.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\100.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\101.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\102.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\103.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\104.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\105.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\106.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\107.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\108.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\109.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\11.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\110.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\111.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\112.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\113.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\114.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\115.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\116.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\117.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\118.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\119.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\12.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\120.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\121.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\122.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\123.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\124.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\125.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\126.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\127.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\128.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\129.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\13.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\130.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\131.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\132.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\133.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\134.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\14.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\15.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\16.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\17.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\18.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\19.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\2.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\20.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\21.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\22.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\23.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\24.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\25.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\26.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\27.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\28.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\29.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\3.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\30.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\31.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\32.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\33.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\34.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\35.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\36.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\37.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\38.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\39.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\4.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\40.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\41.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\42.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\43.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\44.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\45.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\46.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\47.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\48.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\49.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\5.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\50.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\51.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\52.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\53.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\54.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\55.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\56.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\57.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\58.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\59.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\6.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\60.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\61.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\62.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\63.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\64.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\65.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\66.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\67.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\68.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\69.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\7.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\70.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\71.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\72.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\73.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\74.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\75.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\76.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\77.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\78.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\79.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\8.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\80.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\81.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\82.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\83.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\84.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\85.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\86.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\87.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\88.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\89.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\9.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\90.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\91.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\92.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\93.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\94.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\95.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\96.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\97.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\98.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\99.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\emoticons\images\static.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\filemanager\filemanager.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\filemanager\images\file-16.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\filemanager\images\file-64.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\filemanager\images\folder-16.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\filemanager\images\folder-64.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\filemanager\images\go-up.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\flash\flash.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\image\image.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\image\images\align_left.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\image\images\align_right.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\image\images\align_top.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\image\images\refresh.png" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\insertfile\insertfile.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\lineheight\lineheight.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\link\link.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\map\map.html" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\map\map.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\media\media.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\multiimage\images\image.png" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\multiimage\images\select-files-en.png" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\multiimage\images\select-files-zh_CN.png" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\multiimage\images\swfupload.swf" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\multiimage\multiimage.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\pagebreak\pagebreak.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\plainpaste\plainpaste.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\preview\preview.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\quickformat\quickformat.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\table\table.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\template\html\1.html" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\template\html\2.html" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\template\html\3.html" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\template\template.js" />
+    <Content Include="scripts\kindeditor-4.1.10\plugins\wordpaste\wordpaste.js" />
+    <Content Include="scripts\kindeditor-4.1.10\themes\common\anchor.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\themes\common\blank.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\themes\common\flash.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\themes\common\loading.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\themes\common\media.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\themes\common\rm.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\themes\default\background.png" />
+    <Content Include="scripts\kindeditor-4.1.10\themes\default\default.css" />
+    <Content Include="scripts\kindeditor-4.1.10\themes\default\default.png" />
+    <Content Include="scripts\kindeditor-4.1.10\themes\qq\editor.gif" />
+    <Content Include="scripts\kindeditor-4.1.10\themes\qq\qq.css" />
+    <Content Include="scripts\kindeditor-4.1.10\themes\simple\simple.css" />
+    <Content Include="scripts\laydate\laydate.js" />
+    <Content Include="scripts\laydate\laydateexport.js" />
+    <Content Include="scripts\lhgdialog\images\bottom.png" />
+    <Content Include="scripts\lhgdialog\images\d_bg.gif" />
+    <Content Include="scripts\lhgdialog\images\d_btn.gif" />
+    <Content Include="scripts\lhgdialog\images\d_x.gif" />
+    <Content Include="scripts\lhgdialog\images\left.png" />
+    <Content Include="scripts\lhgdialog\images\leftBottom.png" />
+    <Content Include="scripts\lhgdialog\images\leftTop.png" />
+    <Content Include="scripts\lhgdialog\images\right.png" />
+    <Content Include="scripts\lhgdialog\images\rightBottom.png" />
+    <Content Include="scripts\lhgdialog\images\rightTop.png" />
+    <Content Include="scripts\lhgdialog\images\top.png" />
+    <Content Include="scripts\lhgdialog\images\wait.gif" />
+    <Content Include="scripts\lhgdialog\images\xbtn.png" />
+    <Content Include="scripts\lhgdialog\lhgcore.lhgdialog.min.js" />
+    <Content Include="scripts\lhgdialog\lhgcore.min.js" />
+    <Content Include="scripts\lhgdialog\lhgdialog.css" />
+    <Content Include="scripts\lhgdialog\lhgdialog.js" />
+    <Content Include="scripts\lhgdialog\lhgdialog.min.js" />
+    <Content Include="scripts\lhgdialog\skins\blue.css" />
+    <Content Include="scripts\lhgdialog\skins\blue\blue_s.png" />
+    <Content Include="scripts\lhgdialog\skins\blue\blue_s2.png" />
+    <Content Include="scripts\lhgdialog\skins\blue\ie6\blue_titbtn.gif" />
+    <Content Include="scripts\lhgdialog\skins\blue\ie6\ui_b.png" />
+    <Content Include="scripts\lhgdialog\skins\blue\ie6\ui_l.png" />
+    <Content Include="scripts\lhgdialog\skins\blue\ie6\ui_lb.png" />
+    <Content Include="scripts\lhgdialog\skins\blue\ie6\ui_lt.png" />
+    <Content Include="scripts\lhgdialog\skins\blue\ie6\ui_lt2.png" />
+    <Content Include="scripts\lhgdialog\skins\blue\ie6\ui_r.png" />
+    <Content Include="scripts\lhgdialog\skins\blue\ie6\ui_rb.png" />
+    <Content Include="scripts\lhgdialog\skins\blue\ie6\ui_rt.png" />
+    <Content Include="scripts\lhgdialog\skins\blue\ie6\ui_rt2.png" />
+    <Content Include="scripts\lhgdialog\skins\blue\ie6\ui_t.png" />
+    <Content Include="scripts\lhgdialog\skins\blue\ie6\ui_t2.png" />
+    <Content Include="scripts\lhgdialog\skins\chrome.css" />
+    <Content Include="scripts\lhgdialog\skins\chrome\chrome_s.gif" />
+    <Content Include="scripts\lhgdialog\skins\chrome\chrome_s2.gif" />
+    <Content Include="scripts\lhgdialog\skins\chrome\chrome_s3.gif" />
+    <Content Include="scripts\lhgdialog\skins\default.css" />
+    <Content Include="scripts\lhgdialog\skins\discuz.css" />
+    <Content Include="scripts\lhgdialog\skins\iblack.css" />
+    <Content Include="scripts\lhgdialog\skins\iblack\iblack_s.png" />
+    <Content Include="scripts\lhgdialog\skins\iblack\iblack_s2.png" />
+    <Content Include="scripts\lhgdialog\skins\iblack\ie6\ui_b.png" />
+    <Content Include="scripts\lhgdialog\skins\iblack\ie6\ui_l.png" />
+    <Content Include="scripts\lhgdialog\skins\iblack\ie6\ui_lb.png" />
+    <Content Include="scripts\lhgdialog\skins\iblack\ie6\ui_lt.png" />
+    <Content Include="scripts\lhgdialog\skins\iblack\ie6\ui_lt2.png" />
+    <Content Include="scripts\lhgdialog\skins\iblack\ie6\ui_r.png" />
+    <Content Include="scripts\lhgdialog\skins\iblack\ie6\ui_rb.png" />
+    <Content Include="scripts\lhgdialog\skins\iblack\ie6\ui_rt.png" />
+    <Content Include="scripts\lhgdialog\skins\iblack\ie6\ui_rt2.png" />
+    <Content Include="scripts\lhgdialog\skins\iblack\ie6\ui_t.png" />
+    <Content Include="scripts\lhgdialog\skins\iblack\ie6\ui_t2.png" />
+    <Content Include="scripts\lhgdialog\skins\iblue.css" />
+    <Content Include="scripts\lhgdialog\skins\iblue\iblue_s.png" />
+    <Content Include="scripts\lhgdialog\skins\iblue\iblue_s2.png" />
+    <Content Include="scripts\lhgdialog\skins\iblue\ie6\ui_b.png" />
+    <Content Include="scripts\lhgdialog\skins\iblue\ie6\ui_l.png" />
+    <Content Include="scripts\lhgdialog\skins\iblue\ie6\ui_lb.png" />
+    <Content Include="scripts\lhgdialog\skins\iblue\ie6\ui_lt.png" />
+    <Content Include="scripts\lhgdialog\skins\iblue\ie6\ui_lt2.png" />
+    <Content Include="scripts\lhgdialog\skins\iblue\ie6\ui_r.png" />
+    <Content Include="scripts\lhgdialog\skins\iblue\ie6\ui_rb.png" />
+    <Content Include="scripts\lhgdialog\skins\iblue\ie6\ui_rt.png" />
+    <Content Include="scripts\lhgdialog\skins\iblue\ie6\ui_rt2.png" />
+    <Content Include="scripts\lhgdialog\skins\iblue\ie6\ui_t.png" />
+    <Content Include="scripts\lhgdialog\skins\iblue\ie6\ui_t2.png" />
+    <Content Include="scripts\lhgdialog\skins\icons\32X32\fail.png" />
+    <Content Include="scripts\lhgdialog\skins\icons\32X32\hits.png" />
+    <Content Include="scripts\lhgdialog\skins\icons\32X32\i.png" />
+    <Content Include="scripts\lhgdialog\skins\icons\32X32\succ.png" />
+    <Content Include="scripts\lhgdialog\skins\icons\alert.gif" />
+    <Content Include="scripts\lhgdialog\skins\icons\confirm.gif" />
+    <Content Include="scripts\lhgdialog\skins\icons\discuz_bg.gif" />
+    <Content Include="scripts\lhgdialog\skins\icons\error.gif" />
+    <Content Include="scripts\lhgdialog\skins\icons\face-sad.png" />
+    <Content Include="scripts\lhgdialog\skins\icons\face-smile.png" />
+    <Content Include="scripts\lhgdialog\skins\icons\gb_tip_layer.png" />
+    <Content Include="scripts\lhgdialog\skins\icons\gb_tip_layer_ie6.png" />
+    <Content Include="scripts\lhgdialog\skins\icons\lhgcore.gif" />
+    <Content Include="scripts\lhgdialog\skins\icons\loading.gif" />
+    <Content Include="scripts\lhgdialog\skins\icons\prompt.gif" />
+    <Content Include="scripts\lhgdialog\skins\icons\success.gif" />
+    <Content Include="scripts\lhgdialog\skins\icons\tips.gif" />
+    <Content Include="scripts\lhgdialog\skins\idialog.css" />
+    <Content Include="scripts\lhgdialog\skins\idialog\idialog_s.png" />
+    <Content Include="scripts\lhgdialog\skins\idialog\idialog_s2.png" />
+    <Content Include="scripts\lhgdialog\skins\idialog\ie6\ui_b.png" />
+    <Content Include="scripts\lhgdialog\skins\idialog\ie6\ui_close.hover.png" />
+    <Content Include="scripts\lhgdialog\skins\idialog\ie6\ui_close.png" />
+    <Content Include="scripts\lhgdialog\skins\idialog\ie6\ui_l.png" />
+    <Content Include="scripts\lhgdialog\skins\idialog\ie6\ui_lb.png" />
+    <Content Include="scripts\lhgdialog\skins\idialog\ie6\ui_lt.png" />
+    <Content Include="scripts\lhgdialog\skins\idialog\ie6\ui_r.png" />
+    <Content Include="scripts\lhgdialog\skins\idialog\ie6\ui_rb.png" />
+    <Content Include="scripts\lhgdialog\skins\idialog\ie6\ui_rt.png" />
+    <Content Include="scripts\lhgdialog\skins\idialog\ie6\ui_t.png" />
+    <Content Include="scripts\lhgdialog\skins\igreen.css" />
+    <Content Include="scripts\lhgdialog\skins\igreen\ie6\ui_b.png" />
+    <Content Include="scripts\lhgdialog\skins\igreen\ie6\ui_l.png" />
+    <Content Include="scripts\lhgdialog\skins\igreen\ie6\ui_lb.png" />
+    <Content Include="scripts\lhgdialog\skins\igreen\ie6\ui_lt.png" />
+    <Content Include="scripts\lhgdialog\skins\igreen\ie6\ui_r.png" />
+    <Content Include="scripts\lhgdialog\skins\igreen\ie6\ui_rb.png" />
+    <Content Include="scripts\lhgdialog\skins\igreen\ie6\ui_rt.png" />
+    <Content Include="scripts\lhgdialog\skins\igreen\ie6\ui_t.png" />
+    <Content Include="scripts\lhgdialog\skins\igreen\igreen_s.png" />
+    <Content Include="scripts\lhgdialog\skins\igreen\igreen_s2.png" />
+    <Content Include="scripts\lhgdialog\skins\jtop.css" />
+    <Content Include="scripts\lhgdialog\skins\mac.css" />
+    <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="scripts\pagination.js" />
+    <Content Include="scripts\respond.js" />
+    <Content Include="scripts\respond.min.js" />
+    <Content Include="scripts\tabs.js" />
+    <Content Include="scripts\themes\dark-blue.js" />
+    <Content Include="scripts\themes\dark-green.js" />
+    <Content Include="scripts\themes\gray.js" />
+    <Content Include="scripts\themes\grid.js" />
+    <Content Include="scripts\themes\skies.js" />
+    <Content Include="App_Data\lossReportFailure.config" />
+    <Content Include="App_Data\lossReportSuccess.config" />
+    <Content Include="App_Data\power.config" />
+    <None Include="Properties\PublishProfiles\admin.pubxml" />
+    <None Include="scripts\_references.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Abnormal\AccountGameScore.cshtml" />
+    <Content Include="Views\Abnormal\AccountScoreDetail.cshtml" />
+    <Content Include="Views\Abnormal\AccountScoreList.cshtml" />
+    <Content Include="Views\Abnormal\ExceptionList.cshtml" />
+    <Content Include="Views\Abnormal\FuList.cshtml" />
+    <Content Include="Views\Abnormal\GoldChart.cshtml" />
+    <Content Include="Views\Abnormal\Setting.cshtml" />
+    <Content Include="Views\Abnormal\TopList.cshtml" />
+    <Content Include="Views\Account\AccountPasswordCard.cshtml" />
+    <Content Include="Views\Account\AccountsConvertPresentList.cshtml" />
+    <Content Include="Views\Account\AccountsCurrencyList.cshtml" />
+    <Content Include="Views\Account\AccountsDetailInfo.cshtml" />
+    <Content Include="Views\Account\AccountsDetailInfo1.cshtml" />
+    <Content Include="Views\Account\AccountsGoldInfo.cshtml" />
+    <Content Include="Views\Account\AccountsGoldList.cshtml" />
+    <Content Include="Views\Account\AccountsGrantTreasureList.cshtml" />
+    <Content Include="Views\Account\AccountsInfo.cshtml" />
+    <Content Include="Views\Account\AccountsInsureList.cshtml" />
+    <Content Include="Views\Account\AccountsInsureTop.cshtml" />
+    <Content Include="Views\Account\AccountsLossReportInfo.cshtml" />
+    <Content Include="Views\Account\AccountsLossReportList.cshtml" />
+    <Content Include="Views\Account\AccountsMemberList.cshtml" />
+    <Content Include="Views\Account\AccountsProtectInfo.cshtml" />
+    <Content Include="Views\Account\AccountsRecordInfo.cshtml" />
+    <Content Include="Views\Account\AccountsScoreInfo.cshtml" />
+    <Content Include="Views\Account\AccountsScoreList.cshtml" />
+    <Content Include="Views\Account\AccountsTreasureInfo.cshtml" />
+    <Content Include="Views\Account\AccountsUpdatePass.cshtml" />
+    <Content Include="Views\Account\AddAccount.cshtml" />
+    <Content Include="Views\Account\BaseUserUpdate.cshtml" />
+    <Content Include="Views\Account\ConfineAddressInfo.cshtml" />
+    <Content Include="Views\Account\ConfineAddressList.cshtml" />
+    <Content Include="Views\Account\ConfineAddressTop.cshtml" />
+    <Content Include="Views\Account\ConfineContenInfo.cshtml" />
+    <Content Include="Views\Account\ConfineContentList.cshtml" />
+    <Content Include="Views\Account\ConfineMachineInfo.cshtml" />
+    <Content Include="Views\Account\ConfineMachineList.cshtml" />
+    <Content Include="Views\Account\ConfineMachineTop.cshtml" />
+    <Content Include="Views\Account\GrantClearScore.cshtml" />
+    <Content Include="Views\Account\GrantExperience.cshtml" />
+    <Content Include="Views\Account\GrantFlee.cshtml" />
+    <Content Include="Views\Account\GrantGameID.cshtml" />
+    <Content Include="Views\Account\GrantMember.cshtml" />
+    <Content Include="Views\Account\GrantScore.cshtml" />
+    <Content Include="Views\Account\GrantTreasure.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\IpAddress.cshtml" />
+    <Content Include="Views\Account\JiechuDailiList.cshtml" />
+    <Content Include="Views\Account\Online.cshtml" />
+    <Content Include="Views\Account\OnlineList.cshtml" />
+    <Content Include="Views\Account\RecordAccountsExpendList.cshtml" />
+    <Content Include="Views\Account\RecordBuyPropertyList.cshtml" />
+    <Content Include="Views\Account\RecordConvertMedalList.cshtml" />
+    <Content Include="Views\Account\RecordConvertPresentList.cshtml" />
+    <Content Include="Views\Account\RecordDrawInfoList.cshtml" />
+    <Content Include="Views\Account\RecordGlodList.cshtml" />
+    <Content Include="Views\Account\RecordGrantClearFlee.cshtml" />
+    <Content Include="Views\Account\RecordGrantClearScoreList.cshtml" />
+    <Content Include="Views\Account\RecordGrantExperienceList.cshtml" />
+    <Content Include="Views\Account\RecordGrantGameIDList.cshtml" />
+    <Content Include="Views\Account\RecordGrantMemberList.cshtml" />
+    <Content Include="Views\Account\RecordGrantScoreList.cshtml" />
+    <Content Include="Views\Account\RecordGrantTreasureList.cshtml" />
+    <Content Include="Views\Account\RecordInsureList.cshtml" />
+    <Content Include="Views\Account\RecordPasswdExpendConfirm.cshtml" />
+    <Content Include="Views\Account\RecordPasswdExpendList.cshtml" />
+    <Content Include="Views\Account\RecordUsePropertyList.cshtml" />
+    <Content Include="Views\Account\RecordUserInoutList.cshtml" />
+    <Content Include="Views\Account\RecordUserScoreInoutList.cshtml" />
+    <Content Include="Views\Account\SendLossReportInfo.cshtml" />
+    <Content Include="Views\Account\ShareDetailList.cshtml" />
+    <Content Include="Views\Account\SuperAccounts.cshtml" />
+    <Content Include="Views\Account\UserFaceList.cshtml" />
+    <Content Include="Views\Agent\AgentChildList.cshtml" />
+    <Content Include="Views\Agent\AgentInfo.cshtml" />
+    <Content Include="Views\Agent\AgentManager.cshtml" />
+    <Content Include="Views\Agent\AgentPayBackList.cshtml" />
+    <Content Include="Views\Agent\AgentPayList.cshtml" />
+    <Content Include="Views\Agent\AgentRevenueList.cshtml" />
+    <Content Include="Views\Agent\ChildPayInfo.cshtml" />
+    <Content Include="Views\Agent\ChildRevenueInfo.cshtml" />
+    <Content Include="Views\Agent\Index.cshtml" />
+    <Content Include="Views\Android\AndroidConfigureList.cshtml" />
+    <Content Include="Views\Android\OnlineCountList.cshtml" />
+    <Content Include="Views\Android\OnlineCountTimeList.cshtml" />
+    <Content Include="Views\App\DataBaseInfoInfo.cshtml" />
+    <Content Include="Views\App\FinanceInfo.cshtml" />
+    <Content Include="Views\App\GameGameItemInfo.cshtml" />
+    <Content Include="Views\App\GameGameItemList.cshtml" />
+    <Content Include="Views\App\GameGiftInfo.cshtml" />
+    <Content Include="Views\App\GameGiftList.cshtml" />
+    <Content Include="Views\App\GameGiftSubInfo.cshtml" />
+    <Content Include="Views\App\GameGiftSubList.cshtml" />
+    <Content Include="Views\App\GameKindItemInfo.cshtml" />
+    <Content Include="Views\App\GameKindItemList.cshtml" />
+    <Content Include="Views\App\GamePropertyInfo.cshtml" />
+    <Content Include="Views\App\GamePropertyManager.cshtml" />
+    <Content Include="Views\App\GamePropertyTypeInfo.cshtml" />
+    <Content Include="Views\App\GamePropertyTypeList.cshtml" />
+    <Content Include="Views\App\GameTypeItemInfo.cshtml" />
+    <Content Include="Views\App\GameTypeItemList.cshtml" />
+    <Content Include="Views\App\GlobalPlayPresentInfo.cshtml" />
+    <Content Include="Views\App\GlobalPlayPresentList.cshtml" />
+    <Content Include="Views\App\HighScoreAnnounceList.cshtml" />
+    <Content Include="Views\App\HundredGames.cshtml" />
+    <Content Include="Views\App\HundredGamesLog.cshtml" />
+    <Content Include="Views\App\Index.cshtml" />
+    <Content Include="Views\App\LevelConfig.cshtml" />
+    <Content Include="Views\App\LotteryConfigSet.cshtml" />
+    <Content Include="Views\App\LotteryItemSet.cshtml" />
+    <Content Include="Views\App\LotteryRecord.cshtml" />
+    <Content Include="Views\App\MobileKindInfo.cshtml" />
+    <Content Include="Views\App\MobileKindList.cshtml" />
+    <Content Include="Views\App\PushMessageInfo.cshtml" />
+    <Content Include="Views\App\PushMessageList.cshtml" />
+    <Content Include="Views\App\SigninConfig.cshtml" />
+    <Content Include="Views\App\SpreadInfo.cshtml" />
+    <Content Include="Views\App\SpreadManager.cshtml" />
+    <Content Include="Views\App\SpreadSet.cshtml" />
+    <Content Include="Views\App\SystemMessageInfo.cshtml" />
+    <Content Include="Views\App\SystemMessageList.cshtml" />
+    <Content Include="Views\App\SystemSet.cshtml" />
+    <Content Include="Views\Back\BaseRoleInfo.cshtml" />
+    <Content Include="Views\Back\BaseRolePermission.cshtml" />
+    <Content Include="Views\Back\BaseUserInfo.cshtml" />
+    <Content Include="Views\Back\BaseUserList.cshtml" />
+    <Content Include="Views\Back\Index.cshtml" />
+    <Content Include="Views\Customer\MessageInfo.cshtml" />
+    <Content Include="Views\Customer\MessageList.cshtml" />
+    <Content Include="Views\Customer\QuestionInfo.cshtml" />
+    <Content Include="Views\Customer\QuestionList.cshtml" />
+    <Content Include="Views\Customer\QuestionType.cshtml" />
+    <Content Include="Views\Customer\QuestionTypeInfo.cshtml" />
+    <Content Include="Views\Customer\ReportInfo.cshtml" />
+    <Content Include="Views\Customer\ReportList.cshtml" />
+    <Content Include="Views\Daili\AddInfo.cshtml" />
+    <Content Include="Views\Daili\AgentBaseURL.cshtml" />
+    <Content Include="Views\Daili\AgentNewPlayerList.cshtml" />
+    <Content Include="Views\Daili\AgentScoreChange.cshtml" />
+    <Content Include="Views\Daili\AgentSet.cshtml" />
+    <Content Include="Views\Daili\AllNextAgent.cshtml" />
+    <Content Include="Views\Daili\AllNextUser.cshtml" />
+    <Content Include="Views\Daili\Balance.cshtml" />
+    <Content Include="Views\Daili\CheckImg.cshtml" />
+    <Content Include="Views\Daili\DailiCheckList.cshtml" />
+    <Content Include="Views\Daili\EditInfo.cshtml" />
+    <Content Include="Views\Daili\Index.cshtml" />
+    <Content Include="Views\Daili\NextDrawList.cshtml" />
+    <Content Include="Views\Daili\NextGameRecordList.cshtml" />
+    <Content Include="Views\Daili\NextPayList.cshtml" />
+    <Content Include="Views\Daili\PayReportList.cshtml" />
+    <Content Include="Views\Daili\PaySetting.cshtml" />
+    <Content Include="Views\Daili\PlayerScoreInfo.cshtml" />
+    <Content Include="Views\Daili\PlayerScoreList.cshtml" />
+    <Content Include="Views\Daili\RechargeList.cshtml" />
+    <Content Include="Views\Daili\ReportList.cshtml" />
+    <Content Include="Views\Daili\TousuList.cshtml" />
+    <Content Include="Views\DataAnalysis\BankTaxStat.cshtml" />
+    <Content Include="Views\DataAnalysis\ClearTableData.cshtml" />
+    <Content Include="Views\DataAnalysis\GameKindTaxList.cshtml" />
+    <Content Include="Views\DataAnalysis\GameRecord.cshtml" />
+    <Content Include="Views\DataAnalysis\GameTaxList.cshtml" />
+    <Content Include="Views\DataAnalysis\GameTaxStat.cshtml" />
+    <Content Include="Views\DataAnalysis\GoldDistribution.cshtml" />
+    <Content Include="Views\DataAnalysis\Index.cshtml" />
+    <Content Include="Views\DataAnalysis\PayStatGraph.cshtml" />
+    <Content Include="Views\DataAnalysis\StatOnline.cshtml" />
+    <Content Include="Views\DataAnalysis\StatOnlineInfo.cshtml" />
+    <Content Include="Views\DataAnalysis\SystemStat.cshtml" />
+    <Content Include="Views\DataAnalysis\UserActiveStat.cshtml" />
+    <Content Include="Views\DataAnalysis\UserLossStat.cshtml" />
+    <Content Include="Views\DataAnalysis\UserPlaying.cshtml" />
+    <Content Include="Views\DataAnalysis\UserRegStat.cshtml" />
+    <Content Include="Views\Filled\AgentPayOrder.cshtml" />
+    <Content Include="Views\Filled\ExportCard.cshtml" />
+    <Content Include="Views\Filled\GlobalAppInfo.cshtml" />
+    <Content Include="Views\Filled\GlobalAppInfoList.cshtml" />
+    <Content Include="Views\Filled\GlobalLivcardInfo.cshtml" />
+    <Content Include="Views\Filled\GlobalLivcardList.cshtml" />
+    <Content Include="Views\Filled\Index.cshtml" />
+    <Content Include="Views\Filled\LivcardAssociatorInfo.cshtml" />
+    <Content Include="Views\Filled\LivcardAssociatorList.cshtml" />
+    <Content Include="Views\Filled\LivcardAssociatorListByStat.cshtml" />
+    <Content Include="Views\Filled\LivcardCreate.cshtml" />
+    <Content Include="Views\Filled\LivcardEdit.cshtml" />
+    <Content Include="Views\Filled\LivcardStat.cshtml" />
+    <Content Include="Views\Filled\MemberTypeInfo.cshtml" />
+    <Content Include="Views\Filled\MemberTypeList.cshtml" />
+    <Content Include="Views\Filled\OnLineOrderInfo.cshtml" />
+    <Content Include="Views\Filled\OnLineOrderList.cshtml" />
+    <Content Include="Views\Filled\OrderAppInfo.cshtml" />
+    <Content Include="Views\Filled\OrderAppList.cshtml" />
+    <Content Include="Views\Filled\OrderKQInfo.cshtml" />
+    <Content Include="Views\Filled\OrderKQList.cshtml" />
+    <Content Include="Views\Filled\OrderVBInfo.cshtml" />
+    <Content Include="Views\Filled\OrderVBList.cshtml" />
+    <Content Include="Views\Filled\OrderYPInfo.cshtml" />
+    <Content Include="Views\Filled\OrderYPList.cshtml" />
+    <Content Include="Views\Filled\PayAmountList.cshtml" />
+    <Content Include="Views\Filled\PayQudaoList.cshtml" />
+    <Content Include="Views\Filled\PayType.cshtml" />
+    <Content Include="Views\Filled\ShareInfoList.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Welcome.cshtml" />
+    <Content Include="Views\KongZhi\GameSettingList.cshtml" />
+    <Content Include="Views\KongZhi\PlayerControlInfo.cshtml" />
+    <Content Include="Views\KongZhi\PlayerControlList.cshtml" />
+    <Content Include="Views\KongZhi\PlayerControlLog.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Login\Index2.cshtml" />
+    <Content Include="Views\Mall\Index.cshtml" />
+    <Content Include="Views\Mall\MallInfo.cshtml" />
+    <Content Include="Views\Mall\MallInfoList.cshtml" />
+    <Content Include="Views\Mall\MallOrder.cshtml" />
+    <Content Include="Views\Mall\MallOrderList.cshtml" />
+    <Content Include="Views\Mall\MallTypeInfo.cshtml" />
+    <Content Include="Views\Match\Index.cshtml" />
+    <Content Include="Views\Match\MatchConfigInfo.cshtml" />
+    <Content Include="Views\Match\MatchRank.cshtml" />
+    <Content Include="Views\Match\MatchRankInfo.cshtml" />
+    <Content Include="Views\NoPower\Index.cshtml" />
+    <Content Include="Views\OperationLog\ActionLog.cshtml" />
+    <Content Include="Views\OperationLog\Index.cshtml" />
+    <Content Include="Views\OperationLog\SystemSecurityInfo.cshtml" />
+    <Content Include="Views\Promoter\Advertiser.cshtml" />
+    <Content Include="Views\Promoter\AdvertiserList.cshtml" />
+    <Content Include="Views\Promoter\AdvertTask.cshtml" />
+    <Content Include="Views\Promoter\AdvertTaskList.cshtml" />
+    <Content Include="Views\Promoter\Commision.cshtml" />
+    <Content Include="Views\Promoter\EditAdvertTaskKinds.cshtml" />
+    <Content Include="Views\Promoter\Index.cshtml" />
+    <Content Include="Views\Promoter\Insurances.cshtml" />
+    <Content Include="Views\Promoter\MyUser.cshtml" />
+    <Content Include="Views\Promoter\MyUserAll.cshtml" />
+    <Content Include="Views\Promoter\MyUserOnline.cshtml" />
+    <Content Include="Views\Promoter\MyUserRev.cshtml" />
+    <Content Include="Views\Promoter\NewIndex.cshtml" />
+    <Content Include="Views\Promoter\NewSpreadManager.cshtml" />
+    <Content Include="Views\Promoter\PromoterInfo.cshtml" />
+    <Content Include="Views\Promoter\PromoterManager.cshtml" />
+    <Content Include="Views\Promoter\PromoterReport.cshtml" />
+    <Content Include="Views\Promoter\PromoterSet.cshtml" />
+    <Content Include="Views\Promoter\RankingList.cshtml" />
+    <Content Include="Views\Promoter\TradeManager.cshtml" />
+    <Content Include="Views\Promoter\TradeSet.cshtml" />
+    <Content Include="Views\Promoter\Understrappers.cshtml" />
+    <Content Include="Views\Promoter\Withdraw.cshtml" />
+    <Content Include="Views\Record\RecordGame.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_AccountLayout.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\SuperAccount\Index.cshtml" />
+    <Content Include="Views\SuperAccount\Info.cshtml" />
+    <Content Include="Views\SuperAccount\Log.cshtml" />
+    <Content Include="Views\Task\Index.cshtml" />
+    <Content Include="Views\Task\TaskInfo.cshtml" />
+    <Content Include="Views\Task\TaskRecordList.cshtml" />
+    <Content Include="Views\Trade\GameRoomRevenue.cshtml" />
+    <Content Include="Views\Trade\GameRoomRevenueByUser.cshtml" />
+    <Content Include="Views\Trade\Index.cshtml" />
+    <Content Include="Views\Trade\RevenueList.cshtml" />
+    <Content Include="Views\Trade\Tixian.cshtml" />
+    <Content Include="Views\Trade\TradeSet.cshtml" />
+    <Content Include="Views\Web\ActivityInfo.cshtml" />
+    <Content Include="Views\Web\ActivityList.cshtml" />
+    <Content Include="Views\Web\AdsGameInfo.cshtml" />
+    <Content Include="Views\Web\AdsGameList.cshtml" />
+    <Content Include="Views\Web\AdsWebHomeList.cshtml" />
+    <Content Include="Views\Web\AdsWebHomeListInfo.cshtml" />
+    <Content Include="Views\Web\FeedbackInfo.cshtml" />
+    <Content Include="Views\Web\FeedbackList.cshtml" />
+    <Content Include="Views\Web\Index.cshtml" />
+    <Content Include="Views\Web\IOSConfig.cshtml" />
+    <Content Include="Views\Web\IssueInfo.cshtml" />
+    <Content Include="Views\Web\IssueList.cshtml" />
+    <Content Include="Views\Web\LogoSet.cshtml" />
+    <Content Include="Views\Web\MobileNoticeInfo.cshtml" />
+    <Content Include="Views\Web\MobileNoticeList.cshtml" />
+    <Content Include="Views\Web\NewsInfo.cshtml" />
+    <Content Include="Views\Web\RulesInfo.cshtml" />
+    <Content Include="Views\Web\RulesList.cshtml" />
+    <Content Include="Views\Web\SinglePageList.cshtml" />
+    <Content Include="Views\Web\SiteConfig.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Trade\LotteryBetDraw.cshtml" />
+    <Content Include="Views\Filled\OffLinePayList.cshtml" />
+    <Content Include="Views\Filled\OffLineQrCodeList.cshtml" />
+    <Content Include="Views\Filled\OffLineQrCodeInfo.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\Upload\OffLinePayQrCode\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ApplicationInsights.config" />
+    <Content Include="bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="bootstrap\css\bootstrap-theme.min.css.map" />
+    <Content Include="bootstrap\css\bootstrap.css.map" />
+    <Content Include="bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\Admin\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Admin\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\Admin\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\Admin\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\laydate\theme\default\font\iconfont.eot" />
+    <Content Include="Content\laydate\theme\default\font\iconfont.ttf" />
+    <Content Include="Content\laydate\theme\default\font\iconfont.woff" />
+    <Content Include="Content\Upload\Activity\web.config" />
+    <Content Include="Content\Upload\web.config" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Codeplex.Data\Codeplex.Data.csproj">
+      <Project>{0638c02e-73f3-4f73-92ee-6b00403f9722}</Project>
+      <Name>Codeplex.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Game.Entity\Game.Entity.csproj">
+      <Project>{acf68e9c-99d1-41e6-b24f-037879957e0f}</Project>
+      <Name>Game.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Game.Facade\Game.Facade.csproj">
+      <Project>{22d63eb3-f537-44f5-8363-fd19bf47a807}</Project>
+      <Name>Game.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Game.Kernel\Game.Kernel.csproj">
+      <Project>{70ec6de2-8b09-498e-8412-000fa1c24d44}</Project>
+      <Name>Game.Kernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Game.Utils\Game.Utils.csproj">
+      <Project>{1f8c1dfd-68d9-4624-bd66-4571beb37916}</Project>
+      <Name>Game.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jiguang.JPush\Jiguang.JPush.csproj">
+      <Project>{a7fa65a2-e066-415a-acb1-3cd05c87ef65}</Project>
+      <Name>Jiguang.JPush</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>53236</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:5329/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。启用“NuGet 程序包还原”可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

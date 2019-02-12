@@ -1,0 +1,112 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "代理系统 - 充值设置";
+}
+@model Game.Entity.Accounts.AUFillConfig
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+    <style>
+        .row {
+            margin-bottom:15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+
+                    <div class="panel panel-info">
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">代理充值设置（提示：在线充值和线下充值都生效）</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">玩家范围（累充达到）：</div>
+                                <div class="col-xs-6 col-md-5">
+                                    <input type="text" id="UserAllAmt" value="@(Model == null ? "" : Model.UserAllAmt.ToString())" /> &nbsp;累充达到多少的玩家
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">时间范围：</div>
+                                <div class="col-xs-6 col-md-5">
+                                    <input id="txtStartDate" class="input-width-150" type="text" readonly="readonly" value="@(Model == null ? "" : Model.BeginTime.ToString())" />至<input type="text" id="txtEndDate" class="input-width-150" readonly="readonly" value="@(Model == null ? "" : Model.EndTime.ToString())" />
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">单笔充值：</div>
+                                <div class="col-xs-6 col-md-6">
+                                    <input name="" class="x5" type="text" id="Amount" value="@(Model == null ? "" : Model.Amount.ToString())" /> &nbsp;范围内的某玩家在时间段内 单笔充值达到多少不显示
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">充值次数：</div>
+                                <div class="col-xs-6 col-md-6" id="opdayTD">
+                                    <input name="" class="x5" type="text" id="Times" value="@(Model == null ? "" : Model.Times.ToString())" /> &nbsp;范围内的某玩家在时间段内 充值次数达到多少不显示
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="Save();"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            //时间选择器
+            laydate.render({
+                elem: '#txtStartDate'
+              , type: 'datetime'
+            });
+            laydate.render({
+                elem: '#txtEndDate'
+              , type: 'datetime'
+            });
+        })
+        function Save() {
+            var postData = {};
+            postData.AgentID = '@Request["agentId"]';
+            postData.UserAllAmt = $("#UserAllAmt").val();
+            postData.BeginTime = $("#txtStartDate").val();
+            postData.EndTime = $("#txtEndDate").val();
+            postData.Amount = $("#Amount").val();
+            postData.Times = $("#Times").val();
+            AjaxSubmit("/Daili/UpdatePaySet", postData, callBack, "save");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "save":
+                    alert(jsonData.Msg);
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

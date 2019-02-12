@@ -1,0 +1,245 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "任务系统 - 任务管理";
+    Game.Entity.Platform.TaskInfo taskInfo = ViewData["data"] == null ? null : ViewData["data"] as Game.Entity.Platform.TaskInfo;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Tilte</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>  
+                <div class="tab-content" style="margin-top:0px">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">任务信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">任务名称：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtTaskName" style="width:350px;display:inline;" class="form-control input-sm" type="text" value="@(taskInfo != null ? taskInfo.TaskName : "")">
+                                </div>
+                                <div class="col-xs-5 col-md-3" style="text-align:left">
+                                    <label style="color:red;">*请输入任务名称</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">任务类型：</div>
+                                <div class="col-xs-6 col-md-3">
+                                  @Html.HtmlTaskTypeSelectBuilder(taskInfo == null ? 0 : taskInfo.TaskType)
+                                </div>
+                                <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">可领取任务用户类型：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <select id="cblUserType" class="form-control input-sm input-width-150">
+                                        <option value="1" @(taskInfo != null && taskInfo.UserType == 1 ? "selected=\"selected\"" : "")>普通玩家</option>
+                                        <option value="2" @(taskInfo != null && taskInfo.UserType == 2 ? "selected=\"selected\"" : "")>会员玩家</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">所属游戏：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    @Html.HtmlGameKindSelectBuilder(taskInfo == null ? -1 : taskInfo.KindID)
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">普通玩家奖励金币：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtStandardAwardGold" style="width:350px;display:inline;" class="form-control input-sm" type="text" onkeyup="if(isNaN(value))execCommand('undo');" value="@(taskInfo != null ? taskInfo.StandardAwardGold.ToString() : "0")">
+                                </div>
+                                <div class="col-xs-5 col-md-3" style="text-align:left">
+                                    <label style="color:red;">*请输入奖励金币数</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;display:none">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">普通玩家奖励元宝：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtStandardAwardMedal" style="width:350px;display:inline;" class="form-control input-sm" type="text" onkeyup="if(isNaN(value))execCommand('undo');" value="@(taskInfo != null ? taskInfo.StandardAwardMedal.ToString() : "0")">
+                                </div>
+                                <div class="col-xs-5 col-md-3" style="text-align:left">
+                                    <label style="color:red;">*输入普通玩家奖励元宝</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;display:none">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">会员玩家奖励金币：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtMemberAwardGold" style="width:350px;display:inline;" class="form-control input-sm" type="text" onkeyup="if(isNaN(value))execCommand('undo');" value="@(taskInfo != null ? taskInfo.MemberAwardGold.ToString() : "0")">
+                                </div>
+                                <div class="col-xs-5 col-md-3" style="text-align:left">
+                                    <label style="color:red;">*输入会员玩家奖励金币</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">会员玩家奖励元宝：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtMemberAwardMedal" style="width:350px;display:inline;" class="form-control input-sm" type="text" onkeyup="if(isNaN(value))execCommand('undo');" value="@(taskInfo != null ? taskInfo.MemberAwardMedal.ToString() : "0")">
+                                </div>
+                                <div class="col-xs-5 col-md-3" style="text-align:left">
+                                    <label style="color:red;">*输入会员玩家奖励元宝</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">时间限制：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtTimeLimit" style="width:350px;display:inline;" class="form-control input-sm" type="text" onkeyup="if(isNaN(value))execCommand('undo');" value="@(taskInfo != null ? taskInfo.TimeLimit.ToString() : "0")">
+                                </div>
+                                <div class="col-xs-5 col-md-3" style="text-align:left">
+                                    <label style="color:red;">*输入时间限制</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">目标局数：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtInnings" style="width:350px;display:inline;" class="form-control input-sm" type="text" onkeyup="if(isNaN(value))execCommand('undo');" value="@(taskInfo != null ? taskInfo.Innings.ToString() : "0")">
+                                </div>
+                                <div class="col-xs-5 col-md-3" style="text-align:left">
+                                    <label style="color:red;">*输入目标局数</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">任务描述：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <textarea id="txtTaskDescription" class="form-control input-sm" style="width:350px;display:inline;" rows="3">@(taskInfo != null ? taskInfo.TaskDescription : "")</textarea>
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+                                    不允许超过500个字。
+                                </div>
+                            </div>
+                            
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right"></div>
+                                <div class="col-xs-6 col-md-3">
+                                    <label style="color:red;">注意：修改成功后游戏中生效的时间为20分钟</label>
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-success search btn-md" href="@Url.Action("Index", "Task")"><i class="glyphicon glyphicon-arrow-left"></i>返回</a></li>
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        
+    </div>
+    <script type="text/javascript">
+        function add() {
+            var data = {};           
+            data.TaskID = parseInt('@ViewBag.ID');
+            var TaskName = $("#txtTaskName").val().trim();
+            if (TaskName == "") {
+                alert("任务名称不能为空");
+                return false;
+            }
+            data.TaskName = TaskName;
+
+            var TaskType = $("#ddlTaskType").val().trim();
+            if (parseInt(TaskType)<1) {
+                alert("请选择任务类型");
+                return false;
+            }
+            data.TaskType = TaskType;
+
+            var UserType = $("#cblUserType").val().trim();           
+            data.UserType = UserType;
+
+            var GameKind = $("#ddlGameKind").val().trim();
+            if (parseInt(GameKind) < 1) {
+                alert("请选择所属游戏");
+                return false;
+            }
+            data.KindID = GameKind;
+
+            var StandardAwardGold = $("#txtStandardAwardGold").val().trim();
+            if (StandardAwardGold == "" || isNaN(StandardAwardGold)) {
+                alert("普通玩家奖励金币不能为空且为整数");
+                return false;
+            }
+            data.StandardAwardGold = StandardAwardGold;
+
+            var StandardAwardMedal = $("#txtStandardAwardMedal").val().trim();
+            if (StandardAwardMedal == "" || isNaN(StandardAwardMedal)) {
+                alert("普通玩家奖励元宝不能为空且为整数");
+                return false;
+            }
+            data.StandardAwardMedal = StandardAwardMedal;
+
+            var MemberAwardGold = $("#txtMemberAwardGold").val().trim();
+            if (MemberAwardGold == "" || isNaN(MemberAwardGold)) {
+                alert("会员玩家奖励金币不能为空且为整数");
+                return false;
+            }
+            data.MemberAwardGold = MemberAwardGold;
+
+            var MemberAwardMedal = $("#txtMemberAwardMedal").val().trim();
+            if (MemberAwardMedal == "" || isNaN(MemberAwardMedal)) {
+                alert("会员玩家奖励元宝不能为空且为整数");
+                return false;
+            }
+            data.MemberAwardMedal = MemberAwardMedal;
+
+            var TimeLimit = $("#txtTimeLimit").val().trim();
+            if (TimeLimit == "" || isNaN(TimeLimit)) {
+                alert("时间限制不能为空且为整数");
+                return false;
+            }
+            data.TimeLimit = TimeLimit;
+
+            var Innings = $("#txtInnings").val().trim();
+            if (Innings == "" || isNaN(Innings)) {
+                alert("完成任务所需局数不能为空且为整数");
+                return false;
+            }
+            data.Innings = Innings;
+
+            var TaskDescription = $("#txtTaskDescription").val().trim();
+            data.TaskDescription = TaskDescription;
+            AjaxSubmit("/Task/DoTaskInfo", data, callBack, "del");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "del":
+                    alert(jsonData.Msg);
+                    window.location.href = "/Task/Index";
+                    //window.opener.location.reload();
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

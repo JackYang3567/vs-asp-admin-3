@@ -1,0 +1,57 @@
+@charset "utf-8";
+/*遮罩的公共样式*/
+#alertWindowMask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    -khtml-opacity: 0.5;
+    z-index: 200;
+}
+#linkAlert {
+    position: absolute;
+    left: 20%;
+    top: 20%;
+    background-color: #fff;
+    -webkit-box-shadow: 0 0 0 10px #3B4043;
+    -moz-box-shadow: 0 0 0 10px #3B4043;
+    box-shadow: 0 0 0 10px #3B4043;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    z-index: 201;
+}
+#linkAlertTitle {
+    width: 100%;
+    line-height: 34px;
+    border-bottom: 1px solid #000;
+}
+#linkAlertTitle h3 {
+    float: left;
+    line-height: 34px;
+    margin-left: 10px;
+}
+#linkAlertTitle span {
+    float: right;
+    width: 34px;
+    height: 34px;
+    margin-right: 10px;
+    background: url("../images/alertOff.png") no-repeat;
+    cursor: pointer;
+}
+#linkAlertContent {
+    width: 100%;
+    border-bottom: 1px solid #000;
+}
+#linkAlertBtn {
+    padding: 20px 0;
+    text-align: center;
+}
+#linkAlertBtn button{
+    margin: 0 5px;
+}

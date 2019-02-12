@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ACF68E9C-99D1-41E6-B24F-037879957E0F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Game.Entity</RootNamespace>
+    <AssemblyName>Game.Entity</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Game.Entity.Accounts\AccountsAgent.cs" />
+    <Compile Include="Game.Entity.Accounts\AccountsAgentGame.cs" />
+    <Compile Include="Game.Entity.Accounts\AccountsControl.cs" />
+    <Compile Include="Game.Entity.Accounts\AccountsControlRecord.cs" />
+    <Compile Include="Game.Entity.Accounts\AccountsFace.cs" />
+    <Compile Include="Game.Entity.Accounts\AccountsInfo.cs" />
+    <Compile Include="Game.Entity.Accounts\AccountsMember.cs" />
+    <Compile Include="Game.Entity.Accounts\AccountsProtect.cs" />
+    <Compile Include="Game.Entity.Accounts\AgentInfo.cs" />
+    <Compile Include="Game.Entity.Accounts\AgentMenu.cs" />
+    <Compile Include="Game.Entity.Accounts\AgentSetting.cs" />
+    <Compile Include="Game.Entity.Accounts\AgentStatusInfo.cs" />
+    <Compile Include="Game.Entity.Accounts\AndroidConfigure.cs" />
+    <Compile Include="Game.Entity.Accounts\AUFillConfig.cs" />
+    <Compile Include="Game.Entity.Accounts\BankCard.cs" />
+    <Compile Include="Game.Entity.Accounts\CashSetting.cs" />
+    <Compile Include="Game.Entity.Accounts\ConfineAddress.cs" />
+    <Compile Include="Game.Entity.Accounts\ConfineContent.cs" />
+    <Compile Include="Game.Entity.Accounts\ConfineMachine.cs" />
+    <Compile Include="Game.Entity.Accounts\ControlConfig.cs" />
+    <Compile Include="Game.Entity.Accounts\GameIdentifier.cs" />
+    <Compile Include="Game.Entity.Accounts\IndividualDatum.cs" />
+    <Compile Include="Game.Entity.Accounts\MemberProperty.cs" />
+    <Compile Include="Game.Entity.Accounts\OnlineCount.cs" />
+    <Compile Include="Game.Entity.Accounts\ReserveIdentifier.cs" />
+    <Compile Include="Game.Entity.Accounts\SystemGrantCount.cs" />
+    <Compile Include="Game.Entity.Accounts\SystemStatusInfo.cs" />
+    <Compile Include="Game.Entity.Accounts\SystemStreamInfo.cs" />
+    <Compile Include="Game.Entity.Accounts\T_SpreadLevCfg.cs" />
+    <Compile Include="Game.Entity.Accounts\UserOnline.cs" />
+    <Compile Include="Game.Entity.Enum\GamePropertyKind.cs" />
+    <Compile Include="Game.Entity.Enum\GamePropertyKindHelper.cs" />
+    <Compile Include="Game.Entity.Enum\IssueArea.cs" />
+    <Compile Include="Game.Entity.Enum\IssueAreaHelper.cs" />
+    <Compile Include="Game.Entity.Enum\LogTypeEnum.cs" />
+    <Compile Include="Game.Entity.Enum\MasterRightHelper.cs" />
+    <Compile Include="Game.Entity.Enum\MasterRightStatus.cs" />
+    <Compile Include="Game.Entity.Enum\MemberOrderHelper.cs" />
+    <Compile Include="Game.Entity.Enum\MemberOrderStatus.cs" />
+    <Compile Include="Game.Entity.Enum\NoticeLocation.cs" />
+    <Compile Include="Game.Entity.Enum\NoticeLocationHelper.cs" />
+    <Compile Include="Game.Entity.Enum\PayType.cs" />
+    <Compile Include="Game.Entity.Enum\Permission.cs" />
+    <Compile Include="Game.Entity.Enum\PermissionHelper.cs" />
+    <Compile Include="Game.Entity.Enum\ServerEnum.cs" />
+    <Compile Include="Game.Entity.Enum\ServiceArea.cs" />
+    <Compile Include="Game.Entity.Enum\ServiceAreaHelper.cs" />
+    <Compile Include="Game.Entity.Enum\SupporTypeHelper.cs" />
+    <Compile Include="Game.Entity.Enum\SupporTypeStatus.cs" />
+    <Compile Include="Game.Entity.Enum\UserRightHelper.cs" />
+    <Compile Include="Game.Entity.Enum\UserRightStatus.cs" />
+    <Compile Include="Game.Entity.FrontEntity\AccountsEntity.cs" />
+    <Compile Include="Game.Entity.FrontEntity\AccountsProtectEntity.cs" />
+    <Compile Include="Game.Entity.GameMatch\AndroidManager.cs" />
+    <Compile Include="Game.Entity.GameMatch\ConfineAddress.cs" />
+    <Compile Include="Game.Entity.GameMatch\ConfineMachine.cs" />
+    <Compile Include="Game.Entity.GameMatch\GameColumnItem.cs" />
+    <Compile Include="Game.Entity.GameMatch\GameHistoryScore.cs" />
+    <Compile Include="Game.Entity.GameMatch\GameProperty.cs" />
+    <Compile Include="Game.Entity.GameMatch\GameScoreInfo.cs" />
+    <Compile Include="Game.Entity.GameMatch\GameScoreLocker.cs" />
+    <Compile Include="Game.Entity.GameMatch\MatchImmediate.cs" />
+    <Compile Include="Game.Entity.GameMatch\MatchInfo.cs" />
+    <Compile Include="Game.Entity.GameMatch\MatchLockTime.cs" />
+    <Compile Include="Game.Entity.GameMatch\MatchPublic.cs" />
+    <Compile Include="Game.Entity.GameMatch\MatchReward.cs" />
+    <Compile Include="Game.Entity.GameMatch\MatchWebShow.cs" />
+    <Compile Include="Game.Entity.GameMatch\RecordDrawInfo.cs" />
+    <Compile Include="Game.Entity.GameMatch\RecordDrawScore.cs" />
+    <Compile Include="Game.Entity.GameMatch\RecordUserInout.cs" />
+    <Compile Include="Game.Entity.GameMatch\StreamMatchFeeInfo.cs" />
+    <Compile Include="Game.Entity.GameMatch\StreamMatchHistory.cs" />
+    <Compile Include="Game.Entity.GameMatch\SystemStreamInfo.cs" />
+    <Compile Include="Game.Entity.GameScore\AndroidManager.cs" />
+    <Compile Include="Game.Entity.GameScore\ConfineAddress.cs" />
+    <Compile Include="Game.Entity.GameScore\ConfineMachine.cs" />
+    <Compile Include="Game.Entity.GameScore\GameColumnItem.cs" />
+    <Compile Include="Game.Entity.GameScore\GameProperty.cs" />
+    <Compile Include="Game.Entity.GameScore\GameScoreInfo.cs" />
+    <Compile Include="Game.Entity.GameScore\GameScoreLocker.cs" />
+    <Compile Include="Game.Entity.GameScore\RecordDrawInfo.cs" />
+    <Compile Include="Game.Entity.GameScore\RecordDrawScore.cs" />
+    <Compile Include="Game.Entity.GameScore\RecordUserInout.cs" />
+    <Compile Include="Game.Entity.GameScore\SystemStreamInfo.cs" />
+    <Compile Include="Game.Entity.NativeWeb\Activity.cs" />
+    <Compile Include="Game.Entity.NativeWeb\Admin.cs" />
+    <Compile Include="Game.Entity.NativeWeb\Ads.cs" />
+    <Compile Include="Game.Entity.NativeWeb\AwardInfo.cs" />
+    <Compile Include="Game.Entity.NativeWeb\AwardOrder.cs" />
+    <Compile Include="Game.Entity.NativeWeb\AwardType.cs" />
+    <Compile Include="Game.Entity.NativeWeb\ConfigInfo.cs" />
+    <Compile Include="Game.Entity.NativeWeb\GameAccuseInfo.cs" />
+    <Compile Include="Game.Entity.NativeWeb\GameFeedbackInfo.cs" />
+    <Compile Include="Game.Entity.NativeWeb\GameIssueInfo.cs" />
+    <Compile Include="Game.Entity.NativeWeb\GameMatchInfo.cs" />
+    <Compile Include="Game.Entity.NativeWeb\GameMatchUserInfo.cs" />
+    <Compile Include="Game.Entity.NativeWeb\GameMobileInfo.cs" />
+    <Compile Include="Game.Entity.NativeWeb\GameRulesInfo.cs" />
+    <Compile Include="Game.Entity.NativeWeb\LossReport.cs" />
+    <Compile Include="Game.Entity.NativeWeb\MobileInfo.cs" />
+    <Compile Include="Game.Entity.NativeWeb\News.cs" />
+    <Compile Include="Game.Entity.NativeWeb\Notice.cs" />
+    <Compile Include="Game.Entity.NativeWeb\PlatformDraw.cs" />
+    <Compile Include="Game.Entity.NativeWeb\SinglePage.cs" />
+    <Compile Include="Game.Entity.PlatformManager\Base_Module.cs" />
+    <Compile Include="Game.Entity.PlatformManager\Base_ModulePermission.cs" />
+    <Compile Include="Game.Entity.PlatformManager\Base_RolePermission.cs" />
+    <Compile Include="Game.Entity.PlatformManager\Base_Roles.cs" />
+    <Compile Include="Game.Entity.PlatformManager\Base_UserRole.cs" />
+    <Compile Include="Game.Entity.PlatformManager\Base_Users.cs" />
+    <Compile Include="Game.Entity.PlatformManager\GrantInfo.cs" />
+    <Compile Include="Game.Entity.PlatformManager\GrantTimeCountsInfo.cs" />
+    <Compile Include="Game.Entity.PlatformManager\ModulePage.cs" />
+    <Compile Include="Game.Entity.PlatformManager\QPAdminSiteInfo.cs" />
+    <Compile Include="Game.Entity.PlatformManager\SystemSecurity.cs" />
+    <Compile Include="Game.Entity.Platform\DataBaseInfo.cs" />
+    <Compile Include="Game.Entity.Platform\GameConfig.cs" />
+    <Compile Include="Game.Entity.Platform\GameGameItem.cs" />
+    <Compile Include="Game.Entity.Platform\GameKindItem.cs" />
+    <Compile Include="Game.Entity.Platform\GameNodeItem.cs" />
+    <Compile Include="Game.Entity.Platform\GamePageItem.cs" />
+    <Compile Include="Game.Entity.Platform\GameProperty.cs" />
+    <Compile Include="Game.Entity.Platform\GamePropertySub.cs" />
+    <Compile Include="Game.Entity.Platform\GamePropertyType.cs" />
+    <Compile Include="Game.Entity.Platform\GameRoomInfo.cs" />
+    <Compile Include="Game.Entity.Platform\GameTypeItem.cs" />
+    <Compile Include="Game.Entity.Platform\GlobalPlayPresent.cs" />
+    <Compile Include="Game.Entity.Platform\GrowLevelConfig.cs" />
+    <Compile Include="Game.Entity.Platform\MobileKindItem.cs" />
+    <Compile Include="Game.Entity.Platform\OnLineStatusInfo.cs" />
+    <Compile Include="Game.Entity.Platform\OnLineStreamInfo.cs" />
+    <Compile Include="Game.Entity.Platform\QPAdminSiteInfo.cs" />
+    <Compile Include="Game.Entity.Platform\SigninConfig.cs" />
+    <Compile Include="Game.Entity.Platform\SystemMessage.cs" />
+    <Compile Include="Game.Entity.Platform\TaskInfo.cs" />
+    <Compile Include="Game.Entity.Record\AdvertTask.cs" />
+    <Compile Include="Game.Entity.Record\BarrenGameLog.cs" />
+    <Compile Include="Game.Entity.Record\RecordAccountsExpend.cs" />
+    <Compile Include="Game.Entity.Record\RecordConvertPresent.cs" />
+    <Compile Include="Game.Entity.Record\RecordConvertUserMedal.cs" />
+    <Compile Include="Game.Entity.Record\RecordEncashPresent.cs" />
+    <Compile Include="Game.Entity.Record\RecordEveryDayData.cs" />
+    <Compile Include="Game.Entity.Record\RecordEveryDayRoomData.cs" />
+    <Compile Include="Game.Entity.Record\RecordGrantClearFlee.cs" />
+    <Compile Include="Game.Entity.Record\RecordGrantClearScore.cs" />
+    <Compile Include="Game.Entity.Record\RecordGrantExperience.cs" />
+    <Compile Include="Game.Entity.Record\RecordGrantGameID.cs" />
+    <Compile Include="Game.Entity.Record\RecordGrantGameScore.cs" />
+    <Compile Include="Game.Entity.Record\RecordGrantMember.cs" />
+    <Compile Include="Game.Entity.Record\RecordGrantTreasure.cs" />
+    <Compile Include="Game.Entity.Record\RecordPasswdExpend.cs" />
+    <Compile Include="Game.Entity.Record\RecordSendPresent.cs" />
+    <Compile Include="Game.Entity.Record\RecordSendProperty.cs" />
+    <Compile Include="Game.Entity.Record\RecordTask.cs" />
+    <Compile Include="Game.Entity.Record\TAdvertiser.cs" />
+    <Compile Include="Game.Entity.Record\T_Rec_AdvertTaskKindsEntity.cs" />
+    <Compile Include="Game.Entity.Treasure\AndroidManager.cs" />
+    <Compile Include="Game.Entity.Treasure\ConfineAddress.cs" />
+    <Compile Include="Game.Entity.Treasure\ConfineMachine.cs" />
+    <Compile Include="Game.Entity.Treasure\GameColumnItem.cs" />
+    <Compile Include="Game.Entity.Treasure\GameScoreInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\GameScoreLocker.cs" />
+    <Compile Include="Game.Entity.Treasure\GlobalAppInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\GlobalLivcard.cs" />
+    <Compile Include="Game.Entity.Treasure\GlobalShareInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\GlobalSpreadInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\LivcardAssociator.cs" />
+    <Compile Include="Game.Entity.Treasure\LivcardBuildStream.cs" />
+    <Compile Include="Game.Entity.Treasure\LotteryConfig.cs" />
+    <Compile Include="Game.Entity.Treasure\LotteryItem.cs" />
+    <Compile Include="Game.Entity.Treasure\MemberCard.cs" />
+    <Compile Include="Game.Entity.Treasure\MemberType.cs" />
+    <Compile Include="Game.Entity.Treasure\OffLineQrCode.cs" />
+    <Compile Include="Game.Entity.Treasure\OnLineOrder.cs" />
+    <Compile Include="Game.Entity.Treasure\PlayerControl.cs" />
+    <Compile Include="Game.Entity.Treasure\RecordAgentInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\RecordBuyMember.cs" />
+    <Compile Include="Game.Entity.Treasure\RecordCurrencyChange.cs" />
+    <Compile Include="Game.Entity.Treasure\RecordDrawInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\RecordDrawScore.cs" />
+    <Compile Include="Game.Entity.Treasure\RecordExchCurrency.cs" />
+    <Compile Include="Game.Entity.Treasure\RecordInsure.cs" />
+    <Compile Include="Game.Entity.Treasure\RecordSpreadInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\RecordType.cs" />
+    <Compile Include="Game.Entity.Treasure\RecordUserInout.cs" />
+    <Compile Include="Game.Entity.Treasure\RecordUserRevenue.cs" />
+    <Compile Include="Game.Entity.Treasure\ReturnAppDetailInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\ReturnDayDetailInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\ReturnKQDetailInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\ReturnVBDetailInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\ReturnYPDetailInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\ShareDetailInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\StreamPlayPresent.cs" />
+    <Compile Include="Game.Entity.Treasure\StreamShareInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\SystemStreamInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\T_PayPlatformInfo.cs" />
+    <Compile Include="Game.Entity.Treasure\UserCurrencyInfo.cs" />
+    <Compile Include="Game.Entity\ApplicationConfig.cs" />
+    <Compile Include="Game.Entity\MailConfig.cs" />
+    <Compile Include="Game.Entity\SQLResult.cs" />
+    <Compile Include="Game.Entity\SysConfig.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Game.Utils\Game.Utils.csproj">
+      <Project>{1f8c1dfd-68d9-4624-bd66-4571beb37916}</Project>
+      <Name>Game.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

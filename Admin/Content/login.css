@@ -1,0 +1,161 @@
+﻿@charset "utf-8";
+/* CSS reset */
+html{color:#000;background: url("/Content/images/login_bg.png") repeat;font-family:Arial,'Microsoft YaHei','宋体';}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td,strong{padding:0;margin:0;font-family:'Microsoft YaHei',Arial,'宋体';}
+img{border:0;}
+a{text-decoration:none; outline:none;}/*此处待添加默认链接颜色*/
+em,strong{font-style:normal;}
+em,strong,{font-style:inherit;font-weight:inherit;}
+del,ins{text-decoration:none;}
+li{list-style:none;}
+caption,th{text-align:left;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+q:before,q:after{content:'';}
+abbr,acronym{border:0;font-variant:normal;}
+sup{vertical-align:baseline;}
+sub{vertical-align:baseline;}
+legend{color:#000;}
+input,button,textarea,select,optgroup,option{font-family:inherit; font-size:inherit;font-style:inherit;font-weight:inherit;}
+input,button,textarea,select{*font-size:100%;}
+body{/*-webkit-user-select:none;*/-webkit-text-size-adjust:none;}
+*{-webkit-tap-highlight-color:rgba(0,0,0,0);}
+a:link,
+a:visited,
+a:active{text-decoration:none;} 
+@media only screen and (max-width: 750px) {
+    .main {
+        height: auto;      
+    }
+    .main-list div {
+        height: 3.5rem;
+        margin-bottom: .8rem;
+    }
+    .code-pic {
+        height: 3.2rem;
+    }
+    body .main-list div label {
+        line-height: 3.5rem;
+    }
+    .main-list .login-btn {
+
+        height: 4rem;
+        margin: -10px 37% 0;
+        background: url("/Content/images/login_btn.png") 0 0 no-repeat;
+        background-size: 16rem 8rem;
+    }
+    .header { 
+        margin-top: 1.5rem;
+    }
+
+    .header h4 {
+        height: 3rem;
+        line-height: 3rem;
+    }
+}
+
+@media only screen and (min-width:1200px ) {
+    .main-list{
+        height: 427px;
+    }
+    .main {
+        height: 427px;
+        background: url("/Content/images/login_main_bg.png") no-repeat;
+        background-size: 100% 100%;
+        
+    } 
+    .main-list div {
+        height: 38px;
+        margin-bottom: 20px;
+    }
+    .main-list .login-btn {
+        height: 59px;
+    }
+    .main-list .login-btn {
+        height: 59px;
+        margin: 35px 15% 0;
+        background: url("/Content/images/login_btn.png") 0 0 no-repeat;
+    }
+    .login-btn:hover {
+        background-position: 0 -59px;
+    }
+    .header {
+        margin-top: 150px;
+        font-size: 18px;
+    }
+
+    .header h4 {
+        height: 38px;   
+        line-height: 38px;
+    }
+}
+ html, body {
+    width: 100%;
+    background-color: transparent;
+}
+body .padding-margin-0 {
+    padding: 0;
+    margin: 0;
+}
+.wrap {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+.header {
+    margin-bottom: 20px;
+}
+.header h4 {
+    margin: 0 auto;
+    background: url("/Content/images/login_title_bg.png") no-repeat;
+    background-size: 100% 100%;
+    color: #ffe9bd;
+    text-align: center;
+}
+.main-list {
+    position: relative;
+    padding-top: 2rem;
+    background-color: #fff;
+}
+.main-list div {
+    position: relative;
+    width: 100%;                  
+}             
+body .main-list div label {
+    margin-right: 2%;
+    text-align: right;
+}
+
+.main-list div input {
+    height: 100%;
+}
+
+.main-list p {
+    color: #676767;
+    text-align: center;
+}
+
+.main-list a {
+    margin-left: 10px;
+}
+
+.code-pic {
+    position: absolute;
+    right: 15%;
+    top: 1px;
+    width: 20%;
+    border-radius: 4px 4px;
+    cursor: pointer;
+}
+
+.main-list .login-btn {
+    width: 80%;
+    border: none;
+    outline: none;
+}
+.footer {
+    height: 10rem;
+    background: url("/Content/images/login_main.png") no-repeat;
+    background-size: 100% 100%;
+    margin: 0 auto;
+}
+

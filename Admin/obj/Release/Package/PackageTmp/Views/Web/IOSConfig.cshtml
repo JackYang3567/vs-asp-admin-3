@@ -1,0 +1,386 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "IOS配置";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/pagination.js"></script>
+    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+    <style>
+        p {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="content" class="main-content">
+        <div class="carousel box-inner">
+            <div class="box-header well clearfix" data-original-title="">
+                <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+            </div>
+            @Html.HtmlWebConfigMuneBuilder(-1)
+            <div class="tab-content" style="margin-top:-11px">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@ViewBag.Title</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="box-content" style="overflow: hidden; display: block;">
+                            <!--查询栏开始-->
+                            <div class="alert alert-info">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <ul class="list-inline cursor-style">
+                                            <li>
+                                                <input type="text" placeholder="输入代理账号或代理ID" id="txtSearch" class="form-control input-sm" style="width:300px;">
+                                            </li>
+                                            <li>
+                                                <select id="ddlTradeType" class="form-control input-sm">
+                                                    <option value="-1" selected="selected">是否苹果内购</option>
+                                                    <option value="0">是</option>
+                                                    <option value="1">否</option>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <a id="btnQuery" class="btn btn-success search" href="#"><i class="glyphicon glyphicon-zoom-in icon-white"></i>查询</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--查询栏结束-->
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div id="DataTables_Table_0_length" class="dataTables_length">
+                                        <label>
+                                            <select size="1" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" id="pagecount">
+                                                <option value="10" selected="selected">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select> 条/页
+                                        </label>
+                                        <div class="dataTables_info" id="DataTables_Table_0_info">显示 1 至 10 共 10 条</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-10" style="padding-bottom:5px; padding-top:5px; text-align:right;">
+                                    <div class="btn-group btn-group">
+                                        <button type="button" class="btn btn-success" onclick="add();"><i class="glyphicon glyphicon-plus icon-white"></i>新增</button>
+                                        <button type="button" class="btn btn-danger" onclick="del(0);"><i class="glyphicon glyphicon-trash icon-white"></i>删除</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--table开始-->
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                                <table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th><input name="ckall" type="checkbox" value="" onclick="SelectAll(this,'cid')" /></th>
+                                            <th>代理ID</th>
+                                            <th>代理账号</th>
+                                            <th>代理名称</th>
+                                            <th>主版本号</th>
+                                            <th>资源版本号</th>
+                                            <th>是否苹果内购</th>
+                                            <th>极光推送Key</th>
+                                            <th>极光推送Secret</th>
+                                            <th>IOS下载地址</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                                </table>
+                                <!--分页控件-->
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="dataTables_paginate paging_bootstrap pagination" style="float:right;">
+                                            <ul class="pagination" id="pagin"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--table结束-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        设置
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>代理账号：<label id="lblAgentAcc"></label></p>
+                    <p>
+                        代理名称：<input type="text" id="txtAgentName" class="form-control" maxlength="10" />
+                    </p>
+                    <p>主版本号：<input type="text" id="txtVersionNo" class="form-control" maxlength="5" /></p>
+                    <p>资源版本号：<input type="text" id="txtSrcVersionNo" class="form-control" maxlength="5" /></p>
+                    <p>
+                        苹果内购：
+                        <label class="radio-inline">
+                            <input type="radio" name="IsIOS" value="1">是
+                        </label><label class="radio-inline"><input type="radio" name="IsIOS" value="0">否</label>
+                    </p>
+                    <p>AppKey：<input type="text" id="txtAppKey" class="form-control" maxlength="32" /></p>
+                    <p>AppSecret：<input type="text" id="txtAppSecret" class="form-control" maxlength="32" /></p>
+                    <p>IOS下载地址：<input type="text" id="txtAppUrl" class="form-control" maxlength="500" /></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        关闭
+                    </button>
+                    <button type="button" id="btnSave" class="btn btn-primary">
+                        提交更改
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <script type="text/javascript">
+        var postData = {};//搜索条件
+        $(document).ready(function () {
+            docReady();
+
+            $('#btnSave').click(function () {
+                update();
+            })
+        });
+        function docReady() {
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.pageIndex = 1;
+            AjaxSearch();
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+            //选择页码
+            $("#pagecount").change(function (e) {
+                postData.pageSize = parseInt($(this).val());
+                postData.pageIndex = 1;
+                AjaxSearch();
+            });
+
+            //普通搜索事件
+            $("#btnQuery").click(function (e) {
+                e.preventDefault();
+                postData.pageIndex = 1;
+                AjaxSearch();
+            });
+        }
+        function AjaxSearch() {
+            var keyword = $("#txtSearch").val().trim();
+            if (keyword != "") {
+                postData.keyword = keyword;
+            }
+            var stute = parseInt($("#ddlTradeType").val());
+            if (stute == 0 || stute == 1) {
+                postData.stute = stute;
+            } else {
+                postData.stute = 3;
+            }
+            $('#pagin').paging("/Web/GetIOSConfigs", postData, CreatTableBody, postData.pageIndex);
+        }
+        var json = [];
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex) {
+            var html = "";
+            if (jsondata != null && jsondata.length > 0) {
+                json = jsondata;
+                $.each(jsondata, function (i, item) {
+                    html += stringFormat("<tr>");
+                    html += stringFormat("<td style=\"width: 30px;\"><input name='cid' type='checkbox' value='{0}'/></td>", item.AgentID);
+                    html += stringFormat("<td>{0}</td>", item.AgentID);
+                    html += stringFormat("<td>{0}</td>", item.AgentAcc);
+                    html += stringFormat("<td>{0}</td>", item.AgentName);
+                    html += stringFormat("<td>{0}</td>", item.VersionNo);
+                    html += stringFormat("<td>{0}</td>", item.SrcVersionNo);
+                    html += stringFormat("<td>{0}</td>", item.IsIOSShop ? "是" : "否");
+                    html += stringFormat("<td>{0}</td>", item.AppKey);
+                    html += stringFormat("<td>{0}</td>", item.AppSecret);
+                    html += stringFormat("<td>{0}</td>", item.AppUrl != null ? decodeURI(item.AppUrl) : "");
+                    html += stringFormat("<td><a href=\"javascript:void(0)\" class=\"l\" onclick=\"UpdateShow({0})\">{1}</a>&nbsp;<a href=\"javascript:void(0)\" class=\"l\" onclick=\"del({2})\">删除</a></td>", i, "更新", item.AgentID);
+                    html += "</tr>";
+                });
+            }
+            $("#DataTables_Table_0_wrapper tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * postData.pageSize + 1), ((pageIndex * postData.pageSize) < pageTotal ? (pageIndex * postData.pageSize) : pageTotal), pageTotal));
+        }
+        function add() {
+            var html = "<tr>";
+            html += "<td></td><td></td>";
+            html += "<td><input type=\"text\" placeholder=\"输入代理账号\" id=\"AgentAcc\" class=\"form-control input-sm\" style=\"width:150px;\"/></td>";
+            html += "<td><input type=\"text\" placeholder=\"输入代理名称\" id=\"AgentName\" class=\"form-control input-sm\" style=\"width:150px;\"/></td>";
+            html += "<td><input type=\"text\" placeholder=\"输入主版本号\" id=\"VersionNo\" class=\"form-control input-sm\" style=\"width:150px;\"/></td>";
+            html += "<td><input type=\"text\" placeholder=\"输入资源版本号\" id=\"SrcVersionNo\" class=\"form-control input-sm\" style=\"width:150px;\"/></td>";
+            html += "<td><label class=\"radio-inline\"><input type=\"radio\" name=\"IsIOSShop\"  value=\"1\" checked>是</label><label class=\"radio-inline\"><input type=\"radio\" name=\"IsIOSShop\"  value=\"0\">否</label></td>";
+            html += "<td><input type=\"text\" placeholder=\"输入极光推送key\" id=\"AppKey\" class=\"form-control input-sm\" style=\"width:150px;\"/></td>";
+            html += "<td><input type=\"text\" placeholder=\"输入极光推送Sercet\" id=\"AppSecret\" class=\"form-control input-sm\" style=\"width:150px;\"/></td>";
+            html += "<td><input type=\"text\" placeholder=\"输入IOS下载地址\" id=\"AppUrl\" class=\"form-control input-sm\" style=\"width:150px;\"/></td>";
+            html += "<td><a href=\"javascript:void(0)\" class=\"l\" onclick=\"save(this)\">保存</a>&nbsp;<a href=\"javascript:void(0)\" class=\"l\" onclick=\"cansel(this)\">取消</a></td>";
+            html += "</tr>";
+            $("#DataTables_Table_0_wrapper tbody").prepend(html);
+        }
+        var agentId = 0;
+        function UpdateShow(i) {
+            var obj = json[i];
+            agentId = obj.AgentID;
+            $("#lblAgentAcc").text(obj.AgentAcc);
+            $("#txtAgentName").val(obj.AgentName);
+            $("#txtVersionNo").val(obj.VersionNo);
+            $("#txtSrcVersionNo").val(obj.SrcVersionNo);
+            $("#txtAppKey").val(obj.AppKey);
+            $("#txtAppSecret").val(obj.AppSecret);
+            $("#txtAppUrl").val(obj.AppUrl);
+            var ios = obj.IsIOSShop ? 1 : 0
+            $(":radio[name='IsIOS'][value='" + ios + "']").prop("checked", "checked");
+            $('#myModal').modal('show');
+        }
+
+
+        function update() {
+            var VersionNo = $("#txtVersionNo").val();
+            var SrcVersionNo = $("#txtSrcVersionNo").val();
+            var AgentName = $("#txtAgentName").val();
+            if (AgentName == "") {
+                alert("代理名称不能为空");
+                return false;
+            }
+            if (VersionNo == "") {
+                alert("主版本号不能为空");
+                return false;
+            }
+            if (isNaN(VersionNo)) {
+                alert("主版本号只能为数字");
+                return false;
+            }
+            if (SrcVersionNo == "") {
+                alert("资源版本号不能为空");
+                return false;
+            }
+            if (isNaN(SrcVersionNo)) {
+                alert("资源版本号只能为数字");
+                return false;
+            }
+
+            var IsIOSShop = $("input[name='IsIOS']:checked").val();
+
+            var AppKey = $("#txtAppKey").val();
+            var AppSecret = $("#txtAppSecret").val();
+            var AppUrl = $("#txtAppUrl").val();
+
+            var data = { AgentID: agentId, AgentName: AgentName, VersionNo: VersionNo, SrcVersionNo: SrcVersionNo, IsIOSShop: IsIOSShop, AppKey: AppKey, AppSecret: AppSecret, AppUrl: AppUrl };
+
+            AjaxSubmit("/Web/UpdateIOSConfig", data, callBack, "update");
+        }
+        function save(o) {
+            var tr = $(o).parent().parent();
+            var AgentAcc = $("#AgentAcc").val();
+            var AgentName = $("#AgentName").val();
+            var VersionNo = $("#VersionNo").val();
+            var SrcVersionNo = $("#SrcVersionNo").val();
+            var IsIOSShop = $("input[name='IsIOSShop'][checked]").val();
+            var AppKey = $("#AppKey").val();
+            var AppSecret = $("#AppSecret").val();
+            var AppUrl = $("#AppUrl").val();
+            if (AgentAcc == "") {
+                alert("代理号不能为空");
+                return false;
+            }
+            if (AgentName == "") {
+                alert("代理名称不能为空");
+                return false;
+            }
+            if (VersionNo == "") {
+                alert("主版本号不能为空");
+                return false;
+            }
+            if (isNaN(VersionNo)) {
+                alert("主版本号只能为数字");
+                return false;
+            }
+            if (SrcVersionNo == "") {
+                alert("资源版本号不能为空");
+                return false;
+            }
+            if (isNaN(SrcVersionNo)) {
+                alert("资源版本号只能为数字");
+                return false;
+            }
+            var data = { AgentAcc: AgentAcc, AgentName: AgentName, IsIOSShop: IsIOSShop, VersionNo: VersionNo, SrcVersionNo: SrcVersionNo, AppKey: AppKey, AppSecret: AppSecret, AppUrl: AppUrl };
+            AjaxSubmit("/Web/AddIOSConfig", data, callBack, "add");
+        }
+        function cansel(o) {
+            var tr = $(o).parent().parent().remove();
+        }
+        function del(id) {
+            var AgentID = "";
+            if (id == 0) {
+                AgentID = GetSelectValues();
+                if (AgentID == "") {
+                    alert("未选中任何项");
+                    return false;
+                }
+            } else {
+                AgentID = id;
+            }
+            if (confirm("你确定要删除吗？")) {
+                var data = { AgentID: AgentID };
+                AjaxSubmit("/Web/DelIOSConfig", data, callBack, "del");
+            }
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "del":
+                    AjaxSearch();
+                    break;
+                case "add":
+                    alert(jsonData.Msg);
+                    AjaxSearch();
+                    break;
+                case "update":
+                    alert(jsonData.Msg);
+                    $('#myModal').modal('hide');
+                    AjaxSearch();
+                    break;
+            }
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+    </script>
+</body>
+</html>

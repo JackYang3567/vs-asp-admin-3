@@ -1,0 +1,125 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "客服中心 - 举报处理";
+}
+@model Game.Entity.NativeWeb.GameAccuseInfo
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+
+        <div class="carousel box-inner">
+            <div class="box-header well clearfix" data-original-title="">
+                <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+            </div>
+            <div class="tab-content" style="margin-top:0px">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">举报处理</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">举报内容：</div>
+                            <div class="col-xs-6 col-md-3">
+                                @Model.Content
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">被举报ID：</div>
+                            <div class="col-xs-6 col-md-3">
+                                @Model.TarGameID
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">举报人：</div>
+                            <div class="col-xs-6 col-md-3">
+                               @Model.Accounts
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">举报时间：</div>
+                            <div class="col-xs-6 col-md-3">
+                                @Model.AccuseTime
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">回复内容：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <textarea id="txtBody" class="form-control input-sm" style="width:350px;display:inline;" rows="10">@Model.DealerMark</textarea>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">处理人：</div>
+                            <div class="col-xs-6 col-md-3">
+                                @Model.Dealer
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">处理时间：</div>
+                            <div class="col-xs-6 col-md-3">
+                                @Model.DealTime
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <ul class="list-inline">
+                                <li><a class="btn btn-success search btn-md" href="@Url.Action("ReportList", "Customer")"><i class="glyphicon glyphicon-arrow-left"></i>返回</a></li>
+                                <li><a class="btn btn-primary search btn-md" href="#" id="btn"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            docReady();
+        });
+        function docReady() {
+            $("#btn").click(function (e) {
+                Save();
+            });
+        }
+        function Save() {
+            var data = {};
+            var param = GetQueryString("param");
+           
+            var body = $("#txtBody").val().trim();
+            if (body == "") {
+                alert("回复内容不能为空");
+                return false;
+            }
+            data.body = body;
+            data.param = param
+            AjaxSubmit("/Customer/DoReport", data, callBack, "save");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "save":
+                    alert(jsonData.Msg);
+                    window.location.href = "/Customer/ReportList";
+                    break;
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,294 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "代理系统 - 财务报表";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/pagination.js"></script>
+
+    <link href="~/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        font {
+            margin: 0 10px;
+            color: red;
+        }
+        p span {
+            margin: 0 10px;
+            color: red;
+            font-size:20px;
+        }
+    </style>
+</head>
+<body class="backgroud">
+    <div id="content" class="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box-inner">
+                    <div class="box-content" style="overflow: hidden; display: block;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div id="DataTables_Table_0_length" class="dataTables_length">
+                                    <label>
+                                        <select size="1" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" id="pagecount">
+                                            <option value="12" selected="selected">12</option>
+                                            <option value="24">24</option>
+                                            <option value="36">36</option>
+                                            <option value="48">48</option>
+                                        </select> 条/页
+                                    </label>
+                                    <div class="dataTables_info" id="DataTables_Table_0_info">显示 1 至 10 共 10 条</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p style="margin-left:30px;">提示：报表数据<span>不含今日</span><span>不含今日</span><span>不含今日</span></p>
+                            <p style="margin-left:30px;">计算公式：充值手续费=总充值*充值汇率<font>实际充值=总充值-充值手续费</font>提现手续费=单笔手续费*提现次数<font>实际提现=总提现+提现手续费</font>实际收入=实际充值-实际提现<font>提成=实际收入*提成比例</font></p>
+                        </div>
+                        <!--table开始-->
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                            <table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th>时间</th>
+                                        <th>总充值</th>
+                                        <th>总充值(代理可见)</th>
+                                        <th>充值汇率</th>
+                                        <th>充值手续费</th>
+                                        <th>实际充值</th>
+                                        <th>总提现</th>
+                                        <th>单笔手续费</th>
+                                        <th>提现次数</th>
+                                        <th>提现手续费</th>
+                                        <th>实际提现</th>
+                                        <th>实际收入</th>
+                                        <th>提成比例</th>
+                                        <th>提成</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                            </table>
+                            <!--分页控件-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="dataTables_paginate paging_bootstrap pagination" style="float:right;">
+                                        <ul class="pagination" id="pagin"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--table结束-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        设置
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    提成比例：<input type="text" id="txtFillRevRate" value="" />%<br /><br />
+                    充值汇率：<input type="text" id="txtFillRate" value="" />%<br /><br />
+                    单笔提现手续费：<input type="text" id="txtDrawFee" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        关闭
+                    </button>
+                    <button type="button" id="btnSave" class="btn btn-primary">
+                        提交更改
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <script type="text/javascript">
+        var pageObj = {};
+        var postData = {};//搜索条件
+        $(document).ready(function () {
+            docReady();
+        });
+        function docReady() {
+            //加载数据
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.pageIndex = 1;
+            postData.agentId = '@Request["agentId"]';
+            AjaxSearch(postData);
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+            //选择页码
+            $("#pagecount").change(function (e) {
+                postData.pageSize = parseInt($(this).val());
+                postData.pageIndex = 1;
+                AjaxSearch(postData);
+            });
+            //普通搜索事件
+            $("#btnQuery").click(function (e) {
+                postData.pageSize = parseInt($("#pagecount").val());
+                AjaxSearch(postData);
+            });
+
+            //$("#myModal").modal({
+            //    remote: "test/test.jsp",//可以填写一个url，会调用jquery load方法加载数据
+            //    backdrop: "static",//指定一个静态背景，当用户点击背景处，modal界面不会消失
+            //    keyboard: true//当按下esc键时，modal框消失
+            //})
+
+            var id = 0;
+            $('.set').click(function () {
+                var i = $(this).attr("data-index");
+                var obj = json[i];
+                $('#txtFillRevRate').val(obj.FillRevRate);
+                $('#txtFillRate').val(obj.FillRate);
+                $('#txtDrawFee').val(obj.DrawFee);
+                id = obj.ID;
+            })
+            $('.queren').click(function () {
+                var i = $(this).attr("data-index");
+                var obj = json[i];
+                id = obj.ID;
+                if (obj.FillRevRate == 0)
+                {
+                    alert("请先设置提成比例");
+                    return;
+                }
+                if (obj.CheckStatus !=1) {
+                    alert("状态应为等待运营商确认");
+                    return;
+                }
+                
+                AjaxSubmit("/Daili/UpdateState", { ID: id }, callBack, "UpdateState");
+            })
+
+            $("#btnSave").click(function () {
+                if (id == 0) {
+                    alert("参数id错误");
+                    return;
+                }
+                var FillRevRate = $('#txtFillRevRate').val();
+                var FillRate = $('#txtFillRate').val();
+                var DrawFee = $('#txtDrawFee').val();
+                if (FillRevRate == "" || FillRate == "" || DrawFee=="") {
+                    alert("输入错误");
+                    return;
+                }
+                var reg = /^[0-9]*$/;
+                if (!reg.test(FillRevRate) || !reg.test(FillRate)) {
+                    alert("输入格式错误");
+                    return;
+                }
+                alert(id);
+                AjaxSubmit("/Daili/SetRate", { ID: id, FillRevRate: FillRevRate, FillRate: FillRate, DrawFee: DrawFee }, callBack, "SetRate");
+            })
+        }
+        function callBack(jsonData, fname) {
+            alert(jsonData.Msg);
+            switch (fname) {
+                case "SetRate":
+                    $('#myModal').modal('hide');
+                    break;
+                default:
+                    break;
+            }
+            AjaxSearch(postData);
+        }
+        //搜索事件
+        function AjaxSearch(postData) {
+            $('#pagin').paging("/Daili/GetReportList", postData, CreatTableBody, postData.pageIndex);
+        }
+        var json = [];
+        //绑定数据
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex, msg) {
+            var html = "";
+            json = jsondata;
+            if (jsondata != null && jsondata.length > 0) {
+                $.each(jsondata, function (i, item) {
+                    var payfee = (item.sFillAmount * item.FillRate / 100).toFixed(2);
+                    var pay = item.sFillAmount - payfee;
+                    var drawfee = item.DrawFee * item.DrawTimes;
+                    var draw = item.DrawAmount + drawfee;
+                    var shijishouru=(pay - draw).toFixed(2);
+                    var caozuo = "";
+                    if (item.CheckStatus < 3)
+                        caozuo += "<a class='set' href=\"javascript:void(0)\" data-index=\"{0}\" data-id=\"{1}\" data-toggle=\"modal\" data-target=\"#myModal\">设置</a>";
+                    if (item.CheckStatus == 1)
+                        caozuo += " <a class='queren' href=\"javascript:void(0)\" data-index=\"{0}\" data-id=\"{1}\">确认无误</a>";
+                    html += stringFormat("<tr>");
+                    html += stringFormat("<td>{0}</td>", item.YearMonth);
+                    html += stringFormat("<td>{0}</td>", item.FillAmount);
+                    html += stringFormat("<td>{0}</td>", item.sFillAmount);
+                    html += stringFormat("<td>{0}</td>", item.FillRate + '%');
+                    html += stringFormat("<td>{0}</td>", payfee);
+                    html += stringFormat("<td>{0}</td>", pay);
+                    html += stringFormat("<td>{0}</td>", item.DrawAmount);
+                    html += stringFormat("<td>{0}</td>", item.DrawFee);
+                    html += stringFormat("<td>{0}</td>", item.DrawTimes);
+                    html += stringFormat("<td>{0}</td>", drawfee);
+                    html += stringFormat("<td>{0}</td>", draw);
+                    html += stringFormat("<td>{0}</td>", shijishouru);
+                    html += stringFormat("<td>{0}</td>", item.FillRevRate == 0 ? "未设置" : item.FillRevRate + '%');
+                    html += stringFormat("<td>{0}</td>", item.FillRevRate == 0 ? "未设置提成比例" : (shijishouru * item.FillRevRate / 100).toFixed(2));
+                    html += stringFormat("<td>{0}</td>", GetState(item.CheckStatus));
+                    html += stringFormat("<td>" + caozuo + "</td>", i, item.ID);
+                    html += "</tr>";
+                });
+            }
+            //if (msg != null) {
+            //    html += stringFormat("<tr><td colspan=\"5\">合计：</td><td>{0}</td><td>{1}</td><td>{2}</td></tr>", msg.PayAmount, payrate + '%', (msg.PayAmount * (1 - payrate / 100)).toFixed(2));
+            //}
+            $("#DataTables_Table_0_wrapper tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * postData.pageSize + 1), ((pageIndex * postData.pageSize) < pageTotal ? (pageIndex * postData.pageSize) : pageTotal), pageTotal));
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+        function GetState(state) {
+            switch (state) {
+                case 0:
+                    return "本月统计中"
+                case 1:
+                    return "<font color=red>等待运营商确认</font>"
+                case 2:
+                    return "<font color=blue>等待代理确认</font>"
+                case 3:
+                    return "<font color=green>双方确认完毕</font>"
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "充值系统 - 苹果记录";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+                    <div class="panel panel-primary" style="margin-left:-10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">基本信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">订单号码：</div>
+                                <div class="col-xs-6 col-md-3"><label id="litOrderID">@(ViewBag.OrderID != null ? ViewBag.OrderID : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">订单金额：</div>
+                                <div class="col-xs-6 col-md-3"><label id="litPayAmount">@(ViewBag.PayAmount != null ? ViewBag.PayAmount : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">商品名称：</div>
+                                <div class="col-xs-6 col-md-3"><label id="litproduct_id">@(ViewBag.product_id != null ? ViewBag.product_id : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">充值用户：</div>
+                                <div class="col-xs-6 col-md-3"><label id="litUserID">@(ViewBag.UserID != null ? ViewBag.UserID : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">购买数量：</div>
+                                <div class="col-xs-6 col-md-3"><label id="litquantity">@(ViewBag.quantity != null ? ViewBag.quantity : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">订单状态：</div>
+                                <div class="col-xs-6 col-md-3"><label id="litStatus">@(ViewBag.Status != null ? Html.Raw(ViewBag.Status) : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">充值时间：</div>
+                                <div class="col-xs-6 col-md-3"><label id="litCollectDate">@(ViewBag.CollectDate != null ? ViewBag.CollectDate : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>                        
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">交易信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">交易号：</div>
+                                <div class="col-xs-6 col-md-3"><label id="littransaction_id">@(ViewBag.transaction_id != null ? ViewBag.transaction_id : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">交易时间：</div>
+                                <div class="col-xs-6 col-md-3"><label id="litpurchase_date">@(ViewBag.purchase_date != null ? ViewBag.purchase_date : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">原始交易号：</div>
+                                <div class="col-xs-6 col-md-3"><label id="litoriginal_transaction_id">@(ViewBag.original_transaction_id != null ? ViewBag.original_transaction_id : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">原始交易时间：</div>
+                                <div class="col-xs-6 col-md-3"><label id="litoriginal_purchase_date">@(ViewBag.original_purchase_date != null ? ViewBag.original_purchase_date : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">交易的iOS应用：</div>
+                                <div class="col-xs-6 col-md-3"><label id="litapp_item_id">@(ViewBag.app_item_id != null ? ViewBag.app_item_id : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">应用修订版本值：</div>
+                                <div class="col-xs-6 col-md-3"><label id="litversion_external_identifier">@(ViewBag.version_external_identifier != null ? ViewBag.version_external_identifier : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">应用标识符：</div>
+                                <div class="col-xs-6 col-md-3"><label id="litbid">@(ViewBag.bid != null ? ViewBag.bid : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">应用版本号：</div>
+                                <div class="col-xs-6 col-md-3"><label id="litbvrs">@(ViewBag.bvrs != null ? ViewBag.bvrs : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="window.close();"><i class="glyphicon glyphicon-remove-sign"></i>关闭</a></li>
+                                   
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

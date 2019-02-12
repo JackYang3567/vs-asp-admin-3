@@ -1,0 +1,168 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "充值系统 - 快钱记录";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/layout.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/common.js"></script>
+</head>
+<body>
+    <!-- 头部菜单 Start -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="title">
+        <tr>
+            <td width="19" height="25" valign="center" class="Lpd10"><div class="arr"></div></td>
+            <td width="1232" height="25" valign="center" align="left">你当前位置：充值系统 - 快钱记录</td>
+        </tr>
+    </table>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="titleOpBg Lpd10">
+                <input type="button" value="关闭" class="btn wd1" onclick="javascript:window.close()" />
+            </td>
+        </tr>
+    </table>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="listBg2">
+        <tr>
+            <td height="35" colspan="2" class="f14 bold Lpd10 Rpd10"><div class="hg3  pd7">基本信息</div></td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">订单号码：</td>
+            <td>
+                <label id="litOrderID">@(ViewBag.OrderID!=null?Html.Raw(ViewBag.OrderID):"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">订单日期：</td>
+            <td>
+                <label id="litOrderTime">@(ViewBag.OrderTime!=null?ViewBag.OrderTime:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">订单金额：</td>
+            <td>
+                <label id="litOrderAmount">@(ViewBag.OrderAmount!=null?ViewBag.OrderAmount:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">实付金额：</td>
+            <td>
+                <label id="litPayAmount">@(ViewBag.PayAmount!=null?ViewBag.PayAmount:"")</label> 
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">手续费：</td>
+            <td>
+                <label id="litFee">@(ViewBag.Fee!=null?ViewBag.Fee:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">实收金额：</td>
+            <td>
+                <label id="litRevenue">@(ViewBag.Revenue!=null?ViewBag.Revenue:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">订单状态：</td>
+            <td>
+                <label id="litPayResult">@(ViewBag.PayResult!=null?ViewBag.PayResult:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td height="35" colspan="2" class="f14 bold Lpd10 Rpd10"><div class="hg3  pd7">交易信息</div></td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">快钱交易号：</td>
+            <td>
+                <label id="litDealID">@(ViewBag.DealID!=null?ViewBag.DealID:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">交易日期：</td>
+            <td>
+                <label id="litDealTime">@(ViewBag.DealTime!=null?ViewBag.DealTime:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">银行交易号：</td>
+            <td>
+                <label id="litBankDealID">@(ViewBag.BankDealID!=null?ViewBag.BankDealID:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">支付方式：</td>
+            <td>
+                <label id="litPayType">@(ViewBag.PayType!=null?ViewBag.PayType:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">支付银行：</td>
+            <td>
+                <label id="litBankID">@(ViewBag.BankID!=null?ViewBag.BankID:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">支付错误描述：</td>
+            <td>
+                <label id="litErrCode">@(ViewBag.ErrCode!=null?ViewBag.ErrCode:"")</label> 
+            </td>
+        </tr>
+        <tr>
+            <td height="35" colspan="2" class="f14 bold Lpd10 Rpd10"><div class="hg3  pd7">其它信息</div></td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">快钱网关版本：</td>
+            <td>
+                <label id="litVersion">@(ViewBag.Version!=null?ViewBag.Version:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">网页语言：</td>
+            <td>
+                <label id="litLanguage">@(ViewBag.Language!=null?ViewBag.Language:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">扩展字段1：</td>
+            <td>
+                <label id="litExt1">@(ViewBag.Ext1!=null?ViewBag.Ext1:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">扩展字段2：</td>
+            <td>
+                <label id="litExt2">@(ViewBag.Ext2!=null?ViewBag.Ext2:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td height="35" colspan="2" class="f14 bold Lpd10 Rpd10"><div class="hg3  pd7">签名信息</div></td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">签名类型：</td>
+            <td>
+                <label id="litSignType">@(ViewBag.SignType!=null?ViewBag.SignType:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">MD5 签名后的字符串：</td>
+            <td>
+                <label id="litSignMsg">@(ViewBag.SignMsg!=null?ViewBag.SignMsg:"")</label>
+            </td>
+        </tr>
+    </table>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="titleOpBg Lpd10">
+                <input type="button" value="关闭" class="btn wd1" onclick="javascript:window.close()" />
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,155 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "推广平台管理-推广活动管理";
+    Game.Entity.Record.AdvertTask m = ViewData["data"] == null ? null : ViewData["data"] as Game.Entity.Record.AdvertTask;
+    System.Data.DataTable dt = ViewData["tb"] == null ? null : ViewData["tb"] as System.Data.DataTable;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+                    <div class="panel panel-primary" style="margin-left:-10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@(ViewBag.OP)推广活动信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">广告商：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <select id="ddlAdvertiser" class="form-control input-sm input-width-150">
+                                        @if (m!=null) {
+                                         <option value="@m.AdvertiserID">@m.Advertiser</option>
+                                        }
+                                        else if (dt!=null && dt.Rows.Count>0) { 
+                                          foreach(System.Data.DataRow r in dt.Rows){
+                                            <option value="@r["ID"]">@r["Advertiser"]</option>
+                                          }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">任务名称：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtTaskName" style="width:350px;display:inline;" placeholder="请输入任务名称" class="form-control input-sm" type="text" maxlength="50" value="@(m!=null?m.TaskName:"")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">*必填</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">ADID：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtADID" style="width:350px;display:inline;" placeholder="请输入ADID" class="form-control input-sm" type="text" maxlength="50" value="@(m!=null?m.AdID:"")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">*必填</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">状态：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <label class="radio-inline"><input type="radio" name="StatusT"  value="0" @((m == null || m.StatusT == 0) ? "checked=\"checked\"" : "") />未开始</label>
+                                    <label class="radio-inline"><input type="radio" name="StatusT" value="1" @((m != null && m.StatusT == 1) ? "checked=\"checked\"" : "") />已开始</label>
+                                    <label class="radio-inline"><input type="radio" name="StatusT" value="2" @((m != null && m.StatusT == 2) ? "checked=\"checked\"" : "") />已结束</label>
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">*必选</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">开始时间：</div>
+                                <div class="col-xs-6 col-md-3"><input id="BeginTime" class="form-control input-sm input-width-200" type="text" readonly="readonly" placeholder="请输入开始时间" value="@(m!=null?m.BeginTime:"")" /></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">*必填</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">结束时间：</div>
+                                <div class="col-xs-6 col-md-3"><input id="EndTime" class="form-control input-sm input-width-200" type="text" readonly="readonly" placeholder="请输入结束时间" value="@(m!=null?m.EndTime:"")"/></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">*必填</div>
+                            </div>
+                           
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="window.close();"><i class="glyphicon glyphicon-circle-arrow-left"></i>返回</a></li>
+                                    <li><a class="btn btn-success search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-send"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //时间选择器
+            laydate.render({
+                elem: '#BeginTime'
+              , type: 'datetime'
+            });
+            laydate.render({
+                elem: '#EndTime'
+              , type: 'datetime'
+            });
+            
+        });
+        function add() {
+            var Advertiser = $("#ddlAdvertiser").find("option:selected").text();
+            if (Advertiser == "") {
+                alert("广告商不能为空");
+                return false;
+            }
+            var AdvertiserID = $("#ddlAdvertiser").val();
+            var TaskName = $("#txtTaskName").val().trim();
+            if (TaskName == "") {
+                alert("任务名称不能为空");
+                return false;
+            }
+            var ADID = $("#txtADID").val().trim();
+            if (ADID == "") {
+                alert("ADID不能为空");
+                return false;
+            }
+            var BeginTime = $("#BeginTime").val();
+            if (BeginTime == "") {
+                alert("开始时间不能为空");
+                return false;
+            }
+            var EndTime = $("#EndTime").val();
+            if (EndTime == "") {
+                alert("结束时间不能为空");
+                return false;
+            }
+            var StatusT = $("input[name='StatusT']:checked").val();
+            var data = { Advertiser: Advertiser,AdvertiserID:AdvertiserID, TaskName: TaskName, ADID: ADID, BeginTime: BeginTime, EndTime: EndTime, StatusT: StatusT, ID: parseInt('@ViewBag.ID') };
+            AjaxSubmit("/Promoter/DoAdvertTask", data, callBack, "add");
+        }
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    opener.location.href = "/Promoter/AdvertTaskList"
+                    window.close();
+                    
+                    break;
+            }
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+    </script>
+</body>
+</html>

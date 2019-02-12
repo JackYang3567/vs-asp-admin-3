@@ -1,0 +1,132 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "后台管理-购买会员信息";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/layout.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/pagination.js"></script>
+</head>
+<body>
+        <!-- 头部菜单 Start -->
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="title">
+            <tr>
+                <td width="19" height="25" valign="center" class="Lpd10">
+                    <div class="arr">
+                    </div>
+                </td>
+                <td width="1232" height="25" valign="center" align="left">
+                    你当前位置：用户系统 - 购买会员信息
+                </td>
+            </tr>
+        </table>
+        <!-- 头部菜单 End -->
+        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="titleOpBg Lpd10">
+                    <input type="button" value="关闭" class="btn wd1" onclick="window.close();" />
+                </td>
+            </tr>
+        </table>
+        <div id="content">
+            <div class="">
+                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="box" id="list">
+                    <thead>
+                        <tr align="center" class="bold">
+                            <td class="listTitle2">
+                                序号
+                            </td>
+                            <td class="listTitle2">
+                                会员类型
+                            </td>
+                            <td class="listTitle2">
+                                到期时间
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="page clearfix">
+                <div class="left page-num">
+                    <select id="pagecount">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <span>页/条</span>
+                </div>
+                <div class="right personal-page" id="downbabyPage">
+                </div>
+            </div>
+        </div>
+    <script type="text/javascript">
+        var pageObj = {};
+        var postData = {};//搜索条件
+        $(document).ready(function () {
+            docReady();
+        });
+        function docReady() {
+            //加载数据
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.Sort = "";
+            postData.pageIndex = 1;
+            postData.param = parseInt(@ViewBag.Paras);
+            AjaxSearch(postData);
+            //选择页码
+            $("#pagecount").change(function (e) {
+                postData.pageSize = parseInt($(this).val());
+                postData.pageIndex = 1;
+                AjaxSearch(postData);
+            });
+        }
+        //搜索事件
+        function AjaxSearch(postData) {
+            $('#downbabyPage').paging("/Account/GetMemberList", postData, CreatTableBody, postData.pageIndex);
+        }
+
+        //绑定数据
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex) {
+            var html = "";
+            if (jsondata != null && jsondata.length > 0) {
+                $.each(jsondata, function (i, item) {
+                    if (i % 2 == 0) {
+                        html += stringFormat("<tr id=\"tr{0}\" align=\"center\" class=\"list\" onmouseover=\"currentcolor=this.style.backgroundColor;this.style.backgroundColor='#caebfc';this.style.cursor='default';\" onmouseout=\"this.style.backgroundColor=currentcolor\">", item.UserID);
+                        html += html += stringFormat("<td>{0}</td>", item.SNO);
+                        html += stringFormat("<td>{0}</td>", item.MemberName);
+                        html += stringFormat("<td>{0}</td>", item.MemberOverDate);
+                        html+="</tr>";
+                    } else {
+                        html += stringFormat("<tr id=\"tr{0}\" align=\"center\" class=\"listBg\" onmouseover=\"currentcolor=this.style.backgroundColor;this.style.backgroundColor='#caebfc';this.style.cursor='default';\" onmouseout=\"this.style.backgroundColor=currentcolor\">", item.UserID);
+                        html += html += stringFormat("<td>{0}</td>", item.SNO);
+                        html += stringFormat("<td>{0}</td>", item.MemberName);
+                        html += stringFormat("<td>{0}</td>", item.MemberOverDate);
+                        html+="</tr>";
+                    }
+                });
+            }
+            $("#list tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * pageObj.pageSize + 1), ((pageIndex * pageObj.pageSize) < pageTotal ? (pageIndex * pageObj.pageSize) : pageTotal), pageTotal));
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+﻿@{
+    Layout = null;
+    Layout = null;
+    ViewBag.Title = "游戏系统 - 游戏管理";
+    Game.Entity.Platform.GameKindItem gameKindItem = ViewData["GameKindItem"] == null ? null : ViewData["GameKindItem"] as Game.Entity.Platform.GameKindItem; 
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                @Html.HtmlGameConfigMuneBuilder("c")
+                <div class="tab-content" style="margin-top:-11px">
+                    <div class="panel panel-primary" style="margin-left:-10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@(ViewBag.OpStr)游戏信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">游戏标识：</div>
+                                <div class="col-xs-6 col-md-3"><input type="text" placeholder="请输入游戏标识" id="txtKindID" style="width:350px;display:inline;" class="form-control input-sm" maxlength="9" onkeyup="if(isNaN(value))execCommand('undo')" value="@(ViewBag.KindID != null ? ViewBag.KindID : (gameKindItem != null ? gameKindItem.KindID.ToString() : ""))" @(ViewBag.KindID != null ? "disabled=\"disabled\"" : "")></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">请输入正确的游戏标识，必须为整数</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">游戏名称：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtKindName" placeholder="请输入游戏名称" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="31" value="@(gameKindItem != null ? gameKindItem.KindName : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">游戏类型：</div>
+                                <div class="col-xs-6 col-md-3">@Html.HtmlGameTypeSelectBuilder(gameKindItem != null ? gameKindItem.TypeID : 0)</div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">挂接：</div>
+                                <div class="col-xs-6 col-md-3">@Html.HtmlGameJoinSelectBuilder(gameKindItem != null ? gameKindItem.JoinID : 0)</div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">排序：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtSortID" placeholder="请输入排序" style="display:inline;" class="form-control input-sm input-width-150" type="text" onkeyup="if(isNaN(value))execCommand('undo')" maxlength="9" value="@(gameKindItem != null ? gameKindItem.SortID.ToString() : "0")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">请输入正确的排序，必须为整数</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">模块名称：</div>
+                                <div class="col-xs-6 col-md-3">@Html.HtmlGameMoudelSelectBuilder(gameKindItem != null ? gameKindItem.GameID : 0)</div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">进程名字：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtProcessName" placeholder="请输入进程名字" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="32" value="@(gameKindItem != null ? gameKindItem.ProcessName : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">规则路径：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <textarea id="txtGameRuleUrl" style="width:350px;display:inline;" class="form-control input-sm" rows="3" maxlength="256">@(gameKindItem != null ? gameKindItem.GameRuleUrl : "")</textarea>
+                                 </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">下载路径：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <textarea id="txtDownLoadUrl" style="width:350px;display:inline;" class="form-control input-sm" rows="3" maxlength="256">@(gameKindItem != null ? gameKindItem.DownLoadUrl : "")</textarea>
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">赢一局经验：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtWinExperience" placeholder="请输入赢一局经验" onkeyup="if(isNaN(value))execCommand('undo')" style="display:inline;" class="form-control input-sm input-width-150" type="text" maxlength="9" value="@ViewBag.WinExperience"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">在该游戏中赢一局奖励的经验</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">游戏属性：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="cblGameFlag" value="1" @(Game.Facade.Tools.TypeUtil.IsExit(gameKindItem != null ? gameKindItem.GameFlag : 0,1) ? "checked" : "")> 新
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="cblGameFlag" value="2" @(Game.Facade.Tools.TypeUtil.IsExit(gameKindItem != null ? gameKindItem.GameFlag : 0,2) ? "checked" : "")> 荐
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="cblGameFlag" value="4" @(Game.Facade.Tools.TypeUtil.IsExit(gameKindItem != null ? gameKindItem.GameFlag : 0,4) ? "checked" : "")> 热
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="cblGameFlag" value="8" @(Game.Facade.Tools.TypeUtil.IsExit(gameKindItem != null ? gameKindItem.GameFlag : 0,8) ? "checked" : "")> 赛
+                                    </label>
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">禁用状态：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="rbtnNullity" value="0" @(gameKindItem != null && gameKindItem.Nullity == 0 ? "checked" : "") > 正常
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="rbtnNullity" value="1" @(gameKindItem != null && gameKindItem.Nullity == 1 ? "checked" : "")> 禁用
+                                    </label>
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;"></div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="@Url.Action("GameKindItemList", "App")"><i class="glyphicon glyphicon-circle-arrow-left"></i>返回</a></li>
+                                    <li><a class="btn btn-success search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-send"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function add() {
+            var KindID = $("#txtKindID").val();
+            if (KindID == "") {
+                alert("游戏标识不能为空");
+                return false;
+            }
+            if (isNaN(KindID)) {
+                alert("游戏标识为整数");
+                return false;
+            }
+            var KindName = $("#txtKindName").val();
+            if (KindName == "") {
+                alert("游戏名称不能为空");
+                return false;
+            }
+            var TypeID = $("#ddlTypeID").val();
+            if (parseInt(TypeID) < 1) {
+                alert("请选择游戏类型");
+                return false;
+            }
+            var JoinID = $("#ddlJoin").val();
+            //if (parseInt(JoinID) < 1) {
+            //    alert("请选择游戏挂接");
+            //    return false;
+            //}
+            var SortID = $("#txtSortID").val();
+            if (SortID == "") {
+                alert("排序不能为空");
+                return false;
+            }
+            if (isNaN(SortID)) {
+                alert("排序必须为数字");
+                return false;
+            }
+            var GameID = $("#ddlGameID").val();
+            if (parseInt(GameID) < 1) {
+                alert("请选择游戏模块");
+                return false;
+            }
+            var ProcessName = $("#txtProcessName").val();
+            if (ProcessName == "") {
+                alert("进程名称不能为空");
+                return false;
+            }
+
+            var GameRuleUrl = $("#txtGameRuleUrl").val();
+            var DownLoadUrl = $("#txtDownLoadUrl").val();
+            var WinExperience = $("#txtWinExperience").val();
+            if (WinExperience == "") {
+                alert("赢一局经验不能为空");
+                return false;
+            }
+            if (isNaN(WinExperience))
+            {
+                alert("赢一局经验为数字");
+                return false;
+            }
+            if (parseInt(WinExperience) < 1) {
+                alert("赢一局经验为大于0的数字");
+                return false;
+            }
+            var GameFlag = GetCheckListCheckedSum("cblGameFlag");
+            var Nullity = $('input:radio[name="rbtnNullity"]:checked').val();
+            if (Nullity == null) {
+                alert("请选择禁用状态");
+                return false;
+            }
+            var data = { KindID: KindID, KindName: KindName, TypeID: TypeID, JoinID: JoinID, SortID: SortID, GameID: GameID, ProcessName: ProcessName, GameRuleUrl: GameRuleUrl, DownLoadUrl: DownLoadUrl, GameFlag: GameFlag, Nullity: Nullity, WinExperience: WinExperience, IntParam: parseInt('@ViewBag.ID') };
+            AjaxSubmit("/App/AddGameKindItemInfo", data, callBack, "add");
+        }
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.location.href = "/App/GameKindItemList"
+                    break;
+            }
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+    </script>
+
+</body>
+</html>

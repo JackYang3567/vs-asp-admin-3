@@ -1,0 +1,54 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "后台登录-没有权限";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <style type="text/css">
+        html {
+            background-color: #E0E5EB;
+            font-family: Arial,'Microsoft YaHei','宋体';
+        }
+        #main_content {
+            width: 100%;
+        }
+        #main_content .nav_title {
+            font-family: "宋体";
+            font-size: 14px;
+            font-weight: bold;
+            padding-top: 10px;
+            padding-left: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #cfcfcf;
+        }
+        #main_content .main_page {
+            line-height: 24px;
+            padding-top: 5px;
+            padding-left: 10px;
+        }
+        .no-data-main {
+            width: 100%;
+            background: url("../../Content/images/no_data_bg.jpg") no-repeat;
+            background-size: 100% 100%;
+            line-height: 450px;
+            text-align: center;
+            color: #867979;
+            font-size: 34px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main_content">
+        <div class="nav_title">温馨提示</div>
+        <div class="no-data-main">
+            <p>对不起，你没有该操作权限！</p>
+        </div>
+        
+    </div>
+</body>
+</html>

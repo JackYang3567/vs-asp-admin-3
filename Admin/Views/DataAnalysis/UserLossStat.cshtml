@@ -1,0 +1,196 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "数据分析 - 流失玩家";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+    <script src="~/Scripts/comm.js"></script> 
+</head>
+<body>
+    <div id="content" class="main-content">
+
+        <div class="carousel box-inner">
+            <div class="box-header well clearfix" data-original-title="">
+                <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn btn-round btn-default" onclick="history.go(0);">
+                        <i class="glyphicon glyphicon-repeat"></i>
+                    </a>
+                    <a href="#" class="btn btn-minimize btn-round btn-default">
+                        <i class="glyphicon glyphicon-chevron-up"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="tab-content" style="margin-top:0px">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">用户流失统计图</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <ul class="list-inline cursor-style">
+                                <li><select id="rblUserType" class="form-control input-sm"><option value="0">所有玩家</option><option value="1">充值玩家</option></select></li>
+                                <li>日期：
+                                    <input id="txtStartDate" class="input-width-150" type="text" readonly="readonly" value="@ViewBag.StartTime" />至<input type="text" id="txtEndDate" class="input-width-150" readonly="readonly" value="@ViewBag.EndTime" />
+                                </li>
+                                <li><select id="ddlType"><option value="0">曲线图</option><option value="1">柱状图</option></select></li>
+                                <li>
+                                    <a class="btn btn-success search" href="#" id="btnquery"><i class="glyphicon glyphicon-zoom-in icon-white"></i>查询</a>
+                                </li>
+                                <li>
+                                    <a class="btn btn-info search" href="#" id="advancedQuery"><i class="glyphicon glyphicon-hand-down"></i>最近30天</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <img id="pic" src="@Url.Action("DayUserLossChart", new { startDate = ViewBag.StartTime, endDate = ViewBag.EndTime, type = 0, UserType=0 })" />
+                        </div>
+                    </div>
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <img id="pic1" src="@Url.Action("MatchUserLossChart", new { UserType = 0 })" />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-7" id="dt">
+                               
+                            </div>
+                            <div class="col-md-4">
+                                <table class="table">
+                                    <tbody>
+                                        <tr><td style="text-align:right;">流失用户数：</td><td style="text-align:left;"><label id="ltLossUserCounts">@(ViewBag.LossUserCounts)</label>人<label style="color:green;">连续30天内未登陆的流失用户总数</label></td></tr>
+                                        <tr><td style="text-align:right;">用户流失率：</td><td style="text-align:left;"><label id="ltLossUserRate">@(ViewBag.LossUserRate)</label>人<label style="color:green;">流失用户数/总注册用户</label></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        var data = {};
+        $(document).ready(function () {
+            //时间选择器
+            laydate.render({
+                elem: '#txtStartDate'
+            });
+            laydate.render({
+                elem: '#txtEndDate'
+            });
+            docReady();
+        });
+        function docReady() {
+            data.startDate = '@ViewBag.StartTime';
+            data.endDate = '@ViewBag.EndTime';
+            data.type = parseInt($("#ddlType").val());
+            data.UserType = parseInt($("#rblUserType").val());
+            add(0);
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+            //选择页码
+            $("#rblUserType").change(function (e) {
+                data.UserType = parseInt($(this).val());
+                add(2);
+            });
+            $("#btnquery").click(function (e) {
+                e.preventDefault();
+                var startDate = $("#txtStartDate").val();
+                var endDate = $("#txtEndDate").val();
+                if (startDate == "" || endDate == "") {
+                    alert("请选择时间");
+                    return false;
+                }
+                data.startDate = startDate;
+                data.endDate = endDate;
+                data.type = parseInt($("#ddlType").val());
+                data.UserType = parseInt($("#rblUserType").val());
+                add(1);
+            });
+            $("#advancedQuery").click(function (e) {
+                e.preventDefault();
+                var myDate = new Date();
+                data.endDate = myDate.getFullYear() + "-" + (myDate.getMonth() + 1) + "-" + myDate.getDate();
+                var stardate = new Date(myDate - 29 * 24 * 3600 * 1000);
+                data.startDate = stardate.getFullYear() + "-" + (stardate.getMonth() + 1) + "-" + stardate.getDate();
+                data.type = parseInt($("#ddlType").val());
+                data.UserType = parseInt($("#rblUserType").val());
+                add(1);
+            });
+        }
+        function add(o) {
+            if (o == 1) {
+                $("#pic").attr("src", "@Url.Action("DayUserLossChart", "DataAnalysis")?startDate=" + data.startDate + "&endDate=" + data.endDate + "&type=" + data.type + "&UserType=" + data.UserType + "&t=" + Math.random());
+                AjaxSubmit("/DataAnalysis/GetUserLossStat", data, callBack, "del");
+            } else if (o == 2) {
+                $("#pic1").attr("src", "@Url.Action("MatchUserLossChart", "DataAnalysis")?UserType=" + data.UserType + "&t=" + Math.random());
+            } else {
+                AjaxSubmit("/DataAnalysis/GetUserLossStat", data, callBack, "del");
+            }
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "del":
+                    var html = "<table class=\"table table-striped table-bordered bootstrap-datatable datatable responsive dataTable\">";
+                    html += "<thead><tr role=\"row\">";
+                    var len = jsonData.length;
+                    var rows = (len / 5) + 1;
+                    html += "<th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">统计时间</th><th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">玩家流失数</th>";
+                    html += "<th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">统计时间</th><th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">玩家流失数</th>";
+                    html += "<th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">统计时间</th><th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">玩家流失数</th>";
+                    html += "<th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">统计时间</th><th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">玩家流失数</th>";
+                    html += "<th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">统计时间</th><th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">玩家流失数</th>";
+                    html += "</thead></tr>";
+                    html += "<tbody role=\"alert\">";
+                    for (var i = 1; i < rows; i++) {
+                        html += "<tr>";
+                        for (var j = (i - 1) * 5; j < i * 5; j++) {
+                            if (jsonData[j] != null && typeof (jsonData[j]) != "undefined") {
+                                html += "<td>" + jsonData[j].key + "</td><td>" + jsonData[j].vaule + "</td>";
+                            } else {
+                                html += "<td></td><td></td>"
+                            }
+                        }
+                        html += "</tr>";
+                    }
+                    html += "</tbody></table>";
+                    $("#dt").html(html);
+                    break;
+            }
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+    </script>
+</body>
+</html>

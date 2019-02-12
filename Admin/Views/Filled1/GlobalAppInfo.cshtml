@@ -1,0 +1,113 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "游戏系统 - 充值额度配置";
+    Admin.Models.GlobalAppInfo globalAppInfo = ViewData["data"] == null ? null : ViewData["data"] as Admin.Models.GlobalAppInfo;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+                    <div class="panel panel-primary" style="margin-left:-10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@(ViewBag.OpStr)充值额度配置</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">商品价格：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtPrice" style="width:350px;display:inline;" class="form-control input-sm" type="text" onkeyup="if(!(/^\d+(\.\d{1,2})?$/.test(value))) execCommand('undo')" value="@(globalAppInfo != null ? globalAppInfo.Price.ToString("f2"):"0.00")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">赠送货币：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtPresentCurrency" style="width:350px;display:inline;" class="form-control input-sm" type="text" onkeyup="if(!(/^\d+(\.\d{1,2})?$/.test(value))) execCommand('undo')" value="@(globalAppInfo != null ? globalAppInfo.PresentCurrency.ToString("f2") : "0.00")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">排序：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtSortID" style="width: 50px; display: inline;" class="form-control input-sm" type="text" onkeyup="if(isNaN(value))execCommand('undo')" value="@(globalAppInfo != null ? globalAppInfo.SortID.ToString() : "0")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="@Url.Action("GlobalAppInfoList", "Filled")"><i class="glyphicon glyphicon-circle-arrow-left"></i>返回</a></li>
+                                    <li><a class="btn btn-success search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-send"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function add() {
+
+            var Price = $("#txtPrice").val().trim();
+            if (Price == "") {
+                alert("商品价格不能为空");
+                return false;
+            }
+            if (!(/^\d+(\.\d{1,2})?$/.test(Price))) {
+                alert("商品价格类型错误");
+                return false;
+            }
+            var PresentCurrency = $("#txtPresentCurrency").val().trim();
+            if (PresentCurrency == "") {
+                alert("赠送货币不能为空");
+                return false;
+            }
+            if (!(/^\d+(\.\d{1,2})?$/.test(PresentCurrency))) {
+                alert("赠送货币类型错误");
+                return false;
+            }
+            var SortID = $("#txtSortID").val().trim();
+            if (SortID == "") {
+                alert("排序不能为空");
+                return false;
+            }
+            if (isNaN(SortID)) {
+                alert("排序类型错误");
+                return false;
+            }
+            var data = { AppID: parseInt('@ViewBag.ID'), Price: Price, PresentCurrency: PresentCurrency, SortID: SortID };
+            AjaxSubmit("/Filled/DoGlobalAppInfo", data, callBack, "add");
+        }
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.location.href = "/Filled/GlobalAppInfoList"
+                    break;
+            }
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+    </script>
+</body>
+</html>

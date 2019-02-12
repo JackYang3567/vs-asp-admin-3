@@ -1,0 +1,584 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "管理后台-用户信息";
+    System.Data.DataTable dt = ViewData["kxdt"] == null ? null : ViewData["kxdt"] as System.Data.DataTable;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/lhgdialog/lhgdialog.min.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+    <style>
+        #UserType li {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+            #UserType li.cur {
+                border: 2px solid #999;
+            }
+    </style>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <ul class="media nav nav-tabs margin-b-10">
+                    <li class="active">
+                        <a href="javascript:void(0);" title="">基本信息</a>
+                    </li>
+                    <li>
+                        <a href="AccountsDetailInfo?param=@ViewBag.Param" title="">详细信息</a>
+                    </li>
+                    <li>
+                        <a href="AccountsTreasureInfo?param=@ViewBag.Param" title="">财富信息</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" title="" style="display:none">积分信息</a>
+                    </li>
+                    <li>
+                        <a href="AccountsRecordInfo?param=@ViewBag.Param" title="">记录信息</a>
+                    </li>
+                </ul>
+                <div class="tab-content" style="margin-top:-11px">
+
+                    <div class="panel panel-primary" style="margin-left:-10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">基本信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">ID号码：</div>
+                                <div class="col-xs-2 col-md-1"><label id="ltGameID">@(ViewBag.GameID != null ? ViewBag.GameID : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right">原帐号：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label id="ltRegAccounts">@(ViewBag.RegAccounts != null ? ViewBag.RegAccounts : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label id="litSName">@(ViewBag.SName != null ? ViewBag.SName : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label id="ltSpreader">@(ViewBag.Spreader != null ? ViewBag.Spreader : "")</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">标记：</div>
+                                <div class="col-xs-6 col-md-3"><ul id="UserType"></ul></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">真实姓名：</div>
+                                <div class="col-xs-6 col-md-3"><label id="litCompellation">@(ViewBag.Compellation != null ? ViewBag.Compellation : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">帐号：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtAccount" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="31" value="@(ViewBag.Accounts != null ? ViewBag.Accounts : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">帐号字符长度不可超过31个字符</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">用户昵称：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtNickName" autocomplete="off" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="31" value="@(ViewBag.NickName != null ? ViewBag.NickName : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">用户昵称字符长度不可超过31个字符</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                
+                                <div class="col-xs-2 col-md-1" style="text-align:right">登录密码：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtLogonPass" autocomplete="off" style="width: 350px; display: inline;" class="form-control input-sm" type="text" onfocus="this.type ='password'" maxlength="20"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">留空不修改</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">保险柜密码：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtInsurePass" style="width: 350px; display: inline;" class="form-control input-sm" type="text" onfocus="this.type ='password'" maxlength="20"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">留空不修改</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">绑定手机：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtPhone" autocomplete="off" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="31" value="@ViewBag.RegisterMobile">
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">个性签名：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtUnderWrite" style="width: 350px; display: inline;" class="form-control input-sm" type="text" maxlength="63" value="@(ViewBag.UnderWrite!=null?ViewBag.UnderWrite:"")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">个性签名字符长度不可超过63个字符</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">性别：</div>
+                                <div class="col-xs-2 col-md-1"><select id="ddlGender" class="form-control input-sm"><option value="1" @((ViewBag.Gender != null && (byte)ViewBag.Gender == 1) ? "selected=\"selected\"" : "")>男</option><option value="0" @((ViewBag.Gender != null && (byte)ViewBag.Gender == 0) ? "selected=\"selected\"" : "")>女</option></select></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;display:none">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">头像：</div>
+                                <div class="col-xs-4 col-md-2">
+                                    <input id="faceType" name="faceType" type="hidden" value="@(ViewBag.FaceType!=null?ViewBag.FaceType:"")" />
+                                    <input id="inFaceID" name="inFaceID" type="hidden" value="@(ViewBag.FaceId != null ? ViewBag.FaceId : "")" />
+                                    <img id="picFace" src="../Content/images/@(ViewBag.FaceUrl!=null?ViewBag.FaceUrl:"")" alt="" title="" class="pull-left" style="width: 96px;height: 96px;" />
+                                    <a id="btnSwitchFace" href="javascript:void(0)" title="" class="pull-left" style="margin: 80px 0 0 10px;">查看更多头像</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">密码保护：</div>
+                                <div class="col-xs-2 col-md-1"><label id="ltProtectID"> @((ViewBag.ProtectID != null && Game.Facade.Tools.TypeUtil.ObjectToInt(ViewBag.ProtectID) > 0) ? "<a id=\"spanPasswordCard\"  href=\"javascript:void(0)\" class=\"l1\" onclick=\"javascript:openWindowOwn('AccountsProtectInfo.aspx?param=" + ViewBag.Param + "','AccountsProtectInfo',500,330);\">点击查看</a>" : "未申请")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right">密保卡：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align: left; padding: 0; width: 10%; "><label id="LiteralPasswordCard">@(ViewBag.PasswordID != null && Game.Facade.Tools.TypeUtil.ObjectToInt(ViewBag.PasswordID) > 0 ? "<a id=\"spanPasswordCard\"  href=\"javascript:void(0)\" class=\"l1\" onclick=\"javascript:openWindowOwn('AccountPasswordCard.aspx?param=" + ViewBag.Param + "','AccountsPasswordCard',500,330);\">点击查看</a>" : "未申请")</label></div>
+                                <div class="col-xs-2 col-md-1" style="width:10%;padding:0">会员级别：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align: left; padding: 0;width:30%">@(ViewBag.MemberInfo != null ? ViewBag.MemberInfo:"")<a id="plMemberList" @(String.IsNullOrEmpty(ViewBag.MemberInfo) ? "style=\"display:none;\"" : "") style="display:none;" href="javascript:void(0)" onclick="javascript:openWindowOwn('AccountsMemberList.aspx?param=@(ViewBag.param)','_accountsmemberlist',800,500);" class="l">点击查看详情</a></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">选项：</div>
+                                <div class="col-xs-4 col-md-2"><label><input id="ckbNullity" type="checkbox" @((ViewBag.Nullity != null && (byte)ViewBag.Nullity == 1) ? "checked=\"checked\"" : "") />冻结帐号</label><label><input id="ckbStunDown" type="checkbox" @((ViewBag.StunDown != null && (byte)ViewBag.StunDown == 1) ? "checked=\"checked\"" : "") />安全关闭</label><label><input id="chkIsAndroid" type="checkbox" @((ViewBag.IsAndroid != null && (byte)ViewBag.IsAndroid == 1) ? "checked=\"checked\"" : "") />设为机器人</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">锁定机器：</div>
+                                <div class="col-xs-2 col-md-1"><select id="rdoMoorMachine" class="form-control input-sm"><option value="0" @((ViewBag.MoorMachine != null && (byte)ViewBag.MoorMachine == 0) ? "selected=\"selected\"" : "")>未锁定</option><option value="1" @((ViewBag.MoorMachine != null && (byte)ViewBag.MoorMachine == 1) ? "selected=\"selected\"" : "")>客户端锁定</option></select></div>
+                            </div>
+
+                            <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">经验值：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtExperience" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="20" disabled="disabled" onkeyup="if(isNaN(value))execCommand('undo');" value="@( ViewBag.Experience!=null? ViewBag.Experience:"")"></div>
+                            </div>
+                            <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">魅力值：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtLoveLiness" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="20" disabled="disabled" onkeyup="if(isNaN(value))execCommand('undo');" value="@( ViewBag.LoveLiness != null ? ViewBag.LoveLiness : "")"></div>
+                            </div>
+                            <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">已兑魅力：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtPresent" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="20" disabled="disabled" onkeyup="if(isNaN(value))execCommand('undo');" value="@( ViewBag.Present != null ? ViewBag.Present : "")"></div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-success search btn-md" href="#" onclick="Add();"><i class="glyphicon glyphicon-send"></i>保存</a></li>
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="window.close();"><i class="glyphicon glyphicon-off"></i>关闭</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">登录信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">网站登录次数：</div>
+                                <div class="col-xs-2 col-md-1"><label id="ltWebLogonTimes">@(ViewBag.WebLogonTimes != null ? ViewBag.WebLogonTimes : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right">大厅登录次数：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label id="ltGameLogonTimes">@(ViewBag.GameLogonTimes != null ? ViewBag.GameLogonTimes : "")</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">在线时长共计：</div>
+                                <div class="col-xs-2 col-md-1"><label id="ltOnLineTimeCount">@(ViewBag.OnLineTimeCount != null ? ViewBag.OnLineTimeCount : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right">游戏时长共计：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label id="ltPlayTimeCount">@(ViewBag.PlayTimeCount != null ? ViewBag.PlayTimeCount : "")</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">最后登录时间：</div>
+                                <div class="col-xs-4 col-md-2"><label id="ltLastLogonDate">@(ViewBag.LastLogonDate != null ? ViewBag.LastLogonDate : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"><label id="ltLogonSpacingTime">@(ViewBag.LogonSpacingTime != null ? ViewBag.LogonSpacingTime : "")</label>前</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">最后登录地址：</div>
+                                <div class="col-xs-4 col-md-2"><label id="ltLastLogonIP">@(ViewBag.LastLogonIP != null ? ViewBag.LastLogonIP : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"><label id="ltLogonIPInfo">@(ViewBag.LogonIPInfo != null ? ViewBag.LogonIPInfo : "")</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">登录机器：</div>
+                                <div class="col-xs-3 col-md-1"><label id="ltLastLogonMachine">@(ViewBag.LastLogonMachine != null ? ViewBag.LastLogonMachine : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right"></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">注册机器：</div>
+                                <div class="col-xs-3 col-md-1"><label id="ltRegisterMachine">@(ViewBag.RegisterMachine != null ? ViewBag.RegisterMachine : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right"></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">注册来源：</div>
+                                <div class="col-xs-2 col-md-1"><label id="ltRegisterOrigin">@(ViewBag.RegisterOrigin != null ? ViewBag.RegisterOrigin : "")</label></div>
+                            </div>
+
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">注册时间：</div>
+                                <div class="col-xs-4 col-md-2"><label id="ltRegisterDate">@(ViewBag.RegisterDate != null ? ViewBag.RegisterDate : "")</label>&nbsp;&nbsp;<label id="ltRegSpacingTime">@(ViewBag.RegSpacingTime != null ? ViewBag.RegSpacingTime : "")</label></div>
+
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">注册地址：</div>
+                                <div class="col-xs-4 col-md-2"><label id="ltRegisterIP">@(ViewBag.RegisterIP != null ? ViewBag.RegisterIP : "")</label>&nbsp;&nbsp;<label id="ltRegIPInfo">@(ViewBag.RegIPInfo != null ? ViewBag.RegIPInfo : "")</label></div>
+
+                            </div>
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">权限信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">玩家权限：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <p class="">
+                                        <span class="">
+                                            <input type="checkbox" id="detailedInfoCheckboxAll" value="" onclick="SelectAll(this, 'ckbUserRight')" />
+                                            <label for="detailedInfoCheckboxAll">全选</label>
+                                        </span>
+                                    </p>
+                                    @Html.HtmlUserRightCHKListBuilder((int)ViewBag.UserRight)
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">用户身份：</div>
+                                <div class="col-xs-2 col-md-1">
+                                    <select id="ddlMasterOrder">
+                                        <option value="0" @(ViewBag.MasterOrder != null && (byte)ViewBag.MasterOrder == 0 ? "selected=\"selected\"" : "")>普通玩家</option>
+                                        <option value="1" @(ViewBag.MasterOrder != null && (byte)ViewBag.MasterOrder == 1 ? "selected=\"selected\"" : "")>管理员</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">管理权限：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <p class="">
+                                        <span class="">
+                                            <input type="checkbox" id="adminAuthorityCheckboxAll" value="" onclick="SelectAll(this, 'ckbMasterRight')" />
+                                            <label for="adminAuthorityCheckboxAll">全选</label>
+                                        </span>
+                                    </p>
+                                    @Html.HtmlMasterRightCHKListBuilder((int)ViewBag.MasterRight)
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-success search btn-md" href="#" onclick="Add();"><i class="glyphicon glyphicon-send"></i>保存</a></li>
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="window.close();"><i class="glyphicon glyphicon-off"></i>关闭</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                 
+                    @*<div class="panel panel-primary" style="display:none;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">积分信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">ID号码：</div>
+                                <div class="col-xs-1 col-md-1" style="text-align:left"><label>@(ViewBag.GameID != null ? ViewBag.GameID : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right">帐号：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label>@(ViewBag.Accounts != null ? ViewBag.Accounts : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align: right">游戏：</div>
+                                <div class="col-xs-3 col-md-1" style="text-align:left">@Html.HtmlGameSelectBuilder()</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">积分：</div>
+                                <div class="col-xs-1 col-md-1" style="text-align:left"><label>@(ViewBag.Score != null ? ViewBag.Score : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right">赢局：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label>@(ViewBag.WinCount != null ? ViewBag.WinCount : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align: right">输局：</div>
+                                <div class="col-xs-3 col-md-1" style="text-align:left"><label>@(ViewBag.LostCount != null ? ViewBag.LostCount : "")</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">和局：</div>
+                                <div class="col-xs-1 col-md-1" style="text-align:left"><label>@(ViewBag.DrawCount != null ? ViewBag.DrawCount : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right">逃局：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label>@(ViewBag.FleeCount != null ? ViewBag.FleeCount : "")</label></div>
+
+                            </div>
+
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">登录信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">登录房间次数：</div>
+                                <div class="col-xs-2 col-md-1"><label>@(ViewBag.GameLogonTimes != null ? ViewBag.GameLogonTimes : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right">在线时长(秒)：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label>@(ViewBag.OnLineTimeCount != null ? ViewBag.OnLineTimeCount : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left">游戏时长(秒)：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label>@(ViewBag.PlayTimeCount != null ? ViewBag.PlayTimeCount : "")</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">登录机器：</div>
+                                <div class="col-xs-4 col-md-1"><label>@(ViewBag.LastLogonMachine != null ? ViewBag.LastLogonMachine : "")</label></div>
+                               
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">注册机器：</div>
+                                <div class="col-xs-4 col-md-1"><label>@(ViewBag.RegisterMachine != null ? ViewBag.RegisterMachine : "")</label></div>
+                               
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">登录房间时间：</div>
+                                <div class="col-xs-6 col-md-3"><label>@(ViewBag.LastLogonDate != null ? ViewBag.LastLogonDate : "")</label>&nbsp;&nbsp;<label>@(ViewBag.LogonSpacingTime != null ? ViewBag.LogonSpacingTime : "")</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">登录地址：</div>
+                                <div class="col-xs-6 col-md-3"><label>@(ViewBag.LastLogonIP != null ? ViewBag.LastLogonIP : "")</label>&nbsp;&nbsp;<label>@(ViewBag.LogonIPInfo != null ? ViewBag.LogonIPInfo : "")</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">注册时间：</div>
+                                <div class="col-xs-6 col-md-3"><label>@(ViewBag.RegisterDate != null ? ViewBag.RegisterDate : "")</label>&nbsp;&nbsp;<label>@(ViewBag.RegisterDate != null ? ViewBag.RegisterDate : "")</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">注册地址：</div>
+                                <div class="col-xs-6 col-md-3"><label>@(ViewBag.RegisterIP != null ? ViewBag.RegisterIP : "")</label>&nbsp;&nbsp;<label>@(ViewBag.RegIPInfo != null ? ViewBag.RegIPInfo : "")</label></div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="window.close();"><i class="glyphicon glyphicon-off"></i>关闭</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>*@
+                 
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var index = parseInt('@ViewBag.TagIndex');
+
+        var userType = 0;
+        $(document).ready(function () {
+            loadUserType();
+
+            var type = '@ViewBag.UserType';
+            if (type > 0) {
+                $('#UserType li').eq(type - 1).addClass("cur");
+                userType = type;
+            }
+            //弹出页面
+            $('#btnSwitchFace').dialog({
+                id: 'winUserfaceList',
+                title: '更换头像',
+                width: 540,
+                height: 385,
+                content: 'url:@Url.Action("UserFaceList", "Account")',
+                min: false,
+                max: false,
+                fixed: true,
+                drag: false,
+                resize: false
+            });
+        });
+        function loadUserType() {
+            var userTypeHtml = "";
+            for (x in colors) {
+                userTypeHtml += "<li style='background:#" + colors[x] + "'></li>"
+            }
+            $('#UserType').append(userTypeHtml);
+            $('#UserType li').click(function () {
+                var index = $(this).index();
+                if (userType == (index + 1))//取消色块
+                {
+                    userType = 0;
+                    $(this).removeClass("cur");
+                }
+                else {
+                    userType = index + 1;
+                    $(this).addClass("cur").siblings().removeClass("cur")
+                }
+
+            })
+        }
+       
+        function Add() {
+            var istrue = true;
+            var Accounts = $("#txtAccount").val();
+            if (Accounts != "") {
+                switch (isValidAccountCombination(Accounts)) {
+                    case 1:
+                        alert("帐号含有空格");
+                        istrue = false;
+                        break;
+                    case 2:
+                        alert("帐号汉字位数不足");
+                        istrue = false;
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+                        alert("帐号位数不足");
+                        istrue = false;
+                        break;
+                    default:
+                        alert("帐号格式有误");
+                        istrue = false;
+                        break;
+                }
+            } else {
+                istrue = false;
+                $("#lblacount").html("请输入帐号,由字母、数字、下划线和汉字组成！");
+            }
+            var NickName = $("#txtNickName").val();
+            if (istrue) {
+                if (NickName == "") {
+                    NickName = Accounts;
+                } else {
+                    switch (isValidAccountCombination(NickName)) {
+                        case 1:
+                            alert("用户昵称含有空格");
+                            istrue = false;
+                            break;
+                        case 2:
+                            alert("用户昵称汉字位数不足");
+                            istrue = false;
+                            break;
+                        case 3:
+
+                            break;
+                        case 4:
+                            alert("用户昵称位数不足");
+                            istrue = false;
+                            break;
+                        default:
+                            alert("用户昵称格式有误");
+                            istrue = false;
+                            break;
+                    }
+                }
+            }
+            var LogonPass = $("#txtLogonPass").val();
+            //if (istrue && LogonPass == "") {
+            //    alert("登录密码不能为空！");
+            //    istrue = false;
+            //}
+
+            var InsurePass = $("#txtInsurePass").val();
+            //if (istrue && InsurePass == "") {
+            //    InsurePass = LogonPass;
+            //}
+
+            var UnderWrite = $("#txtUnderWrite").val();
+            //if (istrue && UnderWrite == "") {
+            //    alert("个性签名不能为空!");
+            //    istrue = false;
+            //}
+            var Gender = $("#ddlGender").val();
+            var FaceID = $("#inFaceID").val();
+            var Nullity = $("#ckbNullity").is(':checked') ? 1 : 0;
+            var StunDown = $("#ckbStunDown").is(':checked') ? 1 : 0;
+            var IsAndroid = $("#chkIsAndroid").is(':checked') ? 1 : 0;
+            var MoorMachine = $("input[name='rdoMoorMachine']:checked").val();
+            var Experience = $("#txtExperience").val();
+            if (Experience == "" || isNaN(Experience)) {
+                istrue = false;
+                alert("经验值不能为空!");
+            }
+            var Present = $("#txtPresent").val();
+            if (Present == "" || isNaN(Present)) {
+                //istrue = false;
+                //alert("礼物不能为空!");
+                Present = 0;
+            }
+            var LoveLiness = $("#txtLoveLiness").val();
+            if (LoveLiness == "" || isNaN(LoveLiness)) {
+                istrue = false;
+                alert("净年值不能为空!");
+            }
+            var MemberOrder = $("#ddlMemberOrder").val();
+            var Compellation = $("#txtCompellation").val();
+            //if (Compellation == "") {
+            //    istrue = false;
+            //    alert("真实姓名不能为空!");
+            //}
+            //var QQ = $("#txtQQ").val();
+            //if (QQ == "" || isNaN(QQ)) {
+            //    istrue = false;
+            //    alert("QQ不能为空!");
+            //}
+            //var EMail = $("#txtEMail").val();
+            //if (EMail == "") {
+            //    istrue = false;
+            //    alert("EMail不能为空!");
+            //} else {
+            //    if (!isEmail(EMail)) {
+            //        istrue = false;
+            //        alert("EMail格式不正确!");
+            //    }
+            //}
+            //var SeatPhone = $("#txtSeatPhone").val();
+            //if (SeatPhone == "") {
+            //    istrue = false;
+            //    alert("固定电话不能为空!");
+            //} else {
+            //    if (!isPhone(SeatPhone)) {
+            //        istrue = false;
+            //        alert("固定电话格式不正确!");
+            //    }
+            //}
+            //var MobilePhone = $("#txtMobilePhone").val();
+            //if (MobilePhone == "") {
+            //    istrue = false;
+            //    alert("手机不能为空!");
+            //} else {
+            //    if (!isPhone(MobilePhone)) {
+            //        istrue = false;
+            //        alert("手机格式不正确!");
+            //    }
+            //}
+            //var PostalCode = $("#txtPostalCode").val();
+            //if (PostalCode == "") {
+            //    istrue = false;
+            //    alert("邮政编码不能为空!");
+            //} else {
+            //    if (!isPhone(MobilePhone)) {
+            //        istrue = false;
+            //        alert("邮政编码不正确!");
+            //    }
+            //}
+            //var DwellingPlace = $("#txtDwellingPlace").val();
+            //var UserNote = $("#txtUserNote").val();
+            var UserRight = 0, MasterRight = 0;
+            $("input[name='ckbUserRight']:checked").each(function (i, item) {
+                UserRight += parseInt($(item).val());
+            });
+            //if (UserRight == 0) {
+            //    istrue = false;
+            //    alert("请选择用户权限!");
+            //}
+            $("input[name='ckbMasterRight']:checked").each(function (i, item) {
+                MasterRight += parseInt($(item).val());
+            });
+            //if (MasterRight == 0) {
+            //    istrue = false;
+            //    alert("请选择管理权限!");
+            //}
+
+            var phone = $('#txtPhone').val();
+            //if (phone != "" && !(/^1[3|4|5|8][0-9]\d{4,8}$/.test(phone)))
+            //{
+            //    alert("手机号格式错误!");
+            //    return false;
+            //}
+            
+            var MasterOrder = $("#ddlMasterOrder").val();
+            if (istrue) {
+                var data = { UserID: parseInt('@ViewBag.Param'), Accounts: Accounts, NickName: NickName, LogonPass: LogonPass, InsurePass: InsurePass, UnderWrite: UnderWrite, Gender: Gender, FaceID: FaceID, FaceType: $("#faceType").val(), Nullity: Nullity, StunDown: StunDown, IsAndroid: IsAndroid, MoorMachine: MoorMachine, Experience: Experience, Present: Present, LoveLiness: LoveLiness, MemberOrder: MemberOrder, Compellation: Compellation, UserRight: UserRight, MasterRight: MasterRight, MasterOrder: MasterOrder, UserType: userType, MobilePhone: phone };
+                AjaxSubmit("/Account/UpdateNewAccount", data, callBack, "add");
+            }
+        };
+        //回调函数
+        function callBack(jsonData, fname) {
+            if (fname == "add") {
+                alert(jsonData.Msg);
+                window.close();
+                //window.opener.location.reload();
+            }
+        };
+    </script>
+</body>
+</html>

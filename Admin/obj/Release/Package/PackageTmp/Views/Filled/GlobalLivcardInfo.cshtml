@@ -1,0 +1,110 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "充值系统 - 实卡管理";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />  
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+                    <div class="panel panel-primary" style="margin-left:-10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">实卡信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">会员卡名称：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtCardTypeName" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="16" value="@(ViewBag.CardName != null ? ViewBag.CardName : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">实卡RMB价格：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtCardPrice" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="7" value="@(ViewBag.CardPrice != null ? ViewBag.CardPrice : "")" onkeyup="if(isNaN(value))execCommand('undo');"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">元 (生成点卡时使用)</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">实卡游戏豆数：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtCurrency" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="9" value="@(ViewBag.Currency != null ? ViewBag.Currency : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">请输入游戏豆数,只能为整数或小数，且小数位最多为2位</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">金币数：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtGold" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="9" value="@(ViewBag.Gold != null ? ViewBag.Gold : "")" onkeyup="if(isNaN(value))execCommand('undo');"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">请输入金币数,只能为整数</div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="@Url.Action("GlobalLivcardList", "Filled")"><i class="glyphicon glyphicon-circle-arrow-left"></i>返回</a></li>
+                                    <li><a class="btn btn-success search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-send"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function add() {
+
+            var data = {};
+            var CardName = $("#txtCardTypeName").val();
+            if (CardName == "") {
+                alert("会员卡名称不能为空");
+                return false;
+            }
+            var reg = /^[0-9]{1,9}(.\d{1,2})?$/;
+            var CardPrice = $("#txtCardPrice").val();
+            if (!reg.test(CardPrice)) {
+                alert("实卡RMB价格格式不正确");
+                return false;
+            }
+            var Currency = $("#txtCurrency").val();
+            if (!reg.test(Currency)) {
+                alert("实卡游戏豆数格式不正确");
+                return false;
+            }
+            var Gold = $("#txtGold").val();
+            if (isNaN(Gold)) {
+                alert("金币数为整数");
+                return false;
+            }
+            data.CardName = CardName;
+            data.CardPrice = CardPrice;
+            data.Currency = Currency;
+            data.Gold = Gold;
+            data.CardTypeID = parseInt('@ViewBag.CardTypeID');
+            AjaxSubmit("/Filled/AddGlobalLivcardInfo", data, callBack, "add");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.location.href = "/Filled/GlobalLivcardList";
+                    //window.opener.location.reload();
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

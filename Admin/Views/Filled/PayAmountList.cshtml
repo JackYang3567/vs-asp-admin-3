@@ -1,0 +1,229 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "充值系统 - 充值额度";
+}
+@model System.Data.DataTable
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/pagination.js"></script>
+    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                
+                <ul class="media nav nav-tabs">
+                    @if(Model.Rows.Count>0)
+                    {
+                       foreach(System.Data.DataRow row in Model.Rows)
+                       {
+                        <li data-id="@row["ID"]"><a href="javascript:void(0)">@row["QudaoName"]</a></li>
+                        }
+                    }
+                </ul>
+                <div class="box-content" style="overflow: hidden; display: block;">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div id="DataTables_Table_0_length" class="dataTables_length">
+                                <label>
+                                    <select size="1" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" id="pagecount">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50" selected="selected">50</option>
+                                        <option value="100">100</option>
+                                    </select> 条/页
+                                </label>
+                                <div class="dataTables_info" id="DataTables_Table_0_info">显示 1 至 10 共 10 条</div>
+                            </div>
+                        </div>
+                        <div class="col-md-10" style="padding-bottom:5px; padding-top:5px; text-align:right;">
+                            <div class="btn-group btn-group">
+                                <button type="button" class="btn btn-success" onclick="add();"><i class="glyphicon glyphicon-plus icon-white"></i>新增</button>
+                                <button type="button" class="btn btn-danger" onclick="del(0);"><i class="glyphicon glyphicon-trash icon-white"></i>删除</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--table开始-->
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                        <table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                            <thead>
+                                <tr role="row">
+                                    <th><input name="ckall" type="checkbox" value="" onclick="SelectAll(this,'cid')" /></th>
+                                    <th>金额</th>
+                                    <th>管理</th>
+                                </tr>
+                            </thead>
+                            <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                        </table>
+                        <!--分页控件-->
+                        <div class="row">
+                            <div class="col-md-6">
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="dataTables_paginate paging_bootstrap pagination" style="float:right;">
+                                    <ul class="pagination" id="pagin"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--table结束-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        添加额度
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        金额：<input type="text" id="txtAmount" class="form-control" maxlength="10" />
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        关闭
+                    </button>
+                    <button type="button" id="btnSave" class="btn btn-primary">
+                        提交更改
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <script type="text/javascript">
+        var postData = {};//搜索条件
+        $(function () {
+            $('.nav-tabs li').eq(0).addClass("active");
+            postData.QudaoId = $('.nav-tabs li').eq(0).attr("data-id");
+
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.pageIndex = 1;
+            AjaxSearch(postData);
+
+
+            var qudaoId = -1;
+            $('.nav-tabs li').click(function () {
+                $(this).addClass("active").siblings().removeClass("active");
+                qudaoId = $(this).attr("data-id");
+                postData.QudaoId = qudaoId;
+                AjaxSearch(postData);
+            })
+
+            $('#btnSave').click(function () {
+                save();
+            })
+        })
+        var id = 0;
+        function add() {
+            id = 0;
+            $("#txtAmount").val("");
+            $("#myModalLabel").html("添加额度");
+            $('#myModal').modal('show');
+        }
+        function update(pid,amount) {
+            id = pid;
+            $("#txtAmount").val(amount);
+            $('#myModal').modal('show');
+        }
+        function save() {
+            var amount = $("#txtAmount").val();
+            if (amount == "") {
+                alert("请输入金额");
+                return false;
+            }
+            if (isNaN(amount)) {
+                alert("金额格式错误");
+                return false;
+            }
+            var data = { QudaoId: postData.QudaoId, Amount: amount, ID: id };
+
+            AjaxSubmit("/Filled/UpdateAmount", data, callBack, "save");
+        }
+        function del(pid) {
+            var data = {};
+            var cid="";
+            if (pid == 0)
+                cid = GetSelectValues();
+            else
+                cid = pid;
+            if (cid == "") {
+                alert("未选中任何数据");
+                return false;
+            }
+            if (confirm("你确定要此操作吗？")) {
+                data.cid = cid;
+                AjaxSubmit("/Filled/DelAmount", data, callBack, "del");
+            }
+        }
+
+        function AjaxSearch(postData) {
+            $('#pagin').paging("/Filled/GetPayAmountList", postData, CreatTableBody, postData.pageIndex);
+        }
+        //绑定数据
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex) {
+            var html = "";
+            if (jsondata != null && jsondata.length > 0) {
+                $.each(jsondata, function (i, item) {
+                    html += stringFormat("<tr>");
+                    html += stringFormat("<td><input name='cid' type='checkbox' value='{0}'/></td>", item.ID);
+                    html += stringFormat("<td>{0}</td>", item.Limit);
+                    html += stringFormat("<td><a href=\"javascript:void(0)\" onclick=\"update({0},{1})\">编辑</a>&nbsp;&nbsp;<a href=\"javascript:void(0)\" onclick=\"del({0})\">删除</a></td>", item.ID, item.Limit);
+                    html += "</tr>";
+                });
+            }
+            $("#DataTables_Table_0_wrapper tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * postData.pageSize + 1), ((pageIndex * postData.pageSize) < pageTotal ? (pageIndex * postData.pageSize) : pageTotal), pageTotal));
+        }
+        function Freeze(id, nullity) {
+            var data = { cid: id, Nullity: nullity };
+            AjaxSubmit("/Filled/FreezeQudao", data, callBack, "sFreeze");
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "save":
+                    $('#myModal').modal('hide');
+                    AjaxSearch(postData);
+                    break;
+                default:
+                    AjaxSearch(postData);
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "游戏系统 - 游戏管理";
+    Game.Entity.Platform.GameGameItem gameGameItem = ViewData["GameGameItem"] == null ? null : ViewData["GameGameItem"] as Game.Entity.Platform.GameGameItem; 
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                @Html.HtmlGameConfigMuneBuilder("a")
+                <div class="tab-content" style="margin-top:-11px">
+                    <div class="panel panel-primary" style="margin-left:-10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@(ViewBag.OpStr)模块信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">模块标识：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtGameID" style="width:350px;display:inline;"  class="form-control input-sm" type="text" maxlength="9" onkeyup="if(isNaN(value))execCommand('undo')" value="@(ViewBag.GameID != null ? ViewBag.GameID : (gameGameItem!=null?gameGameItem.GameID.ToString():""))" @(ViewBag.GameID!=null? "disabled=\"disabled\"":"")></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">模块名称：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtGameName" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="31" value="@(gameGameItem != null ? gameGameItem.GameName : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">数据库名：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtDataBaseName" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="31" value="@(gameGameItem != null ? gameGameItem.DataBaseName : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">数据库地址：</div>
+                                <div class="col-xs-6 col-md-3">@Html.HtmlDataBaseAddrSelectBuilder(gameGameItem!=null?gameGameItem.DataBaseAddr:"")</div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">服务端版本：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtServerVersion" style="width:350px;display:inline;" class="form-control input-sm" type="text" value="@(ViewBag.ServerVersion != null ? ViewBag.ServerVersion : "0.0.0.0")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">客户端版本：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtClientVersion" style="width:350px;display:inline;" class="form-control input-sm" type="text" value="@(ViewBag.ClientVersion != null ? ViewBag.ClientVersion : "0.0.0.0")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">服务端名称：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtServerDLLName" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="32" value="@(gameGameItem != null ? gameGameItem.ServerDLLName : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">客户端名称：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtClientExeName" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="32" value="@(gameGameItem != null ? gameGameItem.ClientExeName : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">支持类型：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    @Html.HtmlSupporTypeCHKListBuilder(gameGameItem!=null?gameGameItem.SuportType:0)
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="@Url.Action("GameGameItemList","App")"><i class="glyphicon glyphicon-circle-arrow-left"></i>返回</a></li>
+                                    <li><a class="btn btn-success search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-send"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function add() {
+
+            var GameID = $("#txtGameID").val();
+            if (GameID == "") {
+                alert("模块标识不能为空");
+                return false;
+            }
+            if (isNaN(GameID)) {
+                alert("模块标识为整数");
+                return false;
+            }
+            var GameName = $("#txtGameName").val();
+            if (GameName == "") {
+                alert("模块名称不能为空");
+                return false;
+            }
+            var DataBaseName = $("#txtDataBaseName").val();
+            if (DataBaseName == "") {
+                alert("数据库名不能为空");
+                return false;
+            }
+            var DataBaseAddr = $("#ddlDataBaseAddr").val();
+            if (DataBaseAddr == "") {
+                alert("请选择数据库");
+                return false;
+            }
+            var ServerVersion = $("#txtServerVersion").val();
+            if (ServerVersion == "") {
+                alert("服务器版本不能为空");
+                return false;
+            }
+            var ClientVersion = $("#txtClientVersion").val();
+            if (ClientVersion == "") {
+                alert("客服端版本不能为空");
+                return false;
+            }
+            var ServerDLLName = $("#txtServerDLLName").val();
+            if (ServerDLLName == "") {
+                alert("服务端名称不能为空");
+                return false;
+            }
+            var ClientExeName = $("#txtClientExeName").val();
+            if (ClientExeName == "") {
+                alert("客户端名称不能为空");
+                return false;
+            }
+            var SuportType = GetCheckListCheckedSum("ckbSupporType");
+            if (SuportType < 1) {
+                alert("请选择支持类型");
+                return false;
+            }
+            var data = { GameID: GameID, GameName: GameName, DataBaseName: DataBaseName, DataBaseAddr: DataBaseAddr, ServerVersion: ServerVersion, ClientVersion: ClientVersion, ServerDLLName: ServerDLLName, ClientExeName: ClientExeName, SuportType: SuportType, IntParam: parseInt('@ViewBag.ID') };
+            AjaxSubmit("/App/AddGameGameItemInfo", data, callBack, "add");
+        }
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.location.href = "/App/GameGameItemList"
+                    break;
+            }
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+    </script>
+
+</body>
+</html>

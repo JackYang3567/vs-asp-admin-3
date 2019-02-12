@@ -1,0 +1,192 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "后台管理-申诉资料";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+                    <div class="panel panel-primary" style="margin-left:-10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">申诉资料</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">申诉单号：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblReportNo">@(ViewBag.ReportNo != null ? ViewBag.ReportNo : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">帐号：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblAccounts">@(ViewBag.Accounts != null ? ViewBag.Accounts : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">真实姓名：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblCompellation">@Html.Raw(ViewBag.Compellation)</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">身份证号：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblPassportID">@Html.Raw(ViewBag.PassportID)</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">移动电话：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblLinkPhone">@Html.Raw(ViewBag.LinkPhone)</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">注册时间：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblRegisterTime">@Html.Raw(ViewBag.RegisterTime)</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">历史昵称1：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblOldNickName1">@Html.Raw(ViewBag.OldNickName1)</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">历史昵称2：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblOldNickName2">@Html.Raw(ViewBag.OldNickName2)</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">历史昵称3：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblOldNickName3">@Html.Raw(ViewBag.OldNickName3)</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">历史登录密码1：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblOldLogonPass1">@Html.Raw(ViewBag.OldLogonPass1)</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">历史登录密码2：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblOldLogonPass2">@Html.Raw(ViewBag.OldLogonPass2)</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">历史登录密码3：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblOldLogonPass3">@Html.Raw(ViewBag.OldLogonPass3)</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">密保1：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblOldProtect1">@Html.Raw(ViewBag.OldProtect1)</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">密保2：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblOldProtect2">@Html.Raw(ViewBag.OldProtect2)</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">密保3：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblOldProtect3">@Html.Raw(ViewBag.OldProtect3)</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">申诉时间：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblReportDate">@(ViewBag.ReportDate != null ? ViewBag.ReportDate : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">申诉地址：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblReportIP">@(ViewBag.ReportIP != null ? ViewBag.ReportIP : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">处理时间：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblOverDate">@(ViewBag.OverDate != null ? ViewBag.OverDate : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">其他证明：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblSuppInfo">@(ViewBag.SuppInfo != null ? ViewBag.SuppInfo : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">资料审核</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">资料审核</div>
+                                <div class="col-xs-6 col-md-3"><label id="CheckInfo">@Html.Raw(ViewBag.CheckInfo)</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">密保资料：</div>
+                                <div class="col-xs-6 col-md-3"><label id="PassProtect">@(ViewBag.PassProtect != null ? ViewBag.PassProtect : "")</label></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">相关操作：</div>
+                                <div class="col-xs-6 col-md-3">
+                                <a href="#" class="l" onclick='javascript:openWindowOwn("@Url.Action("AccountsInfo","Account")?param=@(ViewBag.UserID!=null?ViewBag.UserID:"")","查看帐号详情",850,600);'>查看帐号详情</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                <a href="#" class="l" onclick='javascript:openWindowOwn("@Url.Action("AccountsUpdatePass", "Account")?param=@(ViewBag.UserID!=null?ViewBag.UserID:"")","修改密码",500,260);'>修改密码</a> <br />
+                                <a href="#" class="l" onclick='javascript:openWindowOwn("@Url.Action("RecordAccountsExpendList", "Account")?type=1&param=@(ViewBag.UserID!=null?ViewBag.UserID:"")","修改昵称记录",800,500);'>修改昵称记录</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                <a href="#" class="l" onclick='javascript:openWindowOwn("@Url.Action("RecordPasswdExpendList", "Account")?param=@(ViewBag.UserID!=null?ViewBag.UserID:"")","修改密码记录",800,500);'>修改密码记录</a> (历史)<br />
+                                <input type="button" id="lblsend" class="btn wd1" value="申诉成功邮件" onclick="send();" />&nbsp;&nbsp;|&nbsp;&nbsp;
+                                <a href="#" class="l" onclick='javascript:openWindowOwn("@Url.Action("SendLossReportInfo", "Account")?param=@(ViewBag.Param != null ? ViewBag.Param : "")",@(ViewBag.Param != null ? ViewBag.Param : "")+"发送失败邮件",750,550);'>申诉失败邮件</a> (发送)<br />
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="Redirect(this,'@Url.Action("ConfineMachineList", "Account")')"><i class="glyphicon glyphicon-circle-arrow-left"></i>关闭</a></li>
+                                   
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function send() {
+            if (confirm("确定发送申诉成功邮件吗？")) {
+                data.ReportId = parseInt('@ViewBag.ReportId');
+                AjaxSubmit("/Account/SendSuccessEmail", data, callBack, "add");
+            }   
+        }
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.close();
+                    window.opener.location.reload();
+                    break;
+            }
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+    </script>
+</body>
+</html>

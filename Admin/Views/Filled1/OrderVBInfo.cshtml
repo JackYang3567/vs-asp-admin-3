@@ -1,0 +1,117 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "充值系统 - 声讯记录";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/layout.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/common.js"></script>
+</head>
+<body>
+    <!-- 头部菜单 Start -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="title">
+        <tr>
+            <td width="19" height="25" valign="top" class="Lpd10"><div class="arr"></div></td>
+            <td width="1232" height="25" valign="top" align="left">你当前位置：@ViewBag.Title</td>
+        </tr>
+    </table>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="titleOpBg Lpd10">
+                <input type="button" value="关闭" class="btn wd1" onclick="javascript:window.close()" />
+            </td>
+        </tr>
+    </table>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="listBg2">
+        <tr>
+            <td height="35" colspan="2" class="f14 bold Lpd10 Rpd10"><div class="hg3  pd7">基本信息</div></td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">订单号码：</td>
+            <td>
+                <label id="litOrderID">@(ViewBag.OrderID!=null?Html.Raw(ViewBag.OrderID):"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">订单日期：</td>
+            <td>
+                <label id="litOrderTime">@(ViewBag.OrderTime != null ? ViewBag.OrderTime : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td height="35" colspan="2" class="f14 bold Lpd10 Rpd10"><div class="hg3  pd7">交易信息</div></td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">V币交易号：</td>
+            <td>
+                <label id="litRtoID">@(ViewBag.RtoID != null ? ViewBag.RtoID : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">面值：</td>
+            <td>
+                <label id="litRtmz">@(ViewBag.Rtmz != null ? ViewBag.Rtmz : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">卡的类型：</td>
+            <td>
+               <label id="litRtlx">@(ViewBag.Rtlx != null ? ViewBag.Rtlx : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">V币号码：</td>
+            <td>
+               <label id="litRtka">@(ViewBag.Rtka != null ? ViewBag.Rtka : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">V币密码：</td>
+            <td>
+                <label id="LitRtmi">@(ViewBag.Rtmi != null ? ViewBag.Rtmi : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">返回状态：</td>
+            <td>
+               <label id="litRtflag">@(ViewBag.Rtflag != null ? ViewBag.Rtflag : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">操作站点：</td>
+            <td>
+               <label id="litOperStationID">@(ViewBag.OperStationID != null ? ViewBag.OperStationID : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td height="35" colspan="2" class="f14 bold Lpd10 Rpd10"><div class="hg3  pd7">签名信息</div></td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">签名字符串：</td>
+            <td>
+               <label id="litSignMsg">@(ViewBag.SignMsg != null ? ViewBag.SignMsg : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft"> V币服务器MD5：</td>
+            <td>
+               <label id="litRtmd5">@(ViewBag.Rtmd5 != null ? ViewBag.Rtmd5 : "")</label>
+            </td>
+        </tr>
+    </table>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="titleOpBg Lpd10">
+                <input type="button" value="关闭" class="btn wd1" onclick="javascript:window.close()" />
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,145 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "充值系统 - 实卡信息";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+                    <div class="panel panel-primary" style="margin-left:-10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">基本信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">会员卡名称：</div>
+                                <div class="col-xs-6 col-md-3"><label id="ltSerialID">@(ViewBag.SerialID != null ? ViewBag.SerialID : "")</label></div>
+                                
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">实卡名称：</div>
+                                <div class="col-xs-6 col-md-3"><label id="ltSerialID">@(ViewBag.SerialID != null ? ViewBag.SerialID : "")</label></div>
+                                
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">生产批次：</div>
+                                <div class="col-xs-6 col-md-3"><label id="ltBuildID">@(ViewBag.BuildID != null ? ViewBag.BuildID : "")</label></div>
+                               
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">实卡价格：</div>
+                                <div class="col-xs-6 col-md-3"><label id="ltCardPrice">@(ViewBag.CardPrice != null ? ViewBag.CardPrice : "")</label> </div>
+                               
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">实卡游戏豆：</div>
+                                <div class="col-xs-6 col-md-3"><label id="ltCurrency">@(ViewBag.Currency != null ? ViewBag.Currency : "")</label></div>
+                               
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">使用范围：</div>
+                                <div class="col-xs-6 col-md-3"><label id="ltUseRange">@(ViewBag.UserRange != null ? ViewBag.UserRange : "")</label></div>
+                                
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">销售商：</div>
+                                <div class="col-xs-6 col-md-3"><label id="ltSalesPerson">@(ViewBag.SalesPerson != null ? ViewBag.SalesPerson : "")</label></div>
+                               
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">禁用状态：</div>
+                                <div class="col-xs-6 col-md-3"><label id="ltNullity">@(ViewBag.NullityStatus != null ? Html.Raw(ViewBag.NullityStatus) : "")</label></div>
+                                
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">生成日期：</div>
+                                <div class="col-xs-6 col-md-3"><label id="ltBuildDate">@(ViewBag.BuildDate != null ? ViewBag.BuildDate : "")</label></div>
+                                
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">有效日期：</div>
+                                <div class="col-xs-6 col-md-3"><label id="ltValidDate">@(ViewBag.ValidDate != null ? ViewBag.ValidDate : "")</label></div>
+                               
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right"></div>
+                                <div class="col-xs-6 col-md-3"><label id="lbPayCardMsg">@(ViewBag.PayCardMsg != null ? ViewBag.PayCardMsg : "")</label></div>
+                                
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;" @(ViewBag.PyaCardVisible == null || !ViewBag.PyaCardVisible ? "" : "style=\"display:none;\"")>
+                                <div class="col-xs-4 col-md-2" style="text-align:right">充值日期：</div>
+                                <div class="col-xs-6 col-md-3"><label id="ltPayDate">@(ViewBag.ApplyDate != null ? ViewBag.ApplyDate : "")</label></div>
+                                
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;" @(ViewBag.PyaCardVisible == null || !ViewBag.PyaCardVisible ? "" : "style=\"display:none;\"")>
+                                <div class="col-xs-4 col-md-2" style="text-align:right">帐号(游戏ID)：</div>
+                                <div class="col-xs-6 col-md-3"><label id="ltPayUser">@(ViewBag.PayUser != null ? ViewBag.PayUser : "")</label></div>
+                               
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;" @(ViewBag.PyaCardVisible == null || !ViewBag.PyaCardVisible ? "" : "style=\"display:none;\"")>
+                                <div class="col-xs-4 col-md-2" style="text-align:right">操作用户：</div>
+                                <div class="col-xs-6 col-md-3"><label id="ltPayOperUser">@(ViewBag.PayOperUser != null ? ViewBag.PayOperUser : "")</label></div>
+                                
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;" @(ViewBag.PyaCardVisible == null || !ViewBag.PyaCardVisible ? "" : "style=\"display:none;\"")>
+                                <div class="col-xs-4 col-md-2" style="text-align:right">充值前游戏豆：</div>
+                                <div class="col-xs-6 col-md-3"><label id="ltPayBeforeCurrency">@(ViewBag.PayBeforeCurrency != null ? ViewBag.PayBeforeCurrency : "")</label></div>
+                               
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;" @(ViewBag.PyaCardVisible == null || !ViewBag.PyaCardVisible ? "" : "style=\"display:none;\"")>
+                                <div class="col-xs-4 col-md-2" style="text-align:right">充值地址：</div>
+                                <div class="col-xs-6 col-md-3"><label id="ltPayAddress">@(ViewBag.PayAddress != null ? ViewBag.PayAddress : "")</label></div>
+                                
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><button type="button" class="btn btn-success" onclick="window.close();"> <i class="glyphicon glyphicon-off icon-white"></i>关闭 </button></li>
+                                    <li><button type="button" class="btn btn-warning" onclick="Do(0);"> <i class="glyphicon glyphicon-minus-sign icon-white"></i>禁用 </button></li>
+                                    <li><button type="button" class="btn btn-primary" onclick="Do(1);"> <i class="glyphicon glyphicon-ok-sign icon-white"></i>启用 </button></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function Do(t) {
+            var cid = '@ViewBag.SerialID';
+            if (confirm("你确定要此操作吗？")) {
+                var data = { cid: cid, opt: t };
+                AjaxSubmit("/Filled/DoLivcardAssociatorInfo", data, callBack, "add");
+            }
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            if (fname == "add") {
+                alert("操作成功");            
+                window.location.reload();
+                window.opener.AjaxSearch(window.opener.postData);
+            }
+        }
+    </script>
+    </body>
+    </html>

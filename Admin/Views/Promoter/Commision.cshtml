@@ -1,0 +1,103 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "推广系统 - 佣金管理";
+    System.Data.DataTable dt = ViewData["data"] == null ? null : ViewData["data"] as System.Data.DataTable;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能："@ViewBag.Title"</h2>
+                </div>
+                <ul class="media nav nav-tabs">
+                    <li><a href="/Promoter/NewIndex" title="推广管理">推广管理</a></li>
+                    <li class="active"><a href="javascript:void(0)" title="佣金管理">佣金管理</a></li>
+                </ul>
+                <div class="tab-content" style="margin-top:0px">
+                    <table class="table table-striped" id="tabledd">
+                        <caption></caption>
+                        <thead>
+                            <tr>
+                                <th>代理级别</th>
+                                <th>业绩额度</th>
+                                <th>返佣金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(dt!=null && dt.Rows.Count>0){
+                                for (var i = 0; i < dt.Rows.Count;i++ ) {
+                                    System.Data.DataRow row = dt.Rows[i];
+                                    if (i == dt.Rows.Count - 1)
+                                    {
+                                         <tr id="tr@(i+1)">
+                                            <td>@(i+1).<span>@row["LName"].ToString()</span></td>
+                                            <td><ul class="list-inline cursor-style"><li><input type="text" placeholder="" name="min" class="form-control input-sm" style="width:60px;" onkeyup="if(isNaN(value)) execCommand('undo');" value="@(row["MinYJ"].ToString())"></li><li>业绩以上</li></ul></td>
+                                            <td><ul class="list-inline cursor-style"><li>每万返佣</li><li><input type="text" placeholder="" name="rate" class="form-control input-sm" style="width:60px;" onkeyup="if(isNaN(value)) execCommand('undo');" value="@(row["RtnAmt"].ToString())"></li></ul></td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                     <tr id="tr@(i+1)">
+                                            <td>@(i+1).<span>@row["LName"].ToString()</span></td>
+                                            <td><ul class="list-inline cursor-style"><li><input type="text" placeholder="" name="min" class="form-control input-sm" style="width:60px;" onkeyup="if(isNaN(value)) execCommand('undo');" value="@(row["MinYJ"].ToString())"></li><li>~</li><li><input type="text" placeholder="" name="max" class="form-control input-sm" style="width:60px;" onkeyup="if(isNaN(value)) execCommand('undo');" value="@(row["MaxYj"].ToString())"></li><li>业绩</li></ul></td>
+                                            <td><ul class="list-inline cursor-style"><li>每万返佣</li><li><input type="text" placeholder="" name="rate" class="form-control input-sm" style="width:60px;" onkeyup="if(isNaN(value)) execCommand('undo');" value="@(row["RtnAmt"].ToString())"></li></ul></td>
+                                     </tr>
+                                    }                           
+                                }
+                            }                            
+                        </tbody>
+                    </table>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <ul class="list-inline">
+                            <li><a class="btn btn-primary search btn-md" href="#" onclick="Save();"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        function Save() {
+            var postData = {};
+            var tabArray = [];
+            $("#tabledd tbody tr").each(function (i, item) {
+                var lev = i + 1;
+                var LName = $(item).find("td:eq(0) span").html();
+                var MinYJ = parseInt($(item).find("td:eq(1) input[type='text']:eq(0)").val());
+                var RtnAmt = parseFloat($(item).find("td:eq(2) input[type='text']:eq(0)").val());
+                tabArray.push({ Lev: lev, LName: LName, MinYJ: MinYJ, RtnAmt: RtnAmt });
+            });
+            postData.Data = JSON.stringify(tabArray);
+            AjaxSubmit("/Promoter/EditCommision", postData, callBack, "save");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "save":
+                    alert(jsonData.Msg);
+                    break;
+            }
+        }
+    </script>
+
+</body>
+</html>

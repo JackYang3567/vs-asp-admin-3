@@ -1,0 +1,155 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "充值系统 - 充值渠道";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/pagination.js"></script>
+    <style type="text/css">
+        .sort {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <ul class="media nav nav-tabs">
+                    <li class="active" data-id="-1"><a href="javascript:void(0)">全部</a></li>
+                    <li data-id="1"><a href="javascript:void(0)">启动</a></li>
+                    <li data-id="0"><a href="javascript:void(0)">禁用</a></li>
+                </ul>
+                <div class="box-content" style="overflow: hidden; display: block;">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div id="DataTables_Table_0_length" class="dataTables_length">
+                                <label>
+                                    <select size="1" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" id="pagecount">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50" selected="selected">50</option>
+                                        <option value="100">100</option>
+                                    </select> 条/页
+                                </label>
+                                <div class="dataTables_info" id="DataTables_Table_0_info">显示 1 至 10 共 10 条</div>
+                            </div>
+                        </div>
+                        <div>
+                            说明：启用的会在游戏充值页面的左侧显示，禁用的不显示
+                        </div>
+                    </div>
+                    <!--table开始-->
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                        <table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                            <thead>
+                                <tr role="row">
+                                    <th>排序号</th>
+                                    <th>状态</th>
+                                    <th>渠道名称</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                        </table>
+                        <!--分页控件-->
+                        <div class="row">
+                            <div class="col-md-6">
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="dataTables_paginate paging_bootstrap pagination" style="float:right;">
+                                    <ul class="pagination" id="pagin"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--table结束-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var postData = {};//搜索条件
+        $(function () {
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.pageIndex = 1;
+            AjaxSearch(postData);
+
+            $('.sort').change(function () {
+                var id = $(this).attr("data-id");
+                var sort = $(this).val();
+                AjaxSubmit("/Filled/UpdateQudaoSort", { id: id, sort: sort }, callBack, "UpdateQudaoSort");
+            })
+
+            var status = -1;
+            $('.nav-tabs li').click(function () {
+                $(this).addClass("active").siblings().removeClass("active");
+                status = $(this).attr("data-id");
+                postData.Status = status;
+                AjaxSearch(postData);
+            })
+        })
+
+       
+        function AjaxSearch(postData) {
+            $('#pagin').paging("/Filled/GetPayQudaoList", postData, CreatTableBody, postData.pageIndex);
+        }
+        //绑定数据
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex) {
+            var html = "";
+            if (jsondata != null && jsondata.length > 0) {
+                $.each(jsondata, function (i, item) {
+                    html += stringFormat("<tr>");
+                    html += stringFormat("<td><input data-id=\"{0}\" type=\"text\" class=\"sort\" value=\"{1}\"/></td>", item.ID, item.SortID);
+                    html += stringFormat("<td>{0}</td>", item.IsShow ? "<font style='color:green'>启用</font>" : "<font style='color:red'>禁用</font>");
+                    html += stringFormat("<td>{0}</td>", item.QudaoName);
+                    html += stringFormat("<td>{0}</td>", item.IsShow ? "<button type=\"button\" class=\"btn btn-danger\" onclick='Freeze(" + item.ID + ",0)'>禁用</button>" : "<button type=\"button\" class=\"btn btn-success\" onclick='Freeze(" + item.ID + ",1)'>启用</button>");
+                    html += "</tr>";
+                });
+            }
+            $("#DataTables_Table_0_wrapper tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * postData.pageSize + 1), ((pageIndex * postData.pageSize) < pageTotal ? (pageIndex * postData.pageSize) : pageTotal), pageTotal));
+        }
+        function Freeze(id, nullity) {
+            var data = { cid: id, Nullity: nullity };
+            AjaxSubmit("/Filled/FreezeQudao", data, callBack, "sFreeze");
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "sFreeze":
+                    alert("操作成功，一分钟内生效");
+                    AjaxSearch(postData);
+                    break;
+                default:
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

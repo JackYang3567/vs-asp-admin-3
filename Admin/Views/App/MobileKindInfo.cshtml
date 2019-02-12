@@ -1,0 +1,188 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "游戏系统 - 游戏管理";
+    Game.Entity.Platform.MobileKindItem mobileKindItem = ViewData["MobileKindItem"] == null ? null : ViewData["MobileKindItem"] as Game.Entity.Platform.MobileKindItem; 
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                @Html.HtmlGameConfigMuneBuilder("d")
+                <div class="tab-content" style="margin-top:-11px">
+                    <div class="panel panel-primary" style="margin-left:-10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@(ViewBag.OpStr)游戏信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">游戏标识：</div>
+                                <div class="col-xs-6 col-md-3"><input type="text" placeholder="请输入游戏标识" id="txtKindID" style="width:350px;display:inline;" class="form-control input-sm" maxlength="9" onkeyup="if(isNaN(value))execCommand('undo')" value="@(mobileKindItem != null ? mobileKindItem.KindID.ToString() : "")" @(mobileKindItem != null ? "disabled=\"disabled\"" : "")></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">请输入正确的游戏标识，必须为整数</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">游戏名称：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtKindName" placeholder="请输入游戏名称" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="31" value="@(mobileKindItem != null ? mobileKindItem.KindName : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">模块名称：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtModuleName" placeholder="请输入模块名称" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="31" value="@(mobileKindItem != null ? mobileKindItem.ModuleName : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">模块版本号：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtClientVersion" placeholder="请输入模块版本号" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="31" value="@(mobileKindItem != null ? Game.Facade.Tools.TypeUtil.CalVersion(mobileKindItem.ClientVersion) : "0.0.0.0")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">资源版本号：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtResVersion" placeholder="请输入资源版本号" onkeyup="if(isNaN(value))execCommand('undo')" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="31" value="@(mobileKindItem != null ? mobileKindItem.ResVersion.ToString() : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">排序：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtSortID" placeholder="请输入排序" style="display:inline;" class="form-control input-sm input-width-150" type="text" onkeyup="if(isNaN(value))execCommand('undo')" maxlength="9" value="@(mobileKindItem != null ? mobileKindItem.SortID.ToString() : "0")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;">请输入正确的排序，必须为整数</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">游戏归属：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="cblKindMark" value="1"  @(Game.Facade.Tools.TypeUtil.IsExit(mobileKindItem != null ? mobileKindItem.KindMark : 0, 1) ? "checked" : "")> ios
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="cblKindMark" value="2" @(Game.Facade.Tools.TypeUtil.IsExit(mobileKindItem != null ? mobileKindItem.KindMark : 0, 2) ? "checked" : "")> android
+                                    </label>
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">游戏模式：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="cblKindType" value="1" @(Game.Facade.Tools.TypeUtil.IsExit(mobileKindItem != null ? mobileKindItem.KindType : 0, 1) ? "checked" : "")> 房卡
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="cblKindType" value="2" @(Game.Facade.Tools.TypeUtil.IsExit(mobileKindItem != null ? mobileKindItem.KindType : 0, 2) ? "checked" : "")> 金币
+                                    </label>
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">禁用状态：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="rbtnNullity" value="0" @(mobileKindItem != null && mobileKindItem.Nullity == 0 ? "checked" : "")> 正常
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="rbtnNullity" value="1" @(mobileKindItem != null && mobileKindItem.Nullity == 1 ? "checked" : "")> 禁用
+                                    </label>
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left;color:red;"></div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="@Url.Action("MobileKindList", "App")"><i class="glyphicon glyphicon-circle-arrow-left"></i>返回</a></li>
+                                    <li><a class="btn btn-success search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-send"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function add() {
+            var KindID = $("#txtKindID").val();
+            if (KindID == "") {
+                alert("游戏标识不能为空");
+                return false;
+            }
+            if (isNaN(KindID)) {
+                alert("游戏标识为整数");
+                return false;
+            }
+            var KindName = $("#txtKindName").val();
+            if (KindName == "") {
+                alert("游戏名称不能为空");
+                return false;
+            }
+            var ModuleName = $("#txtModuleName").val();
+            var ClientVersion = $("#txtClientVersion").val();
+            if (ClientVersion == "") {
+                alert("模板号不能为空不能为空");
+                return false;
+            }
+            ClientVersion = CalVersion2(ClientVersion);
+            if (ClientVersion < 1) {
+                alert("模板号格式不正确");
+                return false;
+            }
+            var ResVersion = $("#txtResVersion").val();
+            if (ResVersion == "") {
+                alert("资源版本号不能为空不能为空");
+                return false;
+            }
+            if (isNaN(ResVersion)) {
+                alert("资源版本号不能为空不能为空");
+                return false;
+            }
+            var SortID = $("#txtSortID").val();
+            if (SortID == "") {
+                alert("排序不能为空");
+                return false;
+            }
+            if (isNaN(SortID)) {
+                alert("排序必须为数字");
+                return false;
+            }
+            var KindMark = GetCheckListCheckedSum("cblKindMark");
+            var KindType = GetCheckListCheckedSum("cblKindType");
+            var Nullity = $('input:radio[name="rbtnNullity"]:checked').val();
+            if (Nullity == null) {
+                alert("请选择禁用状态");
+                return false;
+            }
+            var data = { KindID: KindID, KindName: KindName, ModuleName: ModuleName, ClientVersion: ClientVersion, ResVersion: ResVersion, SortID: SortID, KindMark: KindMark, KindType: KindType, Nullity: Nullity, IntParam: parseInt('@ViewBag.ID') };
+            AjaxSubmit("/App/AddMobileKindInfo", data, callBack, "add");
+        }
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.location.href = "/App/MobileKindList"
+                    break;
+            }
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+    </script>
+</body>
+
+</html>

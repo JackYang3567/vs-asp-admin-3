@@ -1,0 +1,244 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "系统维护 - 泡点设置";
+    Game.Entity.Platform.GlobalPlayPresent globalPlayPresent = ViewData["data"] == null ? null : ViewData["data"] as Game.Entity.Platform.GlobalPlayPresent;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                
+                <div class="tab-content" style="margin-top:0px">
+
+                    <div class="panel panel-info">
+                        @if (ViewBag.First)
+                        { 
+                        <div class="panel-heading">
+                            <h3 class="panel-title">泡点封顶设置(设置为0即为取消封顶)</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-3 col-md-2" style="text-align:right">单日封顶值：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtMaxDatePresent" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="10" onkeyup="if(isNaN(value))execCommand('undo');" value="@(globalPlayPresent != null ? globalPlayPresent.MaxDatePresent.ToString() : "0")">
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">
+                                    <label>游戏币</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">总封顶值：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtMaxPresent" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="10" onkeyup="if(isNaN(value))execCommand('undo');" value="@(globalPlayPresent != null ? globalPlayPresent.MaxPresent.ToString() : "0")">
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">
+                                    <label>游戏币</label>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        }
+                        @if (ViewBag.Second)
+                        {
+                        <div class="panel-heading">
+                            <h3 class="panel-title">泡点规则</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">房间名称：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    @Html.HtmlGameRoomSelectBuilder((int)ViewBag.ServerID)
+                                </div>
+                                <div class="col-xs-5 col-md-3" style="text-align:left">
+                                   
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">赠送对象：</div>
+                                <div class="col-xs-6 col-md-3">
+                                   @Html.HtmlMemberOrderCHKListBuilder(ViewBag.ArrayMemberOrder!=null?ViewBag.ArrayMemberOrder as string[]:null)
+                                </div>
+                                <div class="col-xs-5 col-md-3" style="text-align:left">
+                                   
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">游戏泡分单元值：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtCellPlayPresnet" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="10" onkeyup="if(isNaN(value))execCommand('undo');" value="@(globalPlayPresent != null ? globalPlayPresent.CellPlayPresnet.ToString() : "0")">
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+                                    <label>游戏币,只能填写数字，范围为0-2147483647</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">游戏泡分单元时间(秒)：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtCellPlayTime" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="10" onkeyup="if(isNaN(value))execCommand('undo');" value="@(globalPlayPresent != null ? globalPlayPresent.CellPlayTime.ToString() : "0")">
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+                                    <label>游戏币,只能填写数字，范围为0-2147483647</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">游戏泡分启始时间(秒)：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtStartPlayTime" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="10" onkeyup="if(isNaN(value))execCommand('undo');" value="@(globalPlayPresent != null ? globalPlayPresent.StartPlayTime.ToString() : "0")">
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+                                    <label>游戏币,只能填写数字，范围为0-2147483647</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">在线泡分单元值(秒)：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtCellOnlinePresent" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="10" onkeyup="if(isNaN(value))execCommand('undo');" value="@(globalPlayPresent != null ? globalPlayPresent.CellOnlinePresent.ToString() : "0")">
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+                                    <label>只能填写数字，范围为0-2147483647</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">在线泡分启始时间(秒)：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtStartOnlineTime" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="10" onkeyup="if(isNaN(value))execCommand('undo');" value="@(globalPlayPresent != null ? globalPlayPresent.StartOnlineTime.ToString() : "0")">
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+                                    <label>只能填写数字，范围为0-2147483647</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">泡分状态：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <p class="checkbox-radio">
+                                        <span class="break-word"><input id="ckbIsPlayPresent" type="checkbox" @(globalPlayPresent!=null && globalPlayPresent.IsPlayPresent==1?"checked=\"checked\"":"") />
+                                            <label for="ckbIsPlayPresent">开启游戏泡分</label>
+                                        </span>
+                                        <span class="break-word">
+                                            <input id="ckbIsOnlinePresent" type="checkbox" @(globalPlayPresent != null && globalPlayPresent.IsOnlinePresent == 1 ? "checked=\"checked\"" : "") />
+                                            <label for="ckbIsOnlinePresent">开启在线泡分</label>
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+                                   
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">创建时间：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <label id="ltCollectDate">@(globalPlayPresent!=null?globalPlayPresent.CollectDate.ToString("yyyy-MM-dd hh:mm:ss"):"")</label>
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-success search btn-md" href="@Url.Action("GlobalPlayPresentList","App")"><i class="glyphicon glyphicon-arrow-left"></i>返回</a></li>
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function add() {
+            var op = '@ViewBag.First' == 'True' ? 1 : 2;
+            var data = {};
+            data.ID = parseInt('@ViewBag.ID');
+            if (op == 1) {
+                var MaxDatePresent = $("#txtMaxDatePresent").val();
+                if (MaxDatePresent == "" || isNaN(MaxDatePresent)) {
+                    alert("单日封顶值不能为空只能填写数字");
+                    return false;
+                }
+                var MaxPresent = $("#txtMaxPresent").val();
+                if (MaxPresent == "" || isNaN(MaxPresent)) {
+                    alert("总封顶值不能为空只能填写数字");
+                    return false;
+                }
+                data.MaxDatePresent = MaxDatePresent;
+                data.MaxPresent = MaxPresent;
+            } else {
+                var ServerID = $("#ddlGameRoom").val();
+                var PresentMember = GetCheckBoxByNameOfValues("ckbMemberOrder");
+                if (PresentMember == "") {
+                    alert("请选择会员类型");
+                    return false;
+                }
+                data.ServerID = ServerID;
+                data.PresentMember = PresentMember;
+                var CellPlayPresnet = $("#txtCellPlayPresnet").val();
+                if (isNaN(CellPlayPresnet) || CellPlayPresnet < 0 || CellPlayPresnet > 2147483647) {
+                    alert("游戏泡分单元值只能填写数字，范围为0-2147483647");
+                    return false;
+                }
+                data.CellPlayPresnet = CellPlayPresnet;
+                var CellPlayTime = $("#txtCellPlayTime").val();
+                if (isNaN(CellPlayTime) || CellPlayTime < 0 || CellPlayTime > 2147483647) {
+                    alert("游戏泡分单元时间(秒)只能填写数字，范围为0-2147483647");
+                    return false;
+                }
+                data.CellPlayTime = CellPlayTime;
+                var StartPlayTime = $("#txtStartPlayTime").val();
+                if (isNaN(StartPlayTime) || StartPlayTime < 0 || StartPlayTime > 2147483647) {
+                    alert("游戏泡分启始时间(秒)只能填写数字，范围为0-2147483647");
+                    return false;
+                }
+                data.StartPlayTime = StartPlayTime;
+                var CellOnlinePresent = $("#txtCellOnlinePresent").val();
+                if (isNaN(CellOnlinePresent) || CellOnlinePresent < 0 || CellOnlinePresent > 2147483647) {
+                    alert("在线泡分单元值(秒)只能填写数字，范围为0-2147483647");
+                    return false;
+                }
+                data.CellOnlinePresent = CellOnlinePresent;
+                var StartOnlineTime = $("#txtStartOnlineTime").val();
+                if (isNaN(StartOnlineTime) || StartOnlineTime < 0 || StartOnlineTime > 2147483647) {
+                    alert("在线泡分启始时间(秒)只能填写数字，范围为0-2147483647");
+                    return false;
+                }
+                data.StartOnlineTime = StartOnlineTime;
+                var IsPlayPresent = $("#ckbIsPlayPresent").is(":checked") ? 1 : 0;
+                var IsOnlinePresent = $("#ckbIsOnlinePresent").is(":checked") ? 1 : 0;
+                data.IsPlayPresent = IsPlayPresent;
+                data.IsOnlinePresent = IsOnlinePresent;
+            }          
+            AjaxSubmit("/App/DoGlobalPlayPresentInfo", data, callBack, "add");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.location.reload();
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

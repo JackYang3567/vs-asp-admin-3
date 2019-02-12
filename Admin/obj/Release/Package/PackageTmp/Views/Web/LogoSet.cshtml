@@ -1,0 +1,144 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "网站系统 - 站点设置";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />   
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script> 
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="carousel box-inner">
+            <div class="box-header well clearfix" data-original-title="">
+                <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+            </div>
+            @Html.HtmlWebConfigMuneBuilder((int)ViewBag.IntParam)
+            <div class="tab-content" style="margin-top:-11px">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@ViewBag.Title</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">网站前台LOGO：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <img id="fuLogo" src="/Content/Upload/Site/logo.png" alt="" title="" class="pull-left" style="width: 395px; height: 150px;" />
+                                <input id="fuLogoField" name="fuLogoField" type="file" style="display:none" onchange='UploadImg("fuLogoField", "/Common/UploadFileToLocal", "fuLogo",@((Int32)Game.Facade.EnumerationList.UploadFileEnum.SiteLogoImg));'>
+                                <button type="button" class="form-control btn btn-primary pull-left" onclick="$('input[id=fuLogoField]').click();"><span class="glyphicon glyphicon-open"></span>更新网站前台LOGO</button>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">网站后台LOGO：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <img id="fuAdminLogo" src="/Content/Upload/Site/Adminlogo.png" alt="" title="" class="pull-left" style="width: 395px; height: 150px;" />
+                                <input id="fuAdminLogoField" name="upImageField" type="file" style="display:none" onchange='UploadImg("fuAdminLogoField", "/Common/UploadFileToLocal", "fuAdminLogo",@((Int32)Game.Facade.EnumerationList.UploadFileEnum.SiteAdminlogoImg));'>
+                                <button type="button" class="form-control btn btn-primary pull-left" onclick="$('input[id=fuAdminLogoField]').click();"><span class="glyphicon glyphicon-open"></span>更新网站后台LOGO</button>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">移动版网站LOGO：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <img id="fuMobileLogo" src="/Content/Upload/Site/MobileLogo.png" alt="" title="" class="pull-left" style="width: 395px; height: 150px;" />
+                                <input id="fuMobileLogoField" name="fuMobileLogoField" type="file" style="display:none" onchange='UploadImg("fuMobileLogoField", "/Common/UploadFileToLocal", "fuMobileLogo",@((Int32)Game.Facade.EnumerationList.UploadFileEnum.SiteMobileLogoImg));'>
+                                <button type="button" class="form-control btn btn-primary pull-left" onclick="$('input[id=fuMobileLogoField]').click();"><span class="glyphicon glyphicon-open"></span>更新移动版网站LOGO</button>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">移动版注册网站LOGO：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <img id="fuMobileRegLogo" src="/Content/Upload/Site/MobileRegLogo.png" alt="" title="" class="pull-left" style="width: 395px; height: 150px;" />
+                                <input id="fuMobileRegLogoField" name="fuMobileRegLogoField" type="file" style="display:none" onchange='UploadImg("fuMobileRegLogoField", "/Common/UploadFileToLocal", "fuMobileRegLogo",@((Int32)Game.Facade.EnumerationList.UploadFileEnum.SiteMobileRegLogoImg));'>
+                                <button type="button" class="form-control btn btn-primary pull-left" onclick="$('input[id=fuMobileRegLogoField]').click();"><span class="glyphicon glyphicon-open"></span>更新移动版注册网站LOGO</button>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <ul class="list-inline">
+                                <li></li>
+                                <li><a class="btn btn-primary search btn-md" href="#" id="btn"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+       
+        $(document).ready(function () {
+            docReady();
+        });
+        function docReady() {
+            $("#btn").click(function (e) {
+                e.preventDefault();
+                add();
+            });
+        }
+        function add() {
+            var data = {};
+            var fuLogo = $("#fuLogo").attr("src").trim();
+            var fuLogoUrl = fuLogo.substring(fuLogo.lastIndexOf("/") + 1);
+            if (fuLogoUrl == "") {
+                alert("请上传网站前台LOGO");
+                return false;
+            }
+            data.fuLogoUrl=fuLogoUrl;
+            var fuAdminLogo = $("#fuAdminLogo").attr("src").trim();
+            var fuAdminLogoUrl = fuAdminLogo.substring(fuAdminLogo.lastIndexOf("/") + 1);
+            if (fuAdminLogoUrl == "") {
+                alert("请上传网站后台LOGO");
+                return false;
+            }
+            data.fuAdminLogoUrl=fuAdminLogoUrl;
+            var fuMobileLogo = $("#fuMobileLogo").attr("src").trim();
+            var fuMobileLogoUrl = fuMobileLogo.substring(fuMobileLogo.lastIndexOf("/") + 1);
+            if (fuMobileLogoUrl == "") {
+                alert("请上传移动版网站LOGO");
+                return false;
+            }
+            data.fuMobileLogoUrl=fuMobileLogoUrl;
+            var fuMobileRegLogo = $("#fuMobileRegLogo").attr("src").trim();
+            var fuMobileRegLogoUrl = fuMobileRegLogo.substring(fuMobileRegLogo.lastIndexOf("/") + 1);
+            if (fuMobileRegLogoUrl == "") {
+                alert("请上传移动版注册网站LOGO");
+                return false;
+            }
+            data.fuMobileRegLogoUrl=fuMobileRegLogoUrl;
+            AjaxSubmit("/Web/DoLogoSet", data, callBack, "del");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "del":
+                    alert(jsonData.Msg);
+                    window.location.reload();
+                    //window.opener.location.reload();
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

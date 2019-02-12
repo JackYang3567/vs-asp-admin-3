@@ -1,0 +1,587 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "财务管理-提现管理";
+    IList<Game.Entity.Accounts.BankCard> bankCards = Game.Facade.FacadeManage.aideAccountsFacade.GetAllBankCard();
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+    <script src="~/Scripts/pagination.js"></script>
+
+    <link href="~/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body class="backgroud">
+    <div id="content" class="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box-inner">
+                    <div class="box-content" style="overflow: hidden; display: block;">
+                        <!--查询栏开始-->
+                        <div class="alert alert-info">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <ul class="list-inline cursor-style">
+                                        <li>日期查询：</li>
+                                        <li>
+                                            <input id="txtStartDate" class="input-width-150" type="text" readonly="readonly" placeholder="请输入开始时间" />至<input type="text" id="txtEndDate" class="input-width-150" readonly="readonly" placeholder="请输入结束时间" />
+                                        </li>
+                                        <li>订单号：</li>
+                                        <li>
+                                            <input type="text" placeholder="" id="txtOrderId" class="form-control input-sm input-width-150">
+                                        </li>
+                                        <li>
+                                            <button id="btnQuery" type="button" class="btn btn-primary">查询</button>
+                                            <button type="button" class="btn btn-info" id="btnshowcard">提现卡配置</button>
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">提现</button>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--查询栏结束-->
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div id="DataTables_Table_0_length" class="dataTables_length">
+                                    <label>
+                                        <select size="1" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" id="pagecount">
+                                            <option value="10" selected="selected">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> 条/页
+                                    </label>
+                                    <div class="dataTables_info" id="DataTables_Table_0_info">显示 1 至 10 共 10 条</div>
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="padding-top:10px; padding-right:20px; text-align:right;">符合条件的交易金币总额为:<span id="sum">0</span>金币</div>
+                        </div>
+                        <!--table开始-->
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting">订单号</th>
+                                        <th class="sorting">流水号</th>
+                                        <th class="sorting">真实姓名</th>
+                                        <th class="sorting">银行名称</th>
+                                        <th class="sorting">银行卡号</th>
+                                        <th class="sorting">开户行地址</th>
+                                        <th class="sorting">提现金额</th>
+                                        <th class="sorting">操作人</th>
+                                        <th class="sorting">操作IP</th>
+                                        <th class="sorting">操作时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <!--分页控件-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="dataTables_paginate paging_bootstrap pagination" style="float:right;">
+                                        <ul class="pagination" id="pagin"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--table结束-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--提现对话框-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        提现
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="txtPlatName" class="control-label">代付平台：</label>
+                        <select id="platId" name="platId" class="form-control">
+                            <option value="0">请选择平台</option>
+                            <option value="1">天下付</option>
+                            <option value="2">45</option>
+                            <option value="3">优米付</option>
+                            <option value="4">如一</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        @*<label for="txtBankNo" class="control-label">银行卡号：</label>
+                            <input type="text" class="form-control" id="txtBankNo">*@
+                        <label for="ddlBankNo1" class="control-label">银行卡号：</label>  <button id="btnedit" type="button" class="btn btn-info">编辑</button>
+                        <button id="btnDel" type="button" class="btn btn-default">删除</button>
+
+
+                        <select id="ddlBankNo" name="ddlBankNo" class="form-control">
+                            <option value="">请选择银行卡号</option>
+                            @if (bankCards != null && bankCards.Count > 0)
+                            {
+                                foreach (Game.Entity.Accounts.BankCard card in bankCards)
+                                {
+                                    <option value="{BankAddress:'@card.BankAddress',BankCity:'@card.BankCity',BankCode:'@card.BankCode',BankName:'@card.BankName',ID:'@card.ID',Nullity:'@card.Nullity',RealName:'@card.RealName',Province:'@card.Province'}">@card.BankNo</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtRealName" class="control-label">真实姓名：</label>
+                        <div class=""><input type="text" class="form-control" id="txtRealName" readonly></div>
+                    </div>
+                    <div class="form-group">
+                        @*<label for="ddlBankName" class="control-label">银行名称：</label>
+                            <select id="ddlBankName" name="ddlBankName" class="form-control">
+                                <option value="">请选择银行</option>
+                                <option value="ICBC">工商银行</option>
+                                <option value="ABC">农业银行</option>
+                                <option value="BOC">中国银行</option>
+                                <option value="CCB">建设银行</option>
+                                <option value="BOCOM">交通银行</option>
+                                <option value="CMBCHINA">招商银行</option>
+                                <option value="CGB">广东发展银行</option>
+                                <option value="ECITIC">中信银行</option>
+                                <option value="CMBC">民生银行</option>
+                                <option value="CEB">光大银行</option>
+                                <option value="PINGAN">平安银行</option>
+                                <option value="SPDB">上海浦东发展银行</option>
+                                <option value="PSBC">中国邮政储蓄银行</option>
+                                <option value="HXB">华夏银行</option>
+                                <option value="CIB">兴业银行</option>
+                            </select>*@
+                        <label for="txtBankName" class="control-label">银行名称：</label>
+                        <div class=""><input type="text" bankcode="" class="form-control" id="txtBankName" readonly></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtProvince" class="control-label">银行所在省：</label>
+                        <input type="text" class="form-control" id="txtProvince" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtCity" class="control-label">银行所在市：</label>
+                        <input type="text" class="form-control" id="txtCity" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtBankAddress" class="control-label">开户行地址：</label>
+                        <textarea class="form-control" id="txtBankAddress" readonly></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtAmount" class="control-label">提现金额：</label>
+                        <input type="text" class="form-control" id="txtAmount">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtCode" class="control-label">短信验证码：</label>
+                        <input type="text" class="form-control" id="txtCode">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        关闭
+                    </button>
+                    <button id="btnGetCode" type="button" class="btn btn-default">获取验证码</button>
+                    <button id="btnSumbit" type="button" class="btn btn-primary">
+                        提现
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!--卡号设置对话框-->
+    <div class="modal fade" id="myCard" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        提现卡号配置
+                    </h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="txtRealName" class="control-label">真实姓名：</label>
+                        <div class=""><input type="text" class="form-control" id="txt1RealName"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ddlBankName" class="control-label">银行名称：</label>
+                        <select id="ddlBankName" name="ddlBankName" class="form-control">
+                            <option value="">请选择银行</option>
+                            <option value="ICBC">工商银行</option>
+                            <option value="ABC">农业银行</option>
+                            <option value="BOC">中国银行</option>
+                            <option value="CCB">建设银行</option>
+                            <option value="BOCOM">交通银行</option>
+                            <option value="CMBCHINA">招商银行</option>
+                            <option value="CGB">广东发展银行</option>
+                            <option value="ECITIC">中信银行</option>
+                            <option value="CMBC">民生银行</option>
+                            <option value="CEB">光大银行</option>
+                            <option value="PINGAN">平安银行</option>
+                            <option value="SPDB">上海浦东发展银行</option>
+                            <option value="PSBC">中国邮政储蓄银行</option>
+                            <option value="HXB">华夏银行</option>
+                            <option value="CIB">兴业银行</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="txt1BankNo" class="control-label">银行卡号：</label>
+                        <input type="text" class="form-control" id="txt1BankNo">
+                    </div>
+                    <div class="form-group">
+                        <label for="txt1Province" class="control-label">银行所在省：</label>
+                        <input type="text" class="form-control" id="txt1Province" />
+                    </div>
+                    <div class="form-group">
+                        <label for="txt1City" class="control-label">银行所在市：</label>
+                        <input type="text" class="form-control" id="txt1City">
+                    </div>
+                    <div class="form-group">
+                        <label for="txt1BankAddress" class="control-label">开户行地址：</label>
+                        <textarea class="form-control" id="txt1BankAddress"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="radio-inline">
+                            <input type="radio" name="rdnullity" value="0" checked> 可用
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="rdnullity" value="1"> 禁用
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        关闭
+                    </button>
+
+                    <button id="btnCardAdd" type="button" class="btn btn-primary">
+                        提交
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <script type="text/javascript">
+        var pageObj = {};
+        var postData = {};//搜索条件
+        var cardid = 0;
+        $(document).ready(function () {
+            //时间选择器
+            laydate.render({
+                elem: '#txtStartDate'
+              , type: 'datetime'
+            });
+            laydate.render({
+                elem: '#txtEndDate'
+              , type: 'datetime'
+            });
+            docReady();
+
+            var isSend = false, ss = 60;
+            $('#btnGetCode').click(function () {
+                if (isSend) return;
+                isSend = true;
+                ss = 60;
+                $.post("/Trade/SendCode", null, function (data) {
+                    alert(data.Msg)
+                    if (data.IsOk) {
+                        my_interval = setInterval(function () {
+                            if (ss > 0) {
+                                $('#btnGetCode').text(ss + "s");
+                                ss--;
+                            } else {
+                                clearInterval(my_interval);
+                                isSend = false;
+                                $('#btnGetCode').text("获取验证码");
+                            }
+                        }, 1000);
+                    } else {
+                        isSend = false;
+                    }
+                })
+            })
+
+            $('#btnSumbit').click(function () {
+                var realName = $('#txtRealName').val();
+                var bankName = $('#txtBankName').val();
+                var bankCode = $('#txtBankName').attr("bankCode");
+                var bankNo = $('#ddlBankNo option:selected').text();
+                var bankAddress = $('#txtBankAddress').val();
+                var amount = $('#txtAmount').val();
+                var code = $('#txtCode').val();
+                var platId = $('#platId').val();
+                if (pageObj.Nullity == typeof (undefined) || pageObj.Nullity > 0) {
+                    alert("此卡不能用，请选择其他卡或者修改此卡");
+                    return;
+                }
+                if (platId == "0") {
+                    alert("请选择代付平台");
+                    return;
+                }
+                if (realName == "") {
+                    alert("请输入真实姓名");
+                    return;
+                }
+                if (bankCode == "") {
+                    alert("请选择银行");
+                    return;
+                }
+                if (bankNo == "") {
+                    alert("请输入银行卡号");
+                    return;
+                }
+                if (bankAddress == "") {
+                    alert("请输入开户行地址");
+                    return;
+                }
+                if (amount == "") {
+                    alert("请输入提现金额");
+                    return;
+                }
+                var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+                if (!reg.test(amount)) {
+                    alert("提现金额格式错误");
+                    return;
+                }
+                if (code == "") {
+                    alert("请输入短信验证码");
+                    return;
+                }
+                var Province = $("#txtProvince").val();
+                var postData = {};
+                postData.platId = platId;
+                postData.RealName = realName;
+                postData.BankName = bankName;
+                postData.BankCode = bankCode;
+                postData.BankName = bankName;
+                postData.BankNo = bankNo;
+                postData.BankAddr = bankAddress;
+                postData.DrawAmt = amount;
+                postData.Code = code;
+                postData.Province = Province;
+                postData.City = $("#txtCity").val();
+                AjaxSubmit("/Trade/DaifuTixian", postData, callBack, "tixian");
+            })
+        });
+        function docReady() {
+            //加载数据
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.pageIndex = 1;
+            postData.Type = parseInt($("#ddlSearchType").val());
+            postData.KeyWord = $("#txtSearch").val();
+            AjaxSearch(postData);
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+            //选择页码
+            $("#pagecount").change(function (e) {
+                postData.pageSize = parseInt($(this).val());
+                postData.pageIndex = 1;
+                AjaxSearch(postData);
+            });
+            //银行账号选择事件
+            $("#ddlBankNo").change(function (e) {
+                //postData.pageSize = parseInt($(this).val());
+                var banckcard = eval("(" + $(this).val() + ")");
+                if (banckcard != typeof (undefined) && banckcard != null) {
+                    $("#txtRealName").val(banckcard.RealName);
+                    $("#txt1RealName").val(banckcard.RealName);
+                    $("#txtBankName").val(banckcard.BankName);
+                    $("#txtBankName").attr("bankCode", banckcard.BankCode);//(banckcard.RealName);
+                    $("#txtCity").val(banckcard.BankCity);
+                    $("#txtBankAddress").val(banckcard.BankAddress);
+                    $("#txtProvince").val(banckcard.Province);
+                    $("#ddlBankName").val(banckcard.BankCode);//find("option:contains('" + banckcard.BankCode + "')").attr("selected", true);
+                    $("#txt1BankNo").val($(this).find("option:selected").text());
+                    $("#txt1City").val(banckcard.BankCity);
+                    $("#txt1BankAddress").val(banckcard.BankAddress);
+                    $("#txt1Province").val(banckcard.Province);
+                    $("input[name='rdnullity']:eq(" + banckcard.Nullity + ")").attr("checked", 'checked');
+                    cardid = parseInt(banckcard.ID);
+                    pageObj = banckcard;
+                } else {
+                    $("#txtRealName").val("");
+                    $("#txt1RealName").val("");
+                    $("#txtBankName").val("");
+                    $("#txtBankName").attr("bankCode", "");//(banckcard.RealName);
+                    $("#txtCity").val("");
+                    $("#txtBankAddress").val("");
+                    $("#ddlBankName").val("");
+                    $("#txt1BankNo").val("");
+                    $("#txt1City").val("");
+                    $("#txt1BankAddress").val("");
+                    $("#txt1Province").val("");
+                    $("#txtProvince").val("");
+                    cardid = 0
+                    pageObj = {};
+                }
+            });
+            //刷新
+            $("#btnRefresh").click(function (e) {
+                postData.KeyWord = $("#txtSearch").val();
+                postData.SearchType = "";
+                AjaxSearch(postData);
+            });
+            //日期查询
+            $("#btnQuery").click(function (e) {
+                var txtStartDate = $("#txtStartDate").val();
+                var txtEndDate = $("#txtEndDate").val();
+                if (txtStartDate != "" && txtEndDate != "") {
+                    if (StrToDateTime(txtEndDate) < StrToDateTime(txtStartDate)) {
+                        alert("开始日期不能大于结束时间");
+                        return false;
+                    }
+                }
+
+                if (txtStartDate != "" && txtEndDate != "") {
+                    postData.StartDate = txtStartDate;
+                    postData.EndDate = txtEndDate;
+                }
+                postData.pageSize = parseInt($("#pagecount").val());
+                postData.OrderID = $("#txtOrderId").val();
+                AjaxSearch(postData);
+            });
+            //编辑提现银行卡
+            $("#btnedit").click(function (e) {
+                if (cardid == 0) {
+                    alert("请选择银行卡号");
+                    return false;
+                }
+                $('#myModal').modal('hide');
+                $('#myCard').modal('show');
+            });
+            $('#btnDel').click(function () {
+                if (cardid == 0) {
+                    alert("请选择银行卡号");
+                    return false;
+                }
+                AjaxSubmit("/Trade/DelBankCard", { ID: cardid }, callBack, "del");
+            })
+            $("#btnshowcard").click(function (e) {
+                $("#txt1RealName").val("");
+                $("#ddlBankName").val("");
+                $("#txt1BankNo").val("");
+                $("#txt1City").val("");
+                $("#txt1BankAddress").val("");
+                $("#txt1Province").val("");
+                cardid = 0
+                $('#myCard').modal('show');
+            });
+
+            $("#btnCardAdd").click(function (e) {
+                //if (cardid == 0) {
+                //    alert("请选择银行卡号");
+                //    return false;
+                //}
+                var RealName = $("#txt1RealName").val().trim();
+                if (RealName == "") {
+                    alert("请输入真实姓名");
+                    return false;
+                }
+                var BankName = $("#ddlBankName option:selected").text().trim();
+                if (BankName == "") {
+                    alert("请输入银行");
+                    return false;
+                }
+                var BankCode = $("#ddlBankName").val().trim();
+                if (BankCode == "") {
+                    alert("请输入银行");
+                    return false;
+                }
+                var BankNo = $("#txt1BankNo").val().trim();
+                if (BankNo == "") {
+                    alert("请输入卡号");
+                    return false;
+                }
+                var BankCity = $("#txt1City").val().trim();
+                var BankAddress = $("#txt1BankAddress").val().trim();
+                if (BankAddress == "") {
+                    alert("请输入开户行地址");
+                    return false;
+                }
+                var Province = $("#txt1Province").val();
+                var Nullity = $("input[name='rdnullity']:checked").val();
+                var subdata = $.extend(pageObj, { ID: cardid, RealName: RealName, BankName: BankName, BankCode: BankCode, BankNo: BankNo, BankCity: BankCity, BankAddress: BankAddress, Nullity: Nullity, Province: Province });
+                AjaxSubmit("/Trade/EditBankCard", subdata, callBack, "getbankcard");
+            });
+        }
+        //搜索事件
+        function AjaxSearch(postData) {
+            $('#pagin').paging("/Trade/GetTixianList", postData, CreatTableBody, postData.pageIndex);
+        }
+        var json = [];//json数据
+        //绑定数据
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex, statistics) {
+            $('#sum').html(statistics.Sum);
+            var html = "";
+            json = jsondata;
+            if (jsondata != null && jsondata.length > 0) {
+                $.each(jsondata, function (i, item) {
+                    html += stringFormat("<tr>");
+                    html += stringFormat("<td>{0}</td>", item.OrderID);
+                    html += stringFormat("<td>{0}</td>", item.FlowID);
+                    html += stringFormat("<td>{0}</td>", item.RealName);
+                    html += stringFormat("<td>{0}</td>", item.BankName);
+                    html += stringFormat("<td>{0}</td>", item.BankNo);
+                    html += stringFormat("<td>{0}</td>", item.BankAddr);
+                    html += stringFormat("<td>{0}</td>", item.DrawAmt);
+                    html += stringFormat("<td>{0}</td>", item.Operator);
+                    html += stringFormat("<td>{0}</td>", item.OperateIP);
+                    html += stringFormat("<td>{0}</td>", item.CollectDate);
+                    html += "</tr>";
+                });
+            }
+            $("#DataTables_Table_0_wrapper tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * postData.pageSize + 1), ((pageIndex * postData.pageSize) < pageTotal ? (pageIndex * postData.pageSize) : pageTotal), pageTotal));
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            if (fname == "tixian") {
+                alert("提现请求提交成功，等待处理");
+                $('#myModal').modal('hide');
+                location.reload();
+            } else {
+                //$('#myCard').modal('hide');
+                //$("#txt1RealName").val("");
+                //$("#ddlBankName").val("");
+                //$("#txt1BankNo").val("");
+                //$("#txt1City").val("");
+                //$("#txt1BankAddress").val("");
+                //cardid = 0
+                location.reload();
+            }
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+    </script>
+</body>
+</html>

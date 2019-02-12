@@ -1,0 +1,208 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "后台管理-游戏豆管理";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+   
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+    <script src="~/Scripts/pagination.js"></script> 
+</head>
+<body class="backgroud">
+    <div id="content" class="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box-inner">
+                    <div class="box-header well" data-original-title="">
+                        <h2><i class="glyphicon glyphicon-hand-right"></i> 你当前位置：@ViewBag.Title </h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-round btn-default" onclick="history.go(0);">
+                                <i class="glyphicon glyphicon-repeat"></i>
+                            </a>
+                            <a href="#" class="btn btn-minimize btn-round btn-default">
+                                <i class="glyphicon glyphicon-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-content" style="overflow: hidden; display: block;">
+                        <!--查询栏开始-->
+                        <div class="alert alert-info">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <ul class="list-inline cursor-style">
+                                        <li>普通查询：</li>
+                                        <li><input type="text" placeholder="" id="txtSearch" class="form-control input-sm input-width-200"></li>
+                                        <li>
+                                            <a class="btn btn-success search" href="#" id="btnquery"><i class="glyphicon glyphicon-zoom-in icon-white"></i>查询</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-primary" onclick="history.go(0);"><i class="glyphicon glyphicon-repeat"></i>刷新</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <!--查询栏结束-->
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div id="DataTables_Table_0_length" class="dataTables_length">
+                                    <label>
+                                        <select size="1" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" id="pagecount">
+                                            <option value="10" selected="selected">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> 条/页
+                                    </label>
+                                    <div class="dataTables_info" id="DataTables_Table_0_info">显示 1 至 10 共 10 条</div>
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="padding-bottom:5px; padding-top:5px; text-align:right;">
+
+                            </div>
+                        </div>
+                        <!--table开始-->
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                            <table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th>用户标识</th>
+                                        <th>游戏ID</th>
+                                        <th>用户帐号</th>
+                                        <th><a href="#" onclick='OrderBy("Currency")' class="l1">游戏豆</a></th>
+                                    </tr>
+                                </thead>
+                                <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                            </table>
+                            <!--分页控件-->
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="dataTables_paginate paging_bootstrap pagination" style="float:right;">
+                                        <ul class="pagination" id="pagin"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--table结束-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var pageObj = {};
+        var postData = {};//搜索条件
+        $(document).ready(function () {
+            docReady();
+        });
+        function docReady() {
+            //加载数据
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.Sort = "";
+            postData.SortDrc = 0;
+            postData.pageIndex = 1;
+            AjaxSearch(postData);
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+            //选择页码
+            $("#pagecount").change(function (e) {
+                postData.pageSize = parseInt($(this).val());
+                postData.pageIndex = 1;
+                AjaxSearch(postData);
+            });
+            //刷新
+            $("#btnRefresh").click(function (e) {
+                postData.KeyWord = $("#txtSearch").val();
+                AjaxSearch(postData);
+            });
+            //普通搜索事件
+            $("#btnQuery").click(function (e) {
+                var keyWord = $("#txtSearch").val();
+                if (keyWord == "") {
+                    alert("请输入查询条件");
+                    return false;
+                }
+                postData.pageSize = parseInt($("#pagecount").val());
+                postData.KeyWord = keyWord;
+                AjaxSearch(postData);
+            });
+        }
+        //搜索事件
+        function AjaxSearch(postData) {
+            $('#pagin').paging("/Account/GetAccountsCurrencyList", postData, CreatTableBody, postData.pageIndex);
+        }
+        //排序
+        function OrderBy(field) {
+            if (field != "") {
+                postData.Sort = field;
+                if (postData.SortDrc == 0) {
+                    postData.SortDrc = 1;
+                } else {
+                    postData.SortDrc = 0;
+                }
+                postData.pageIndex = 1;
+                AjaxSearch(postData);
+            }
+        }
+        //绑定数据
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex) {
+            var html = "";
+            if (jsondata != null && jsondata.length > 0) {
+                $.each(jsondata, function (i, item) {
+                    if (i % 2 == 0) {
+                        html += stringFormat("<tr id=\"tr{0}\" class=\"odd\">", item.UserID);
+                        html += stringFormat("<td>{0}</td>", item.UserID);
+                        html += stringFormat("<td>{0}</td>", item.GameID);
+                        html += stringFormat("<td title=\"{0}\"><a class=\"l\" href=\"javascript:void(0);\" onclick=\"openWindowOwn('@Url.Action("AccountsInfo", "Account")?param={1}','{1}',850,600);\">{0}</a></td>", item.Accounts, item.UserID);
+                        html += stringFormat("<td>{0}</td>", item.Currency);
+
+                        html += "</tr>";
+                    } else {
+                        html += stringFormat("<tr id=\"tr{0}\" class=\"even\">", item.UserID);
+                        html += stringFormat("<td>{0}</td>", item.UserID);
+                        html += stringFormat("<td>{0}</td>", item.GameID);
+                        html += stringFormat("<td title=\"{0}\"><a class=\"l\" href=\"javascript:void(0);\" onclick=\"openWindowOwn('@Url.Action("AccountsInfo", "Account")?param={1}','{1}',850,600);\">{0}</a></td>", item.Accounts, item.UserID);
+                        html += stringFormat("<td>{0}</td>", item.Currency);
+
+                        html += "</tr>";
+                    }
+                });
+            }
+            $("#DataTables_Table_0_wrapper tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * postData.pageSize + 1), ((pageIndex * postData.pageSize) < pageTotal ? (pageIndex * postData.pageSize) : pageTotal), pageTotal));
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+    </script>
+</body>
+</html>

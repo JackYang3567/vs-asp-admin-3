@@ -1,0 +1,139 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "代理系统-" + Request["accounts"] + ",总输赢";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box-inner">
+                    <div class="box-header well" data-original-title="">
+                        <h2><i class="glyphicon glyphicon-hand-right"></i> 你当前位置：@ViewBag.Title </h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-round btn-default" onclick="history.go(0);">
+                                <i class="glyphicon glyphicon-repeat"></i>
+                            </a>
+                            <a href="#" class="btn btn-minimize btn-round btn-default">
+                                <i class="glyphicon glyphicon-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-content" style="overflow: hidden; display: block;">
+
+                        <!--查询栏开始-->
+                        <div class="alert alert-info">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <ul class="list-inline cursor-style">
+                                        <li>日期查询：</li>
+                                        <li>
+                                            <input id="txtStartDate" class="input-width-150" type="text" readonly="readonly" placeholder="请输入开始时间" value="@Request["sTime"]" />至<input type="text" id="txtEndDate" class="input-width-150" readonly="readonly" placeholder="请输入结束时间" value="@Request["eTime"]" />
+                                        </li>                                      
+                                        <li>
+                                            <a id="btnQuery" class="btn btn-success search" href="#"><i class="glyphicon glyphicon-zoom-in icon-white"></i>查询</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <!--查询栏结束-->
+                       
+                        <!--table开始-->
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                            <table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th>玩家账号</th>
+                                        <th>玩家昵称</th>
+                                        <th>游戏</th>
+                                        <th>总输赢</th>
+                                        <th>统计时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                            </table>
+                           
+                        </div>
+                        <!--table结束-->
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="window.close();"><i class="glyphicon glyphicon-off"></i>关闭</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    var pageObj = {};
+    var postData = {};//搜索条件
+    $(document).ready(function () {
+        //时间选择器
+        laydate.render({
+            elem: '#txtStartDate'
+        });
+        laydate.render({
+            elem: '#txtEndDate'
+        });
+        var agent = parseInt('@Request["agentID"]');
+            postData.agentID = agent;
+            docReady();
+        });
+        function docReady() {
+            //加载数据
+            AjaxSearch(postData);
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+
+            //普通搜索事件
+            $("#btnQuery").click(function (e) {
+
+                AjaxSearch(postData);
+            });
+
+        }
+        //搜索事件
+        function AjaxSearch(postData) {
+
+            var txtStartDate = $("#txtStartDate").val();
+            var txtEndDate = $("#txtEndDate").val();
+            postData.StartDate = txtStartDate;
+            postData.EndDate = txtEndDate;
+            postData.userID = parseInt('@Request["userID"]');
+            $.post("/Daili/GetPlayerScoreInfo", postData, function (result) {
+                var html = "";
+                $.each(result.Data, function (i, row) {
+                    html += "<tr><td>" + '@Request["accounts"]' + "</td><td>" + '@Request["nickName"]' + "</td><td>" + row.KindName + "</td><td>" + row.Score + "</td><td>" + row.Time + "</td></tr>";
+                });
+                $("#DataTables_Table_0_wrapper tbody").html(html);
+            });
+
+        }
+    </script>
+</body>
+</html>

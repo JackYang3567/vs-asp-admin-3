@@ -1,0 +1,165 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "推广系统-推广管理";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/lhgdialog/lhgdialog.min.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+    <style type="text/css">
+        .col-xs-2 {
+            width: 25%;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        基本信息
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            
+                            <tbody>
+                                <tr>
+                                    <td><b>账号:</b>@(Game.Facade.Tools.TypeUtil.ObjectToString(Request["uname"]))</td>
+                                    <td><b>代理等级:</b>@(Game.Facade.Tools.TypeUtil.ObjectToString(Request["lev"]))</td>
+                                </tr>
+                                <tr>                                  
+                                    <td><b>本周业绩:</b>@ViewBag.MyYj</td>
+                                    <td><b>佣金:</b>@ViewBag.MyRtnFee</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                       我的直属会员
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+
+                            <tbody>
+                                <tr>
+                                    <td><b>本周新增:</b>@ViewBag.hyWeekNew</td>
+                                    <td><b>本月新增:</b>@ViewBag.hyMonthNew</td>
+                                    <td><b>所有会员:</b>@ViewBag.hyAll  <a href="#" class="btn btn-primary btn-xs" role="button" onclick="show(2);"><span class="glyphicon glyphicon-zoom-in">查看会员</span></a></td>
+                                </tr>
+                                <tr>
+                                    <td><b>本周业绩:</b>@ViewBag.hyYj</td>
+                                    <td><b>本周佣金:</b>@ViewBag.hyRtnFee</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                      我的推广员
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <td><b>本周新增:</b>@ViewBag.tgWeekNew</td>
+                                    <td><b>本月新增:</b>@ViewBag.tgMonthNew</td>
+                                    <td><b>所有推广员:</b>@ViewBag.tgAll  <a href="#" class="btn btn-primary btn-xs" role="button" onclick="show(1);"><span class="glyphicon glyphicon-zoom-in">查看所有推广员</span></a></td>
+                                </tr>
+                                <tr>
+                                    <td><b>本周业绩:</b>@ViewBag.tgYj</td>
+                                    <td><b>本周佣金:</b>@ViewBag.tgRtnFee</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                      我的佣金提现
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <td><b>总业绩:</b>@ViewBag.NowYj</td>
+                                    <td><b>总佣金:</b>@ViewBag.NowRtnFee</td>
+                                    <td><b>可提现佣金:</b>@ViewBag.RtnFee   <a href="#" class="btn btn-primary btn-xs" role="button" onclick="openWindowOwn('/Promoter/Withdraw?param=@(Game.Facade.Tools.TypeUtil.ObjectToInt(Request["param"]))&uname=@Request["uname"]', '{0}', 900, 800)"><span class="glyphicon glyphicon-zoom-in">查看佣金记录</span></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var uid = parseInt('@Request["param"]');
+        $(function () {
+           
+        })
+        var show = function (p) {
+            if (p == 0) {
+                var dialog = $.dialog({
+                    title: '提现记录',
+                    content: 'url:/Promoter/Withdraw?param=' + uid + '&uname=' + '@Request["uname"]',
+                    width: 900,
+                    height: 600,
+                    min: false,
+                    max: false
+                });
+            }
+            if (p == 1) {
+                var dialog = $.dialog({
+                    title: '我的推广员',
+                    content: 'url:/Promoter/Insurances?param=' + uid+'&uname='+'@Request["uname"]',
+                    width: 700,
+                    height: 600,
+                    min: false,
+                    max: false
+                });
+            }
+            if (p == 2) {
+                var dialog = $.dialog({
+                    title: '直属下线用户',
+                    content: 'url:/Promoter/Understrappers?param=' + uid + '&uname=' + '@Request["uname"]',
+                    width: 700,
+                    height: 600,
+                    min: false,
+                    max: false
+                });
+            }          
+        }
+    </script>
+</body>
+</html>

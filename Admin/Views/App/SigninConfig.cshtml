@@ -1,0 +1,232 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "游戏系统 - 签到设置";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" /> 
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>               
+                <div class="tab-content" style="margin-top:0px">
+
+                    <div class="panel panel-info">
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">签到奖励游戏币设置</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">第一天奖励：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtGold1" style="width:350px;display:inline;" class="form-control input-sm" onkeyup="if(isNaN(value))execCommand('undo');" type="text" maxlength="9" value="@(ViewBag.Gold1 != null ? ViewBag.Gold1 : "")"></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">
+                                    游戏币<label id="Gold1lbl1" style="color:red; display:none;">请输入第一天奖励</label><label id="Gold1lbl2" style="color:red; display:none;">请输入正确的奖励额度，必须为整数</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">第二天奖励：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtGold2" style="width:350px;display:inline;" class="form-control input-sm" onkeyup="if(isNaN(value))execCommand('undo');" type="text" maxlength="9" value="@(ViewBag.Gold2 != null ? ViewBag.Gold2 : "")">
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">
+                                    游戏币<label id="Gold2lbl1" style="color:red; display:none;">请输入第二天奖励</label><label id="Gold2lbl2" style="color:red; display:none;">请输入正确的奖励额度，必须为整数</label> 
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">第三天奖励：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtGold3" style="width:350px;display:inline;" class="form-control input-sm" onkeyup="if(isNaN(value))execCommand('undo');" type="text" maxlength="9" value="@(ViewBag.Gold3 != null ? ViewBag.Gold3 : "")">
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">游戏币<label id="Gold3lbl1" style="color:red; display:none;">请输入第三天奖励</label><label id="Gold3lbl2" style="color:red; display:none;">请输入正确的奖励额度，必须为整数</label> </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">第四天奖励：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtGold4" style="width:350px;display:inline;" class="form-control input-sm" onkeyup="if(isNaN(value))execCommand('undo');" type="text" maxlength="9" value="@(ViewBag.Gold4 != null ? ViewBag.Gold4 : "")">
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">
+                                    游戏币<label id="Gold4lbl1" style="color:red; display:none;">请输入第四天奖励</label><label id="Gold4lbl2" style="color:red; display:none;">请输入正确的奖励额度，必须为整数</label> 
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">第五天奖励：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtGold5" style="width:350px;display:inline;" class="form-control input-sm" onkeyup="if(isNaN(value))execCommand('undo');" type="text" maxlength="9" value="@(ViewBag.Gold5 != null ? ViewBag.Gold5 : "")">
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">
+                                    游戏币<label id="Gold5lbl1" style="color:red; display:none;">请输入第五天奖励</label><label id="Gold5lbl2" style="color:red; display:none;">请输入正确的奖励额度，必须为整数</label> 
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">第六天奖励：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtGold6" style="width:350px;display:inline;" class="form-control input-sm" onkeyup="if(isNaN(value))execCommand('undo');" type="text" maxlength="9" value="@(ViewBag.Gold6 != null ? ViewBag.Gold6 : "")">
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">
+                                    游戏币<label id="Gold6lbl1" style="color:red; display:none;">请输入第六天奖励</label><label id="Gold6lbl2" style="color:red; display:none;">请输入正确的奖励额度，必须为整数</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">第七天奖励：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtGold7" style="width:350px;display:inline;" class="form-control input-sm" onkeyup="if(isNaN(value))execCommand('undo');" type="text" maxlength="9" value="@(ViewBag.Gold7 != null ? ViewBag.Gold7 : "")">
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left">
+                                    游戏币<label id="Gold7lbl1" style="color:red; display:none;">请输入第七天奖励</label><label id="Gold7lbl2" style="color:red; display:none;">请输入正确的奖励额度，必须为整数</label>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        var data = {};
+        $(document).ready(function () {
+            vailate();
+        });
+        function vailate() {
+            var istrue = true;
+            var Gold1 = $("#txtGold1").val().trim();
+            if (Gold1 == "") {
+                $("#Gold1lbl1").show();
+                $("#Gold1lbl2").hide();
+                istrue = false;             
+            } else if (isNaN(Gold1)) {
+                $("#Gold1lbl1").hide();
+                $("#Gold1lbl2").show();
+                istrue = false;
+            } else {
+                $("#Gold1lbl1").hide();
+                $("#Gold1lbl2").hide();
+                data.Gold1 = Gold1;
+            }
+            var Gold2 = $("#txtGold2").val().trim();
+            if (Gold2 == "") {
+                $("#Gold2lbl1").show();
+                $("#Gold2lbl2").hide();
+                istrue = false;
+            } else if (isNaN(Gold2)) {
+                $("#Gold2lbl1").hide();
+                $("#Gold2lbl2").show();
+                istrue = false;
+            } else {
+                $("#Gold2lbl1").hide();
+                $("#Gold2lbl2").hide();
+                data.Gold2 = Gold2;
+            }
+            var Gold3 = $("#txtGold3").val().trim();
+            if (Gold3 == "") {
+                $("#Gold3lbl1").show();
+                $("#Gold3lbl2").hide();
+                istrue = false;
+            } else if (isNaN(Gold3)) {
+                $("#Gold3lbl1").hide();
+                $("#Gold3lbl2").show();
+                istrue = false;
+            } else {
+                $("#Gold3lbl1").hide();
+                $("#Gold3lbl2").hide();
+                data.Gold3 = Gold3;
+            }
+            var Gold4 = $("#txtGold4").val().trim();
+            if (Gold4 == "") {
+                $("#Gold4lbl1").show();
+                $("#Gold4lbl2").hide();
+                istrue = false;
+            } else if (isNaN(Gold4)) {
+                $("#Gold4lbl1").hide();
+                $("#Gold4lbl2").show();
+                istrue = false;
+            } else {
+                $("#Gold4lbl1").hide();
+                $("#Gold4lbl2").hide();
+                data.Gold4 = Gold4;
+            }
+            var Gold5 = $("#txtGold5").val().trim();
+            if (Gold5 == "") {
+                $("#Gold5lbl1").show();
+                $("#Gold5lbl2").hide();
+                istrue = false;
+            } else if (isNaN(Gold5)) {
+                $("#Gold5lbl1").hide();
+                $("#Gold5lbl2").show();
+                istrue = false;
+            } else {
+                $("#Gold5lbl1").hide();
+                $("#Gold5lbl2").hide();
+                data.Gold5 = Gold5;
+            }
+            var Gold6 = $("#txtGold6").val().trim();
+            if (Gold6 == "") {
+                $("#Gold6lbl1").show();
+                $("#Gold6lbl2").hide();
+                istrue = false;
+            } else if (isNaN(Gold6)) {
+                $("#Gold6lbl1").hide();
+                $("#Gold6lbl2").show();
+                istrue = false;
+            } else {
+                $("#Gold6lbl1").hide();
+                $("#Gold6lbl2").hide();
+                data.Gold6 = Gold6;
+            }
+            var Gold7 = $("#txtGold7").val().trim();
+            if (Gold7 == "") {
+                $("#Gold7lbl1").show();
+                $("#Gold7lbl2").hide();
+                istrue = false;
+            } else if (isNaN(Gold7)) {
+                $("#Gold7lbl1").hide();
+                $("#Gold7lbl2").show();
+                istrue = false;
+            } else {
+                $("#Gold7lbl1").hide();
+                $("#Gold7lbl2").hide();
+                data.Gold7 = Gold7;
+            }
+            return istrue;
+        }
+        function add() {
+            if (vailate()) {
+                AjaxSubmit("/App/DoSigninConfig", data, callBack, "add");
+            } else {
+                return false;
+            }
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.location.reload();
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

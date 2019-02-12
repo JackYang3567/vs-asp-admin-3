@@ -1,0 +1,728 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "推广管理-推广提现";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+    <script src="~/Scripts/pagination.js"></script>
+
+    <link href="~/Content/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.10.3.custom.min.js"></script>
+</head>
+<body class="backgroud">
+    <div id="content" class="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box-inner">
+                    <div class="box-header well" data-original-title="">
+                        <h2><i class="glyphicon glyphicon-hand-right"></i> 你当前位置：@ViewBag.Title </h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-round btn-default" onclick="history.go(0);">
+                                <i class="glyphicon glyphicon-repeat"></i>
+                            </a>
+                            <a href="#" class="btn btn-minimize btn-round btn-default">
+                                <i class="glyphicon glyphicon-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-content" style="overflow: hidden; display: block;">
+                        <!--查询栏开始-->
+                        <div class="alert alert-info">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <ul class="list-inline cursor-style">
+                                        <li>日期查询：</li>
+                                        <li>
+                                            <input id="txtStartDate" class="input-width-150" type="text" readonly="readonly" placeholder="请输入开始时间" value="@DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd") 00:00:00" />至<input type="text" id="txtEndDate" class="input-width-150" readonly="readonly" placeholder="请输入结束时间" value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd") 00:00:00" />
+
+                                        </li>
+                                        <li>推广员：</li>
+                                        <li>
+                                            <input type="text" placeholder="" id="txtSearch" class="form-control input-sm input-width-150" value="@ViewBag.Account">
+                                        </li>
+                                        <li>
+                                            <select id="ddlSearchType" class="form-control input-sm">
+                                                <option value="1">按用户帐号</option>
+                                                @*<option value="2">按游戏ID</option>*@
+                                            </select>
+                                        </li>
+                                        <li>订单号：</li>
+                                        <li>
+                                            <input type="text" placeholder="" id="txtOrderId" class="form-control input-sm input-width-150">
+                                        </li>
+                                        <li>交易状态：</li>
+                                        <li>
+                                            <select id="ddlTradeType" class="form-control input-sm">
+                                                <option value="-1" selected="selected">所有类型</option>
+                                                <option value="0">等待付款</option>
+                                                <option value="1">拒绝交易</option>
+                                                <option value="2">交易成功</option>
+                                            </select>
+                                        </li>
+                                        <li>
+                                            <a id="btnQuery" class="btn btn-success search" href="#"><i class="glyphicon glyphicon-zoom-in icon-white"></i>查询</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                            </ul>
+                            符合条件的交易金币总额为:<span id="sum">0</span>金币
+                        </div>
+                        <!--查询栏结束-->
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div id="DataTables_Table_0_length" class="dataTables_length">
+                                    <label>
+                                        <select size="1" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" id="pagecount">
+                                            <option value="10" selected="selected">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> 条/页
+                                    </label>
+                                    <div class="dataTables_info" id="DataTables_Table_0_info">显示 1 至 10 共 10 条</div>
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="padding-bottom:5px; padding-top:5px; text-align:right;">
+                                <div class="btn-group btn-group">
+                                    <button type="button" id="btnQueryTD" class="btn btn-primary"><i class="glyphicon glyphicon-align-left icon-white"></i>今天</button>
+                                    <button type="button" id="btnQueryYD" class="btn btn-primary"><i class="glyphicon glyphicon-align-center icon-white"></i>昨天</button>
+                                    <button type="button" id="btnQueryTW" class="btn btn-primary"><i class="glyphicon glyphicon-align-right icon-white"></i>本周</button>
+                                    <button type="button" id="btnQueryYW" class="btn btn-primary"><i class="glyphicon glyphicon-align-justify icon-white"></i>上周</button>
+                                    <button type="button" id="btnQueryTM" class="btn btn-primary"><i class="glyphicon glyphicon-indent-left icon-white"></i>本月</button>
+                                    <button type="button" id="btnQueryYM" class="btn btn-primary"><i class="glyphicon glyphicon-indent-right icon-white"></i>上月</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--table开始-->
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting">序号</th>
+                                        <th class="sorting">订单编号</th>
+                                        <th class="sorting">推广员ID</th>
+                                        <th class="sorting">推广员账号</th>
+                                        <th class="sorting">提现金额</th>
+                                        <th class="sorting">手续费</th>
+                                        <th class="sorting">实际金额</th>
+                                        <th class="sorting">银行名称</th>
+                                        <th class="sorting">银行卡号</th>
+                                        <th class="sorting">真实姓名</th>
+                                        <th class="sorting">申请时间</th>
+                                        <th class="sorting">交易状态</th>
+                                        <th class="sorting">收款信息</th>
+                                        <th class="sorting">管理操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <!--分页控件-->
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="dataTables_paginate paging_bootstrap pagination" style="float:right;">
+                                        <ul class="pagination" id="pagin"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--table结束-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var pageObj = {};
+        var postData = {};//搜索条件
+        $(document).ready(function () {
+            //时间选择器
+            laydate.render({
+                elem: '#txtStartDate'
+              , type: 'datetime'
+            });
+            laydate.render({
+                elem: '#txtEndDate'
+              , type: 'datetime'
+            });
+            docReady();
+        });
+        function docReady() {
+            //加载数据
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.pageIndex = 1;
+            postData.Type = parseInt($("#ddlSearchType").val());
+            postData.KeyWord = $("#txtSearch").val();
+            var txtStartDate = $("#txtStartDate").val();
+            var txtEndDate = $("#txtEndDate").val();
+            postData.StartDate = txtStartDate;
+            postData.EndDate = txtEndDate;
+            AjaxSearch(postData);
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+            //选择页码
+            $("#pagecount").change(function (e) {
+                postData.pageSize = parseInt($(this).val());
+                postData.pageIndex = 1;
+                AjaxSearch(postData);
+            });
+            //刷新
+            $("#btnRefresh").click(function (e) {
+                postData.KeyWord = $("#txtSearch").val();
+                postData.SearchType = "";
+                AjaxSearch(postData);
+            });
+            //日期查询
+            $("#btnQuery").click(function (e) {
+                var txtStartDate = $("#txtStartDate").val();
+                var txtEndDate = $("#txtEndDate").val();
+                if (txtStartDate != "" && txtEndDate != "") {
+                    if (StrToDateTime(txtEndDate) < StrToDateTime(txtStartDate)) {
+                        alert("开始日期不能大于结束时间");
+                        return false;
+                    }
+                }
+
+                if (txtStartDate != "" && txtEndDate != "") {
+                    postData.StartDate = txtStartDate;
+                    postData.EndDate = txtEndDate;
+                }
+                postData.pageSize = parseInt($("#pagecount").val());
+                postData.Type = parseInt($("#ddlSearchType").val());
+                postData.KeyWord = $("#txtSearch").val();
+                postData.TradeType = parseInt($("#ddlTradeType").val());
+                postData.OrderID = $("#txtOrderId").val();
+                AjaxSearch(postData);
+            });
+
+            //今天查询
+            $("#btnQueryTD").click(function (e) {
+                postData.Type = 2;
+                AjaxSearch(postData);
+            });
+            //昨天查询
+            $("#btnQueryYD").click(function (e) {
+                postData.Type = 3;
+                AjaxSearch(postData);
+            });
+            //本周查询
+            $("#btnQueryTW").click(function (e) {
+                postData.Type = 4;
+                AjaxSearch(postData);
+            });
+            //上周查询
+            $("#btnQueryYW").click(function (e) {
+                postData.Type = 5;
+                AjaxSearch(postData);
+            });
+            //本月查询
+            $("#btnQueryTM").click(function (e) {
+                postData.Type = 6;
+                AjaxSearch(postData);
+            });
+            //上月查询
+            $("#btnQueryYM").click(function (e) {
+                postData.Type = 7;
+                AjaxSearch(postData);
+            });
+        }
+        //搜索事件
+        function AjaxSearch(postData) {
+            $('#pagin').paging("/Promoter/GetTradeList", postData, CreatTableBody, postData.pageIndex);
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+        var json = [];//json数据
+        //绑定数据
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex, statistics) {
+            $('#sum').html(statistics.Sum);
+            var html = "";
+            json = jsondata;
+            if (jsondata != null && jsondata.length > 0) {
+                $.each(jsondata, function (i, item) {
+                    html += stringFormat("<tr>");
+                    html += stringFormat("<td>{0}</td>", item.ID);
+                    html += stringFormat("<td>{0}</td>", item.OrderID);
+                    html += stringFormat("<td>{0}</td>", item.GameID);
+                    html += stringFormat("<td>{0}</td>", G_AddUserNameLink(item.Accounts, item.UserID, item.UserType));
+                    html += stringFormat("<td>{0}</td>", item.RtnFee);
+                    html += stringFormat("<td>{0}</td>", item.TaxFee);
+                    html += stringFormat("<td>{0}</td>", item.SellMoney);
+                    html += stringFormat("<td>{0}</td>", item.BankName);
+                    html += stringFormat("<td>{0}</td>", item.BankAcc);
+                    html += stringFormat("<td>{0}</td>", item.RealName);
+                    html += stringFormat("<td>{0}</td>", item.ApplyDate);
+                    html += stringFormat("<td>{0}</td>", GetTradeStatus(item.DealStatus));
+                    html += stringFormat("<td><a href='javascript:void(0)' onclick='ShowBankInfo(" + i + ")'>查看</a></td>");
+                    html += stringFormat("<td>{0}</td>", GetManage(i));
+                    html += "</tr>";
+                });
+            }
+            $("#DataTables_Table_0_wrapper tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * postData.pageSize + 1), ((pageIndex * postData.pageSize) < pageTotal ? (pageIndex * postData.pageSize) : pageTotal), pageTotal));
+        }
+
+        var ShowBankInfo = function (i) {
+            var obj = json[i];
+            $("#bankname").text(obj.BankName);
+            $("#bankAddress").text(obj.BankDetail);
+            $("#bankuname").text(obj.RealName);
+            $("#bankcardnum").text(obj.BankAcc);
+            $("#pscore").text(obj.SellMoney);
+            $("#t_orderid").val(obj.OrderID);
+            $("#q_Button").hide();
+            $("#bankInfo").dialog({
+                autoOpen: true,
+                height: 280,
+                width: 500,
+                modal: true,
+                title: "账户详细信息---" + obj.OrderID
+            });
+        }
+        var ShowRefuseReason = function (RejectReason) {
+            alert("拒绝原因:\n" + RejectReason);
+        }
+
+        var RefTradeShow = function (i) {
+            var obj = json[i];
+            $("#reforderid").text(obj.OrderID);
+            $("#refuserid").val(obj.UserID);
+            $("#refscoll").val(obj.RtnFee);
+            refTradeDiv = $("#refTrade")
+            refTradeDiv.dialog({
+                autoOpen: true,
+                height: 240,
+                width: 500,
+                modal: true,
+                title: "拒绝订单交易"
+            });
+        }
+
+
+        var RefTrade = function () {
+            var res = $("#refResaon").val();
+            if (res == "")
+                alert("拒绝原因必须要填");
+            else {
+                var data = { type: 1, orderid: $("#reforderid").html(), resaon: res }
+                AjaxSubmit("/Promoter/doTrade", data, callBack, "jujue");
+            }
+        }
+        var TradeBuy = function (i) {
+            var obj = json[i];
+            var data = { type: 4, id: obj.ID }
+            AjaxSubmit("/Promoter/Buy", data, callBack, "buy");
+        }
+        var CancelTrade = function (i) {
+            var obj = json[i];
+            var data = { type: 1, id: obj.ID }
+            AjaxSubmit("/Promoter/Buy", data, callBack, "quxiao");
+        }
+
+        var TradePay = function (i) {
+            var obj = json[i];
+            var data = { type: 2, orderid: obj.OrderID }
+            AjaxSubmit("/Promoter/doTrade", data, callBack, "trade");
+        }
+
+        var ShowDaiFuBankInfo = function (i) {
+            var obj = json[i];
+            $("#DaiFu_bankname").text(obj.BankName);
+            $("#DaiFu_bankAddress").val(obj.BankDetail);
+            $("#DaiFu_bankuname").val(obj.RealName);
+            $("#DaiFu_bankcardnum").val(obj.BankAcc);
+            $("#DaiFu_pscore").val(obj.SellMoney);
+            $("#DaiFu_t_orderid").val(obj.OrderID);
+            $("#DaiFu_OrderId").val(obj.OrderID);
+            $("#DaiFu_TradeId").val(obj.ID);
+            if (obj.DealStatus == 0)
+                $("#DaiFu_q_Button").show();
+            else
+                $("#DaiFu_q_Button").hide();
+            $("#DaiFu_bankInfo").dialog({
+                autoOpen: true,
+                height: 380,
+                width: 500,
+                modal: true,
+                title: "账户详细信息---" + obj.OrderID
+            });
+        }
+        var DaiFu_TradePay_Button = function () {
+            var oid = $("#DaiFu_t_orderid").val();
+            var selectBankCode = $("#DaiFu_BankCode_Abbr").val();
+            if (selectBankCode.length < 1) {
+                alert("请选择玩家的银行名称");
+                return false;
+            }
+
+            var bankAccount = $("#DaiFu_bankuname").val();
+            var bankAccountCode = $("#DaiFu_bankcardnum").val();
+            var bankAmount = $("#DaiFu_pscore").val();
+            if (bankAccount.length < 1 || bankAccountCode.length < 1 || bankAmount < 0.01) {
+                alert("请输入玩家的银行卡信息和付款金额");
+                return false;
+
+            }
+            var tradeId = $("#DaiFu_TradeId").val();
+            if (tradeId.length < 1) {
+                alert("操作不正确");
+                return false;
+            }
+            var bankAddress = $("#DaiFu_bankAddress").val();
+            if (bankAddress == "") {
+                alert("请输入开户行地址");
+                return false;
+            }
+            var province = $("#txtProvince").val();
+            //if (province == "") {
+            //    alert("请输入开户行所在省");
+            //    return false;
+            //}
+            var city = $("#txtCity").val();
+            //if (city == "") {
+            //    alert("请输入开户行所在市");
+            //    return false;
+            //}
+            if (oid == "")
+                alert("订单号获取失败");
+            else {
+                if (confirm("确定银行信息选择正确，进行代付吗?")) {
+                    var data = { tradeId: tradeId, orderId: oid, bankAccount: bankAccount, bankAccountCode: bankAccountCode, bankAmount: bankAmount, selectBankCode: selectBankCode, bankAddress: bankAddress, Province: province, City: city }
+                    AjaxSubmit("/Promoter/Daifu", data, callBack, "daifu");
+                }
+            }
+        }
+
+        var DaiFuFailed_TradeShow = function (i) {
+            var obj = json[i];
+            $("#DaiFuFailed_orderid").text(obj.OrderID);
+            $("#DaiFuFailed_userid").val(obj.UserID);
+            $("#DaiFuFailed_scoll").val(obj.RtnFee);
+            DaiFuFailedTradeDiv = $("#DaiFuFailed_Trade")
+            DaiFuFailedTradeDiv.dialog({
+                autoOpen: true,
+                height: 240,
+                width: 500,
+                modal: true,
+                title: "代付失败处理"
+            });
+        }
+
+        var DaiFuFailed_Trade = function () {
+            var res = $("#DaiFuFailed_Reason").val();
+
+            if (res == "")
+                alert("失败原因必须要填");
+            else {
+                if (confirm("确定要返还金币吗？")) {
+
+                    var data = { orderid: $("#DaiFuFailed_orderid").text(), refreso: res, }
+                    AjaxSubmit("/Promoter/DaiFuFailed", data, callBack, "daifufail");
+                }
+            }
+        }
+
+        //回调函数
+        function callBack(jsonData, fname) {
+            if (fname == "jujue") {
+                alert("拒绝交易成功");
+                $("#refTrade").dialog("close");
+            }
+            if (fname == "trade") {
+                alert("交易成功");
+            }
+
+            if (fname == "buy") {
+                alert("购买成功");
+            }
+            if (fname == "quxiao") {
+                alert("取消成功");
+            }
+            if (fname == "daifu") {
+                alert("代付成功");
+                $('#DaiFu_bankInfo').dialog('close');
+            }
+            if (fname == "daifufail") {
+                alert("拒绝交易成功");
+                $("#refTrade").dialog("close");
+            }
+            AjaxSearch(postData);
+        }
+
+        var GetTradeStatus = function (status) {
+            var statusStr = new String();
+            switch (parseInt(status)) {
+                case 0:
+                    statusStr = "等待付款";
+                    break;
+                case 1:
+                    statusStr = "拒绝交易";
+                    break;
+                case 2:
+                    statusStr = "<font color='#FF0000'>交易成功</font>";
+                    break;
+            }
+            return statusStr;
+        }
+
+
+        var GetManage = function (i) {
+            var obj = json[i];
+            var manaHTML = new String();
+            //status = parseInt(obj.DealStatus);
+            if (obj.DealStatus == 1)
+                manaHTML = "<a href='javascript:void(0)' onclick=\"ShowRefuseReason('" + obj.RejectRsn + "')\">拒绝交易原因</a>";
+            if (obj.DealStatus == 0)
+                manaHTML = "<a href='javascript:void(0)' onclick='RefTradeShow(" + i + ")'>拒绝交易</a>&nbsp;&nbsp;<a href='javascript:void(0)' onclick='TradePay(" + i + ")'>手付</a>&nbsp;&nbsp;<a href='javascript:void(0)' onclick='ShowDaiFuBankInfo(" + i + ")'>代付</a>";
+            //if (obj.DealStatus == 1)
+            //    manaHTML = "<a href='javascript:void(0)' onclick='DaiFuFailed_TradeShow(" + i + ")'>代付失败</a>";
+            return manaHTML;
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+    </script>
+
+    <div id="bankInfo" style="display: none">
+        <table width="99%" border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#C8C8C8">
+            <tr id="trbankname">
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>开户行：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <label id="bankname"></label>
+                </td>
+            </tr>
+            <tr id="trbankaddress">
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>开户行详细地址：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <label id="bankAddress"></label>
+                </td>
+            </tr>
+
+            <tr id="trbankuname">
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>开户姓名：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <label id="bankuname"></label>
+                </td>
+            </tr>
+            <tr id="trbankcardnum">
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>银行卡号：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <label id="bankcardnum"></label>
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>应付卖家金额：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <label id="pscore"></label>
+                </td>
+            </tr>
+            <tr id="q_Button">
+                <td colspan="2" align="center">
+                    <input id="Button4" type="button" onclick="TradePay_Button()" class="btn" width="80" value="确认付款" />
+                    <input type="hidden" value="" id="t_orderid" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="refTrade" style="display: none">
+        <table width="99%" border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#C8C8C8">
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>订单号：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <label id="reforderid"></label>
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>拒绝原因：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <input type="text" id="refResaon" maxlength="20" />
+                    <label>拒绝原因必须要填！</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="hidden" id="refuserid" />
+                    <input type="hidden" id="refscoll" />
+                    <input id="Button4" type="button" class="btn" width="80" value="确认" onclick="RefTrade()" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="DaiFu_bankInfo" style="display: none">
+        <table width="99%" border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#C8C8C8">
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>订单号：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <input type="text" id="DaiFu_OrderId" name="DaiFu_OrderId" readonly="readonly" style="width:220px;" />
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>开户行：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <label id="DaiFu_bankname"></label>
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>选择银行：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <select id="DaiFu_BankCode_Abbr" name="DaiFu_BankCode_Abbr">
+                        <option value="">请选择玩家银行</option>
+                        <option value="ABC">农业银行</option>
+                        <option value="BOC">中国银行</option>
+                        <option value="BOCOM">交通银行</option>
+                        <option value="CCB">建设银行</option>
+                        <option value="ICBC">工商银行</option>
+                        <option value="PSBC">邮政储蓄银行</option>
+                        <option value="CMBCHINA">招商银行</option>
+                        <option value="SPDB">浦发银行</option>
+                        <option value="CEB">光大银行</option>
+                        <option value="ECITIC">中信银行</option>
+                        <option value="PINGAN">平安银行</option>
+                        <option value="CMBC">民生银行</option>
+                        <option value="HXB">华夏银行</option>
+                        <option value="CGB">广发银行</option>
+                        <option value="CIB">兴业银行</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>开户行所在省：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <input type="text" id="txtProvince" name="txtProvince" style="width: 220px;" />
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>开户行所在市：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <input type="text" id="txtCity" name="txtCity" style="width: 220px;" />
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>开户行详细地址：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <input type="text" id="DaiFu_bankAddress" name="DaiFu_bankAddress" style="width: 220px;" />
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>开户姓名：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <input type="text" id="DaiFu_bankuname" name="DaiFu_bankuname" readonly="readonly" style="width: 220px;" />
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>银行卡号：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <input type="text" id="DaiFu_bankcardnum" name="DaiFu_bankcardnum" readonly="readonly" style="width: 220px;" />
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>应付卖家金额：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <input type="text" id="DaiFu_pscore" name="DaiFu_pscore" readonly="readonly" style="width: 220px;" />
+                </td>
+            </tr>
+            <tr id="DaiFu_q_Button">
+                <td colspan="2" align="center">
+                    <input id="DaiFu_Button4" type="button" onclick="DaiFu_TradePay_Button()" class="btn" width="80" value="确认代付" />
+                    <input type="hidden" value="" id="DaiFu_t_orderid" /><input type="hidden" value="" id="DaiFu_TradeId" />
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="DaiFuFailed_Trade" style="display: none">
+        <table width="99%" border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#C8C8C8">
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>订单号：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <label id="DaiFuFailed_orderid"></label>
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>拒绝原因：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <input type="text" id="DaiFuFailed_Reason" maxlength="20" />
+                    <label>拒绝原因必须要填！</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="hidden" id="DaiFuFailed_userid" />
+                    <input type="hidden" id="DaiFuFailed_scoll" />
+                    <input id="DaiFuFailed_Button4" type="button" class="btn" width="80" value="确认" onclick="DaiFuFailed_Trade()" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

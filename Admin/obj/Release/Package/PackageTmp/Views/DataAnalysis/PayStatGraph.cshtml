@@ -1,0 +1,190 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "数据分析 - 充值统计";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+    <script src="~/Scripts/comm.js"></script> 
+</head>
+<body>
+    <div id="content" class="main-content">
+
+        <div class="carousel box-inner">
+            <div class="box-header well clearfix" data-original-title="">
+                <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn btn-round btn-default" onclick="history.go(0);">
+                        <i class="glyphicon glyphicon-repeat"></i>
+                    </a>
+                    <a href="#" class="btn btn-minimize btn-round btn-default">
+                        <i class="glyphicon glyphicon-chevron-up"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="tab-content" style="margin-top:0px">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">充值统计图</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <ul class="list-inline cursor-style">
+                                <li>日期：
+                                    <input id="txtStartDate" class="input-width-150" type="text" readonly="readonly" value="@ViewBag.StartTime" />至<input type="text" id="txtEndDate" class="input-width-150" readonly="readonly"  value="@ViewBag.EndTime" />
+                                </li>
+                                <li><select id="ddlType"><option value="0">曲线图</option><option value="1">柱状图</option></select></li>
+                                <li>
+                                    <a class="btn btn-success search" href="#" id="btnquery"><i class="glyphicon glyphicon-zoom-in icon-white"></i>查询</a>
+                                </li>
+                                <li>
+                                    <a class="btn btn-info search" href="#" id="advancedQuery"><i class="glyphicon glyphicon-hand-down"></i>最近30天</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <img id="pic" src="@Url.Action("PayStatisticsChart", new { startDate = ViewBag.StartTime, endDate = ViewBag.EndTime, type = 0 })" />
+                        </div>
+                    </div>
+                    <div class="panel-heading">
+                        <h3 class="panel-title">分析数据</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:right;">充值总人数：</td>
+                                            <td style="text-align:left;"><label id="ltPayUserCounts">@(ViewBag.PayUserCounts != null ? ViewBag.PayUserCounts : "0")</label>人</td>
+                                            <td style="text-align:right;">二次充值人数：</td>
+                                            <td style="text-align:left;"><label id="ltPayTwoUserCounts">@(ViewBag.PayTwoUserCounts != null ? ViewBag.PayTwoUserCounts : "0")</label>人</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right;">一次性最高充值金额：</td>
+                                            <td style="text-align:left;"><label id="ltPayMaxAmount">@(ViewBag.PayMaxAmount != null ? ViewBag.PayMaxAmount : "0.0")</label>元</td>
+                                            <td style="text-align:right;">累计充值总金额：</td>
+                                            <td style="text-align:left;"><label id="ltPayTotalAmount">@(ViewBag.PayTotalAmount != null ? ViewBag.PayTotalAmount : "0.0")</label>元</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right;">使用最多的充值渠道：</td>
+                                            <td style="text-align:left;"><label id="ltMaxShareName">@(ViewBag.MaxShareName != null ? ViewBag.MaxShareName : "")</label></td>
+                                            <td style="text-align:right;">今日充值最高金额：</td>
+                                            <td style="text-align:left;"><label id="ltCurrentDateMaxAmount">@(ViewBag.CurrentDateMaxAmount != null ? ViewBag.CurrentDateMaxAmount : "0.0")</label>元</td>
+                                        </tr>
+                                        <tr style="display:none">
+                                            <td style="text-align:right;">充值大户人数：</td>
+                                            <td style="text-align:left;"><label id="ltVIPPayUserTotal">@(ViewBag.VIPPayUserTotal != null ? ViewBag.VIPPayUserTotal : "0")</label></td>
+                                            <td style="text-align:right;">注册用户总数：</td>
+                                            <td style="text-align:left;"><label id="ltUserCounts">@(ViewBag.UserCounts != null ? ViewBag.UserCounts : "0")</label>人</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right;">充值最高金额日期：</td>
+                                            <td style="text-align:left;"><label id="ltPayMaxDate">@(ViewBag.PayMaxDate != null ? ViewBag.PayMaxDate : "")</label></td>
+                                            <td style="text-align:right;">注册用户人均APRU值：</td>
+                                            <td style="text-align:left;"><label id="ltAPRUReg">@(ViewBag.APRUReg != null ? ViewBag.APRUReg : "0.0")</label> <label style="color:green;">元</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right;">充值用户人均APRU值：</td>
+                                            <td style="text-align:left;"><label id="ltAPRUPay">@(ViewBag.APRUPay != null ? ViewBag.APRUPay : "0.0")</label>元</td>
+                                            <td style="text-align:right;">充值用户转换率：</td>
+                                            <td style="text-align:left;"><label id="ltPayUserRate">@(ViewBag.PayUserRate != null ? ViewBag.PayUserRate : "0.0")</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right;">充值用户流失率：</td>
+                                            <td style="text-align:left;"><label id="ltPayUserOutflowRate">@(ViewBag.PayUserOutflowRate != null ? ViewBag.PayUserOutflowRate : "0.0")</label></td>
+                                            <td style="text-align:right;">充值大户可能转化人数：</td>
+                                            <td style="text-align:left;"><label id="ltVIPPayUserRate">@(ViewBag.VIPPayUserRate != null ? ViewBag.VIPPayUserRate : "0")</label> <label style="color:green;">人</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right;">充值用户流失数：</td>
+                                            <td style="text-align:left;"><label id="ltPayUserOutflowTotal">@(ViewBag.PayUserOutflowTotal != null ? ViewBag.PayUserOutflowTotal : "0")</label>人</td>
+                                            <td style="text-align:right;"></td>
+                                            <td style="text-align:left;"></td>
+                                        </tr>                                       
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        var data = {};
+        $(document).ready(function () {
+            //时间选择器
+            laydate.render({
+                elem: '#txtStartDate'
+            });
+            laydate.render({
+                elem: '#txtEndDate'
+            });
+            docReady();
+        });
+        function docReady() {
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+            $("#btnquery").click(function (e) {
+                e.preventDefault();
+                var startDate = $("#txtStartDate").val();
+                var endDate = $("#txtEndDate").val();
+                if (startDate == "" || endDate == "") {
+                    alert("请选择时间");
+                    return false;
+                }
+                data.startDate = startDate;
+                data.endDate = endDate;
+                data.type = parseInt($("#ddlType").val());
+                add(1);
+            });
+            $("#advancedQuery").click(function (e) {
+                e.preventDefault();
+                var myDate = new Date();
+                data.endDate = myDate.getFullYear() + "-" + (myDate.getMonth() + 1) + "-" + myDate.getDate();
+                var stardate = new Date(myDate - 29 * 24 * 3600 * 1000);
+                data.startDate = stardate.getFullYear() + "-" + (stardate.getMonth() + 1) + "-" + stardate.getDate();
+                data.type = parseInt($("#ddlType").val());
+                add(1);
+            });
+        }
+        function add(o) {
+            if (o > 0) {
+                //var startTime = StrToDateTime(data.startDate)
+                //var endTime = StrToDateTime(data.endDate)
+                //alert(1)
+                //var date3 = endTime.getTime() - startTime.getTime()  //时间差的毫秒数
+               
+                ////计算出相差天数
+                //var days = Math.floor(date3 / (24 * 3600 * 1000))
+                //if (days < 1)
+                //{
+                //    alert("查询区间必须大于1天")
+                //    return;
+                //}
+
+                $("#pic").attr("src", "@Url.Action("PayStatisticsChart", "DataAnalysis")?startDate=" + data.startDate + "&endDate=" + data.endDate + "&type=" + data.type + "&t=" + Math.random());
+            }
+        }
+       
+    </script>
+</body>
+</html>

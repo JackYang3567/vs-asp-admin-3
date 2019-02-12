@@ -1,0 +1,105 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "充值系统 - 批量修改实物卡";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+               
+                <div class="tab-content" style="margin-top:0px">
+                    <div class="panel panel-primary" style="margin-left:-10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@ViewBag.Title</h3>
+                        </div>
+                        <div class="panel-body">
+                           
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">有效期：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtEnjoinOverDate" class="laydate-icon strtime" style="width:300px;" type="text" readonly="readonly" onclick="laydate({istime: true,festival: true, format: 'YYYY-MM-DD'})" placeholder="请输入开始时间" /></div>
+                                <div class="col-xs-4 col-md-2" style="text-align: left; color: red;">不修改留空</div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">密码：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtPassword" style="width:300px;display:inline;" class="form-control input-sm" type="password"/></div>
+                                <div class="col-xs-4 col-md-2" style="text-align: left; color: red;">不修改留空</div>
+                            </div>
+                           
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-success search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-send"></i>确认</a></li>
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="window.close();"><i class="glyphicon glyphicon-off"></i>关闭</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>                   
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function add() {
+            var BuildId = parseInt('@ViewBag.BuildId');
+            var cmdstr = '@ViewBag.Param';
+            var data = {};
+            if (BuildId < 1) {
+                alert("BuildId参数不能为0");
+                return false;
+            }
+            if (cmdstr == "") {
+                alert("参数出错");
+                return false;
+            }
+            var password = $("#txtPassword").val();
+            if (password == "") {
+                alert("密码不能为空");
+                return false;
+            }
+            var EnjoinOverDate = StrToDateTime($("#txtEnjoinOverDate").val());
+            var timestamp=new Date().getTime();
+            if (EnjoinOverDate <= timestamp) {
+                alert("时间不能小于当前时间");
+                return false;
+            }
+            data.BuildId = BuildId;
+            data.StrParamsList = cmdstr;
+            data.password = password;
+            data.EnjoinOverDate = EnjoinOverDate;
+            AjaxSubmit("/Filled/DoLivcardEdit", data, callBack, "add");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            if (fname == "add") {
+                alert(jsonData.Msg);
+                window.close();
+                //window.opener.location.reload();
+            }
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+    </script>
+</body>
+</html>

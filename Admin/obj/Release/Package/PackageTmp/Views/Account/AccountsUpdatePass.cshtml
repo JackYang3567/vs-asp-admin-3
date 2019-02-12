@@ -1,0 +1,135 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "后台管理-修改密码";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/layout.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/common.js"></script>
+</head>
+<body>
+    <!-- 头部菜单 Start -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="title">
+        <tr>
+            <td width="19" height="25" valign="center" class="Lpd10">
+                <div class="arr">
+                </div>
+            </td>
+            <td width="1232" height="25" valign="center" align="left">
+                目前操作功能：用户系统 - 修改密码
+            </td>
+        </tr>
+    </table>
+    <!-- 头部菜单 End -->
+   
+        <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="titleOpBg Lpd10">
+                    <input type="button" value="关闭" class="btn wd1" onclick="window.close();" />
+                    <input type="button" value="确认" class="btn wd1" onclick="submit();" />
+                </td>
+            </tr>
+        </table>
+        <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0" class="listBg2">
+            <tr>
+                <td class="listTdLeft">
+                    新的登陆密码：
+                </td>
+                <td>
+                    <input id="txtLoginPass" type="password" class="text wd4" /> 不修改则留空
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    确认登陆密码：
+                </td>
+                <td>
+                    <input id="txtReLoginPass" type="password" class="text wd4" /> 
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    新的保险柜密码：
+                </td>
+                <td>
+                    <input id="txtInsurePass" type="password" class="text wd4" /> 不修改则留空
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    确认保险柜密码：
+                </td>
+                <td>
+                    <input id="txtReInsurePass" type="password" class="text wd4" /> 
+                </td>
+            </tr>
+        </table>
+        <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="titleOpBg Lpd10">
+                    <input type="button" value="关闭" class="btn wd1" onclick="window.close();" />
+                    <input type="button" value="确认" class="btn wd1" onclick="submit();" />
+                </td>
+            </tr>
+        </table>
+    <script type="text/javascript">
+        function submit() {
+            var istrue = true;
+            var LoginPass = $("#txtLoginPass").val();
+            if (LoginPass == "") {
+                istrue = false;
+                alert("请输入新的登陆密码");
+                return istrue;
+            }
+            var ReLoginPass = $("#txtReLoginPass").val();
+            if (ReLoginPass == "") {
+                istrue = false;
+                alert("请输入确认登陆密码");
+                return istrue;
+            }
+            if (LoginPass != ReLoginPass) {
+                istrue = false;
+                alert("登陆密码和确认登陆密码不一致");
+                return istrue;
+            }
+            var InsurePass = $("#txtInsurePass").val();
+            if (InsurePass == "") {
+                InsurePass = LoginPass;
+            }
+            var ReInsurePass = $("#txtReInsurePass").val();
+            if (ReInsurePass == "") {
+                ReLoginPass = ReInsurePass;
+            }
+            var data = {};
+            data.LoginPass = LoginPass;
+            data.ReLoginPass = ReLoginPass;
+            data.InsurePass = InsurePass;
+            data.ReInsurePass = ReInsurePass;
+            data.UserID = parseInt('@ViewBag.UserID');
+            if (istrue) {
+                AjaxSubmit("/Account/AddAccountsUpdatePass", data, callBack, "add");
+            }
+        }
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.close();
+                    window.opener.location.reload();
+                    break;
+            }
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+    </script>
+</body>
+</html>

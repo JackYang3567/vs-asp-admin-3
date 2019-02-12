@@ -1,0 +1,94 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "代理系统 - 代理域名设置";
+}
+@model Game.Entity.Accounts.AgentStatusInfo
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+
+                    <div class="panel panel-info">
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">代理域名设置</h3>
+                        </div>
+                        <div class="panel-body">
+                            <table>
+                                <tr>
+                                    <td class="tr-center">注册推广码：</td>
+                                    <td class="tr-main">
+                                        <input class="form-control input-sm" style="width:350px;" type="text" id="text_url" value="@Model.regTgAddr1" /><br />
+                                        <input class="form-control input-sm" style="width:350px;" type="text" id="text_url2" value="@Model.regTgAddr2" /><br />
+                                        <input class="form-control input-sm" style="width:350px;" type="text" id="text_url3" value="@Model.regTgAddr3" /><br />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tr-center">首页推广码：</td>
+                                    <td class="tr-main">
+                                        <input class="form-control input-sm" style="width:350px;" type="text" id="text_tgurl" value="@Model.mainTgAddr1" /><br />
+                                        <input class="form-control input-sm" style="width:350px;" type="text" id="text_tgurl2" value="@Model.mainTgAddr2" /><br />
+                                        <input class="form-control input-sm" style="width:350px;" type="text" id="text_tgurl3" value="@Model.mainTgAddr3" /><br />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="Save();"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        function Save() {
+
+            var _url1 = $("#text_url").val();
+            var _url2 = $("#text_url2").val();
+            var _url3 = $("#text_url3").val();
+            var _tgurl1 = $("#text_tgurl").val();
+            var _tgurl2 = $("#text_tgurl2").val();
+            var _tgurl3 = $("#text_tgurl3").val();
+            if (_url1.indexOf('http://') > 0 || _url2.indexOf('http://') > 0 || _url3.indexOf('http://') > 0) {
+                alert("地址格式不正确 不需要填写 http");
+            }
+            else {
+                var postData = { URL: _url1, URL2: _url2, URL3: _url3, TGURL: _tgurl1, TGURL2: _tgurl2, TGURL3: _tgurl3 };
+                AjaxSubmit("/Daili/UpdateAgentBaseURL", postData, callBack, "save");
+            }
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "save":
+                    alert(jsonData.Msg);
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

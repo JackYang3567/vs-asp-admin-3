@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "GoldChart";
+    Layout = null;
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="~/Scripts/highcharts.js"></script>
+<script type="text/javascript" src="~/Scripts/themes/gray.js"></script>
+<script type="text/javascript" charset="gbk">
+    var jsonObj;
+    $(function () {
+        var accountTemp = unescape(QueryString("account"));
+        var uid = QueryString("uid");
+        $.ajaxSetup({ async: false });
+        $.post("/Abnormal/ScoreTimeList", { uid: uid, r: Math.random() }, function (json) {
+            if (json.IsOk)
+                jsonObj =$.parseJSON(json.Data);
+        });
+
+
+        var scoreListTemp = Array();
+        var timeListTemp = Array();
+        $.each(jsonObj, function (i, obj) {
+            scoreListTemp[i] = this.SwapScore;
+            timeListTemp[i] = this.CollectTime;
+        });
+        createChart(scoreListTemp, timeListTemp, accountTemp);
+    });
+
+    function createChart(scoreList, timeList, account) {
+        $('#container').highcharts({
+            title: {
+                text: '详细变化统计',
+                x: -20 //center
+            },
+            xAxis: {
+                categories: timeList
+            },
+            yAxis: {
+                title: {
+                    text: ' 金币'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: account,
+                data: scoreList,
+                color: '#9999FF'
+            }]
+        });
+    }
+
+    function QueryString(n) {
+        var t = location.href, f = t.substring(t.indexOf("?") + 1, t.length).split("&"), u = {}, r;
+        for (i = 0; j = f[i]; i++)
+            u[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=") + 1, j.length);
+        return r = u[n.toLowerCase()], typeof r == "undefined" ? "" : r;
+    }
+</script>
+<div id="container">
+</div>

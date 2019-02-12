@@ -1,0 +1,99 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "充值系统 - 订单信息";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title </title>
+    <link href="~/Content/layout.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/common.js"></script>
+</head>
+<body>
+    <!-- 头部菜单 Start -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="title">
+        <tr>
+            <td width="19" height="25" valign="top" class="Lpd10"><div class="arr"></div></td>
+            <td width="1232" height="25" valign="top" align="left">你当前位置：@ViewBag.Title </td>
+        </tr>
+    </table>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="titleOpBg Lpd10">
+                <input type="button" value="关闭" class="btn wd1" onclick="javascript:window.close()" />
+            </td>
+        </tr>
+    </table>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="listBg2">
+        <tr>
+            <td height="35" colspan="2" class="f14 bold Lpd10 Rpd10"><div class="hg3  pd7">基本信息</div></td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">订单号码：</td>
+            <td>
+                <label id="litOrderID">@(ViewBag.OrderID!=null?ViewBag.OrderID:"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">订单日期：</td>
+            <td>
+                <label id="litApplyDate">@(ViewBag.ApplyDate != null ? ViewBag.ApplyDate : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">帐号：</td>
+            <td>
+                <label id="litAccounts">@(ViewBag.Accounts != null ? ViewBag.Accounts : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">订单金额：</td>
+            <td>
+                <label id="litOrderAmount">@(ViewBag.OrderAmount != null ? ViewBag.OrderAmount : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">实付金额：</td>
+            <td>
+                <label id="litPayAmount">@(ViewBag.PayAmount != null ? ViewBag.PayAmount : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">赠送游戏币：</td>
+            <td>
+                <label id="litPresentScore">@(ViewBag.PresentScore != null ? ViewBag.PresentScore : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">订单状态：</td>
+            <td>
+                <label id="litOrderStatus">@(ViewBag.OrderStatus != null ? Html.Raw(ViewBag.OrderStatus) : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">充值地址：</td>
+            <td>
+                <label id="litIPAddress">@(ViewBag.IPAddress != null ? ViewBag.IPAddress : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">操作用户：</td>
+            <td>
+                <label id="litOperUserID">@(ViewBag.OperUserID != null ? ViewBag.OperUserID : "")</label>
+            </td>
+        </tr>
+    </table>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="titleOpBg Lpd10">
+                <input type="button" value="关闭" class="btn wd1" onclick="javascript:window.close()" />
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

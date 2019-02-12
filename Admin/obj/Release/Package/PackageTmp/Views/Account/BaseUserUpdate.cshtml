@@ -1,0 +1,135 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "管理后台-管理员密码修改";
+    Game.Entity.PlatformManager.Base_Users u = ViewData["data"] == null ? null : ViewData["data"] as Game.Entity.PlatformManager.Base_Users;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+               
+                <div class="tab-content" style="margin-top:0px">
+                    <div class="panel panel-primary" style="margin-left:0px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">管理员信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">帐号：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblAccounts">@(u != null ? u.Username : "")</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">权限组别：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblRoleID">@(u != null ? Game.Facade.Tools.TypeUtil.GetRoleName(u.RoleID) : "")</label></div>
+                               
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">原始密码：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtOldLogonPass" style="width:350px;display:inline;" class="form-control input-sm" type="password" ></div>
+                    
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">新密码：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtLogonPass" style="width:350px;display:inline;" class="form-control input-sm" type="password" ></div>
+                                
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">确认新密码：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtConfirmLogonPass" style="width:350px;display:inline;" class="form-control input-sm" type="password" ></div>
+                               
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">登录次数：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblLoginTimes">@(u != null ? u.LoginTimes.ToString() : "")</label></div>
+     
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">最后登录地址：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblLastLogonIP">@(u != null ? u.LastLoginIP : "")</label></div>
+                               
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-4 col-md-2" style="text-align:right">最后登录时间：</div>
+                                <div class="col-xs-6 col-md-3"><label id="lblLastLogonDate">@(u != null ? u.LastLogintime.ToString() : "")</label></div>
+
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-success search btn-md" href="#" onclick="Add();"><i class="glyphicon glyphicon-send"></i>保存</a></li>
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="window.close();"><i class="glyphicon glyphicon-off"></i>关闭</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var data = {};
+        data.OOldLogonPass = '@(u!=null?u.Password:"")';
+        $(document).ready(function () {
+          
+        }); 
+        function Add() {
+            var istrue = true;
+            var OldLogonPass = $("#txtOldLogonPass").val();
+            if (OldLogonPass == "") {
+                alert("请输入原密码");
+                return;
+            } 
+            var LogonPass = $("#txtLogonPass").val();
+            if (istrue) {
+                if (LogonPass == "") {
+                    alert("请输入新密码");
+                    return;
+                } 
+            }
+            var ConfirmLogonPass = $("#txtConfirmLogonPass").val();
+            if (istrue && ConfirmLogonPass == "") {
+                alert("请输入确认密码！");
+                istrue = false;
+            }
+            if (LogonPass != ConfirmLogonPass) {
+                alert("输入密码和确认密码不一致");
+                return false;
+            }
+            data.OldLogonPass = OldLogonPass;
+            data.LogonPass = LogonPass;
+            data.ConfirmLogonPass = ConfirmLogonPass;
+            if (istrue) {
+                
+                AjaxSubmit("/Account/DoBaseUser", data, callBack, "add");
+            }
+        };
+        //回调函数
+        function callBack(jsonData, fname) {
+            if (fname == "add") {
+                alert(jsonData.Msg);
+                window.close();
+                //window.opener.location.reload();
+            }
+        };
+    </script>
+</body>
+</html>

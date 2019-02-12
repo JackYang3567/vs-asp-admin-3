@@ -1,0 +1,242 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "后台管理-用户密码保护修改";
+    List<string> protect = ViewData["protect"] == null ? null : ViewData["protect"] as List<string>;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/layout.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/common.js"></script>
+</head>
+<body>
+    <!-- 头部菜单 Start -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="title">
+        <tr>
+            <td width="19" height="25" valign="center" class="Lpd10">
+                <div class="arr">
+                </div>
+            </td>
+            <td width="1232" height="25" valign="center" align="left">
+                目前操作功能：用户密码保护修改
+            </td>
+        </tr>
+    </table>
+    <!-- 头部菜单 End -->
+        <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="titleOpBg Lpd10">
+                    <input type="button" value="关闭" class="btn wd1" onclick="window.close();" />
+                    @if (ViewBag.Enabled != null && (bool)ViewBag.Enabled == false) { 
+                     <input type="button" value="修改密保" class="btn wd1" onclick="Add();" />
+                     <input type="button" value="取消密保" class="btn wd2" onclick="del();" />     
+                    }                               
+                </td>
+            </tr>
+        </table>
+        <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0" class="listBg2">
+            <tr>
+                <td class="listTdLeft">
+                    用户帐号：
+                </td>
+                <td>
+                    <label id="ltAccounts"></label>
+                </td>
+                <td class="listTdLeft">
+                    安全邮箱：
+                </td>
+                <td>
+                    <input id="txtSafeEmail" type="text" class="text wd4" maxlength="32" value="@(ViewBag.SafeEmail!=null?ViewBag.SafeEmail:"")" />
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    问题一：
+                </td>
+                <td>
+                    <select id="ddlQuestion1">
+                        @if (protect != null && protect.Count > 0) { 
+                           foreach(string s in protect){
+                             <option value="@s" @((ViewBag.Question1!=null && ViewBag.Question1==s)?"selected=\"selected\"":"") >@s</option>
+                           }
+                        }
+                    </select>
+                </td>
+                <td class="listTdLeft">
+                    答案一：
+                </td>
+                <td>
+                    <input id="txtResponse1" type="text" class="text wd4" maxlength="30" value="@(ViewBag.Response1!=null?ViewBag.Response1:"")" />
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    问题二：
+                </td>
+                <td>
+                    <select id="ddlQuestion2">
+                        @if (protect != null && protect.Count > 0)
+                        {
+                            foreach (string s in protect)
+                            {
+                                <option value="@s" @((ViewBag.Question2 != null && ViewBag.Question2 == s) ? "selected=\"selected\"" : "")>@s</option>
+                            }
+                        }
+                    </select>
+                </td>
+                <td class="listTdLeft">
+                    答案二：
+                </td>
+                <td>
+                    <input id="txtResponse2" type="text" class="text wd4" maxlength="30" value="@(ViewBag.Response2!=null?ViewBag.Response2:"")" />
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    问题三：
+                </td>
+                <td>
+                    <select id="ddlQuestion3">
+                        @if (protect != null && protect.Count > 0)
+                        {
+                            foreach (string s in protect)
+                            {
+                                <option value="@s" @((ViewBag.Question3 != null && ViewBag.Question3 == s) ? "selected=\"selected\"" : "")>@s</option>
+                            }
+                        }
+                    </select>
+                </td>
+                <td class="listTdLeft">
+                    答案三：
+                </td>
+                <td>
+                    <input id="txtResponse3" type="text" class="text wd4" maxlength="30" value="@(ViewBag.Response3!=null?ViewBag.Response3:"")" />
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    证件类型：
+                </td>
+                <td>
+                    <label id="ltPassportType">@(ViewBag.PassportType!=null?ViewBag.PassportType:"")</label>
+                </td>
+                <td class="listTdLeft">
+                    证件号码：
+                </td>
+                <td>
+                    <label id="ltPassportID">@(ViewBag.PassportID != null ? ViewBag.PassportID : "")</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    创建地址：
+                </td>
+                <td>
+                    <label id="ltCreateIP">@(ViewBag.CreateIP != null ? ViewBag.CreateIP : "")</label>
+                </td>
+                <td class="listTdLeft">
+                    创建日期：
+                </td>
+                <td>
+                    <label id="ltCreateDate">@(ViewBag.CreateDate != null ? ViewBag.CreateDate : "")</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    最后修改地址：
+                </td>
+                <td>
+                    <label id="ltModifyIP">@(ViewBag.ModifyIP != null ? ViewBag.ModifyIP : "")</label>
+                </td>
+                <td class="listTdLeft">
+                    最后修改日期：
+                </td>
+                <td>
+                    <label id="ltModifyDate">@(ViewBag.ModifyDate != null ? ViewBag.ModifyDate : "")</label>
+                </td>
+            </tr>
+        </table>
+    <script>
+            $(document).ready(function () {
+
+            });
+            function Add() {
+                var istrue = true;
+                var ProtectID = parseInt('@ViewBag.Paras');
+                if (ProtectID < 1) {
+                    alert("参数有误");
+                    istrue = false;
+                    return false;
+                }
+                var Question1 = $("#ddlQuestion1").val();
+                if (Question1 == "") {
+                    alert("请选择问题一");
+                    istrue = false;
+                    return false;
+                }
+                var Question2 = $("#ddlQuestion2").val();
+                if (Question2 == "") {
+                    alert("请选择问题二");
+                    istrue = false;
+                    return false;
+                }
+                var Question3 = $("#ddlQuestion3").val();
+                if (Question3 == "") {
+                    alert("请选择问题三");
+                    istrue = false;
+                    return false;
+                }
+                var Response1 = $("#txtResponse1").val();
+                if (Response1 == "") {
+                    alert("请输入答案一");
+                    istrue = false;
+                    return false;
+                }
+                var Response2 = $("#txtResponse2").val();
+                if (Response2 == "") {
+                    alert("请输入答案二");
+                    istrue = false;
+                    return false;
+                }
+                var Response3 = $("#txtResponse3").val();
+                if (Response3 == "") {
+                    alert("请输入答案三");
+                    istrue = false;
+                    return false;
+                }
+                var SafeEmail = $("#txtSafeEmail").val();
+                if (istrue) {
+                    var data = { ProtectID: '@ViewBag.Paras', Question1: Question1, Question2: Question2, Question3: Question3, Response1: Response1, Response2: Response2, Response3: Response3, SafeEmail: SafeEmail };
+                    AjaxSubmit("/Account/ExcuteProtectInfo", data, callBack, "add");
+                }
+            };
+            function del() {              
+                var data = { ProtectID: '@ViewBag.Paras' };
+                AjaxSubmit("/Account/ExcuteDelProtectInfo", data, callBack, "del");                
+            }
+            //回调函数
+           function callBack(jsonData, fname) {
+               switch (fname) {
+                   case "add":
+                       alert(jsonData.Msg);
+                       window.close();
+                       window.opener.location.reload();
+                       break;
+                   case "del":
+                       alert(jsonData.Msg);
+                       break;
+                   default:
+                       alert(jsonData.Msg);
+                       window.close();
+                       window.opener.location.reload();
+                       break;
+               }
+            }
+    </script>
+</body>
+</html>

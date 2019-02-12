@@ -1,0 +1,390 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "后台管理系统";
+    System.Data.DataTable itemdt = ViewData["muneitemtb"] == null ? null : ViewData["muneitemtb"] as System.Data.DataTable;
+    System.Data.DataTable dt = ViewData["data"] == null ? null : ViewData["data"] as System.Data.DataTable;
+}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+
+    <link href="~/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+    <link href="~/Content/tabs.css" rel="stylesheet" />
+    <script src="~/Scripts/tabs.js"></script>
+
+    <style type="text/css">
+        #rbox {
+            display: none;
+        }
+    </style>
+</head>
+<body class="warper">
+    <div class="wrap">
+        <!-- 头部start -->
+        <div class="header clearfix">
+            <a href="" title="" class="fl">
+                    <img src="../../Content/images/logo.png" alt="" title="" class="logo" />
+                </a>
+            <div class="fr header-list">
+                <a href="javascript:void(0)" title="修改密码" class="" onclick="openWindowOwn('/Account/BaseUserUpdate?id=@ViewBag.ID', '修改密码', 600, 500);">欢迎您，<span>@ViewBag.Username</span>【@ViewBag.RoleName】</a>
+                <a href="javascript:void(0)" onclick="Redirect(this,'@Url.Action("Welcome", "Home")')" title="">后台首页</a>
+                <a href="javascript:void(0)" onclick="Redirect(this,'@Url.Action("Welcome", "Home")')" title="">在线人数@((dt != null && dt.Rows.Count > 0) ? Game.Facade.Tools.TypeUtil.ObjectToLong(dt.Rows[0]["onlinePlayer"]) : 0)</a>
+                <a href="javascript:void(0)" onclick="Redirect(this,'@Url.Action("Welcome", "Home")')" title="">未处理充值2条</a>
+                <a href="javascript:void(0)" onclick="Redirect(this,'@Url.Action("Welcome", "Home")')" title="">未处理提现2条</a>
+                @if ((int)ViewBag.IsBand == 1)
+                {<a href="javascript:void(0)" onclick='BindIp(0);' title="" class="">绑定IP</a>}
+                else
+                {
+                    <a href="javascript:void(0)" onclick='BindIp(1);' title="" class="">取消绑定</a>
+                }
+                <a href="/Home/OutLogin" title="" class="" style="border: none;">安全退出</a>
+            </div>
+        </div>
+        <!-- 头部end -->
+        <!-- 主体内容start -->
+        <div class="main-list clearfix">
+            <div class="menu" id="selectbox">
+                @if (itemdt != null && itemdt.Rows.Count > 0)
+                {
+                    System.Data.DataRow[] firstMu = itemdt.Select("ParentID=0");
+                    if (firstMu != null && firstMu.Count() > 0)
+                    {
+                        for (int i = 0; i < firstMu.Count(); i++)
+                        {
+                            System.Data.DataRow r = firstMu[i];
+                            int parentID = Game.Facade.Tools.TypeUtil.ObjectToInt(r["ModuleID"]);
+                            System.Data.DataRow[] seconedMu = itemdt.Select("ParentID=" + parentID);
+                            if (i == 0)
+                            {
+                                <div class="show-box" style="display:none;">@r["Title"].ToString()</div>
+                            }
+                            <ul class="menulist">
+                                <li>
+                                    <div class="one-menu">
+                                        <span>@r["Title"].ToString()</span>
+                                    </div>
+
+                                    @if (seconedMu != null && seconedMu.Count() > 0)
+                                    {
+                                        <div class="two-menu" style="display:none;">
+                                            @foreach (System.Data.DataRow row in seconedMu)
+                                            {
+                                                <a href="@(row["Link"]+(row["Link"].ToString().IndexOf('?')>-1?"&":"?")+"ModuleID="+row["ModuleID"])" class="J_menuItem">
+                                                    <span>@row["Title"].ToString() </span>
+                                                    <i></i>
+                                                </a>
+
+                                            }
+                                        </div>
+                                    }
+                                </li>
+                            </ul>
+                        }
+                    }
+                }
+                <!-- 左边导航栏end -->
+
+            </div>
+            <!-- 主体内容end -->
+            <!-- 右边主体内容start -->
+            <div class="main">
+                <div class="row content-tabs">
+                    <button class="roll-nav roll-left J_tabLeft">
+                        <i class="glyphicon glyphicon-backward"></i>
+                    </button>
+                    <nav class="page-tabs J_menuTabs">
+                        <div class="page-tabs-content">
+                            <a href="javascript:;" class="active J_menuTab" data-id="Home/Welcome">首页</a>
+                        </div>
+                    </nav>
+                    <button class="roll-nav roll-right J_tabRight">
+                        <i class="glyphicon glyphicon-forward"></i>
+                    </button>
+                    <div class="btn-group roll-nav roll-right">
+                        <button class="dropdown J_tabClose" data-toggle="dropdown">
+                            关闭操作<span class="caret"></span>
+
+                        </button>
+                        <ul role="menu" class="dropdown-menu dropdown-menu-right">
+                            <li class="J_tabShowActive">
+                                <a>定位当前选项卡</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="J_tabCloseAll">
+                                <a>关闭全部选项卡</a>
+                            </li>
+                            <li class="J_tabCloseOther">
+                                <a>关闭其他选项卡</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row J_mainContent" id="content-main">
+                    <iframe class="J_iframe" name="iframe0" width="100%" height="791" src="Home/Welcome" frameborder="0" data-id="Home/Welcome" seamless></iframe>
+                </div>
+
+                @*<iframe name="frm_main_content" id="frm_main_content" width="100%" height="100%" src="/Home/Welcome" frameborder="no"></iframe>*@
+            </div>
+            <!-- 右边主体内容end -->
+            <!--提示框-->
+            <div id="pop" class="popstyle clearfix" style="display:none">
+                <div class="alert-header">
+                    <h1>信息提示</h1>
+                    <span onclick='$("#pop").hide();'>X</span>
+                </div>
+                <div id="popContent" class="pop-content">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('#myTab a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        })
+
+        //绑定IP
+        function BindIp(id) {
+            var data = {};
+            data.isbind = id;
+            AjaxSubmit("/Home/BindIp", data, CallBack, "bindip");
+        }
+        function CallBack(result, fn) {
+            if (fn == "bindip") {
+                $(".header-list a:eq(2)").remove();
+                $(".header-list a:eq(1)").after(result.IsBind > 0 ? "<a href='javascript:void(0);' onclick='BindIp(0);'>绑定IP</a>" : "<a href='javascript:void(0);' onclick='BindIp(1);'>取消绑定</a>");
+            }
+        }
+        function ShowHide(obj) {
+            //var oStyle = obj.style;
+            //var imgId = obj.id.replace("M", "S");
+            var picid = obj.replace(/M/g, "P")
+            var $self = $("#" + obj);
+            if ($self.css('display') == "none") {
+                $self.show();
+                $("#" + picid).attr("src", "/Content/images/arrBig.gif");
+            } else {
+                $self.hide();
+                $("#" + picid).attr("src", "/Content/images/arrBig1.gif");
+            }
+            //oStyle.display == "none" ? oStyle.display = "block" : oStyle.display = "none";
+            //oStyle.display == "none" ? document.getElementById(imgId).src = "/Content/images/arrBig1.gif" : document.getElementById(imgId).src = "/Content/images/arrBig.gif";
+        }
+
+        function GetUrl(obj, url) {
+            //加入一个随机防止OPEN的缓存
+            vNum = Math.random()
+            vNum = Math.round(vNum * 1000)
+            if (url.valueOf("?") > 0) {
+                url = url + "&" + vNum;
+            }
+            else {
+                url = url + "?" + vNum;
+            }
+            window.open(url, "frm_main_content");
+            var trList = document.getElementsByTagName("tr");
+            for (var i = 0; i < trList.length; i++) {
+                if (trList[i].className == "linkBg") {
+                    trList[i].className = "s";
+                }
+            }
+            obj.className = "linkBg";
+        }
+        function Redd(url, title, fnub, snub) {
+            $("#frm_main_content").attr("src", url);
+            $(".show-box").show().html(title);
+            $(".one-menu").hide();
+            $(".two-menu").hide();
+            var li = $(".menulist li:eq(" + fnub + ")");
+            $(li).find(".two-menu").show();
+            $(li).find(".two-menu a").removeClass("active");
+            var a = $(li).find(".two-menu a:eq(" + snub + ")").addClass("active");
+        }
+        var PopTip = function () {
+            //alert("pop执行了");
+            $.post("/Home/GetUndoTradeInfo", { doType: 7, r: Math.random() }, function (data) {
+                var html = "";
+                if (parseInt(data.applyordercount) > 0) {
+                    html += "您有<a href='javascript:void(0);' onclick='Redd(\"/Trade\",\"财务系统\",9,1)'>" + data.applyordercount + "</a>条金币交易未处理";
+                } else if (parseInt(data.agentdrawcount) > 0) {
+                    if (html == "") {
+                        html += "您有<a href='javascript:void(0);' onclick='Redd(\"/Daili/Balance\",\"财务系统\",9,3)'>" + data.agentdrawcount + "</a>条结算未处理";
+                    } else {
+                        html += "，<a href='javascript:void(0);' onclick='Redd(\"/Daili/Balance\",\"财务系统\",9,3)'>" + data.agentdrawcount + "</a>条结算未处理";
+                    }
+                } else if (parseInt(data.UndoMessageCount) > 0) {
+                    if (html == "") {
+                        html += "您有<a href='javascript:void(0);' onclick='Redd(\"/Customer/MessageList\",\"客服中心\",12,4)'>" + data.UndoMessageCount + "</a>条留言未处理";
+                    } else {
+                        html += "，<a href='javascript:void(0);' onclick='Redd(\"/Customer/MessageList\",\"客服中心\",12,4)'>" + data.UndoMessageCount + "</a>条留言未处理";
+                    }
+                }
+                if (html == "") {
+                    $("#pop").hide();
+                } else {
+                    var ua = navigator.userAgent.toLowerCase();
+                    if (ua.match(/msie ([\d.]+)/)) {
+                        html += '<object style="display:none;" classid="clsid:22D6F312-B0F6-11D0-94AB-0080C74C7E95"><param name="AutoStart" value="1" /><param name="Src" value="/Content/Sound/info.mp3" /></object>';
+                    }
+                    else if (ua.match(/firefox\/([\d.]+)/)) {
+                        html += '<embed  src="/Content/Sound/info.mp3" type="audio/mp3" hidden="true" loop="false" mastersound></embed>';
+                    }
+                    else if (ua.match(/chrome\/([\d.]+)/)) {
+                        html += '<audio style="display:none;" src="/Content/Sound/info.mp3" type="audio/mp3" autoplay=”autoplay” hidden="true"></audio>';
+                    }
+                    else if (ua.match(/opera.([\d.]+)/)) {
+                        html += '<embed src="/Content/Sound/info.mp3" hidden="true" loop="false"><noembed><bgsounds src="/Sound/info.mp3"></noembed>';
+                    }
+                    else if (ua.match(/version\/([\d.]+).*safari/)) {
+                        html += '<audio src="/Content/Sound/info.mp3" type="audio/mp3" autoplay=”autoplay” hidden="true"></audio>';
+                    }
+                    else {
+                        html += '<embed src="/Content/Sound/info.mp3" type="audio/mp3" hidden="true" loop="false" mastersound></embed>';
+                    }
+                    $("#popContent").html(html);
+                    $("#pop").show();
+                }
+            });
+        }
+
+        $(function () {
+            // 一级菜单栏的切换效果
+            //$(".one-menu a").on("click", function () {
+            //    var _this = $(this);
+            //    _this.parent().siblings().children("a").siblings("ul").hide("slow");
+            //    _this.siblings().toggle("slow");
+            //})
+            // 二级菜单栏的切换效果
+            //$(".two-menu li").on("click", function () {
+            //    $(".one-menu a").removeClass("active");
+            //    $(this).parent().prev().addClass("active")
+            //    $(this).parent().hide("slow");
+            //    $(".two-menu li").removeClass("active");
+            //    $(this).addClass("active");
+            //})
+            $(".show-box").on("click", function () {
+                $(this).hide();
+                $(".two-menu").hide();
+                $(".one-menu").show("slow");
+            })
+            $(".one-menu").on("click", function () {
+                var defaultCheckHtml = $(this).html();
+                $(".show-box").show().html(defaultCheckHtml);
+                $(".one-menu").hide();
+                $(".two-menu").hide();
+                $(this).next().show();
+            })
+            $(".two-menu a").on("click", function () {
+                $(".two-menu a").removeClass("active");
+                $(this).addClass("active");
+            })
+            PopTip();
+            setInterval('PopTip()', 60000);
+        })
+
+
+
+        //弹窗拖动效果start
+        function Drag(boxName, dragName) {
+            // 获取标签------拖拽小块、父级
+            this.box = $(boxName)[0];
+            this.drag = $(dragName)[0];
+            // 记录父元素距离窗口的距离
+            //this.parentX = this.box.offsetLeft;
+            //this.parentY = this.box.offsetTop;
+            // 块自身的宽度
+            this.dragW = this.drag.clientWidth;
+            this.dragH = this.drag.clientHeight;
+            this.lenX = 0;//鼠标相对窗口x的距离
+            this.lenY = 0;//鼠标相对窗口y的距离
+            var _this = this;
+
+
+            this.drag.onmousedown = function (e) {
+                _this.lenX = e.clientX + document.body.scrollLeft - _this.drag.offsetLeft;
+                _this.lenY = e.clientY + document.body.scrollTop - _this.drag.offsetTop;
+                //alert(this.lenX + "|" + this.lenY)
+                var evt = e || window.event;
+                _this.dragStart();
+            }
+
+            this.limitX = this.box.clientWidth - this.drag.clientWidth;
+            this.limitY = this.box.clientHeight - this.drag.clientHeight;
+            this.sportX = 0;
+            this.sportY = 0;
+        }
+        // 拖拽开始
+        Drag.prototype.dragStart = function () {
+            var _this = this;
+
+            document.onmousemove = function (e) {
+                e.preventDefault();
+
+                var evt = e || window.event;
+                _this.dragMove(evt);
+            }
+            document.onmouseup = function () {
+                _this.dragEnd();
+            }
+        }
+        // 拖拽移动
+        //Drag.prototype.dragMove = function (e) {
+        //    e.preventDefault();
+        //    this.drag.style.left = e.clientX - this.parentX - (this.dragW / 2) + "px";
+        //    this.drag.style.top = e.clientY - this.parentY - (this.dragH / 2) + "px";
+
+        //}
+        // 拖拽结束
+        Drag.prototype.dragEnd = function () {
+            document.onmousemove = null;
+        }
+
+        //function LimitDrag(boxName, dragName) {
+        //    Drag.call(this, boxName, dragName)
+        //    this.limitX = this.box.clientWidth - this.drag.clientWidth;
+        //    this.limitY = this.box.clientHeight - this.drag.clientHeight;
+        //    this.sportX = 0;
+        //    this.sportY = 0;
+        //}
+
+        // 方法的继承
+        //for (var i in Drag.prototype) {
+        //    LimitDrag.prototype[i] = Drag.prototype[i];
+        //}
+
+        // 重写父类的方法
+        Drag.prototype.dragMove = function (e) {
+            this.sportX = e.clientX - this.lenX;
+            this.sportY = e.clientY - this.lenY;
+
+            if (this.sportX <= 0) {
+                this.sportX = 0;
+            }
+            if (this.sportX >= this.limitX) {
+                this.sportX = this.limitX;
+            }
+            if (this.sportY <= 0) {
+                this.sportY = 0;
+            }
+            if (this.sportY >= this.limitY) {
+                this.sportY = this.limitY;
+            }
+            this.drag.style.left = this.sportX + "px";
+            this.drag.style.top = this.sportY + "px";
+        }
+        //new Drag("#frm_main_content", "#pop");
+        //弹窗拖动效果end
+    </script>
+</body>
+</html>

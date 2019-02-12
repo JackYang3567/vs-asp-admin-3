@@ -1,0 +1,242 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "后台管理-游戏豆管理";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/common.js"></script>
+</head>
+<body>
+    <!-- 头部菜单 Start -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="title">
+        <tr>
+            <td width="19" height="25" valign="center" class="Lpd10">
+                <div class="arr">
+                </div>
+            </td>
+            <td width="1232" height="25" valign="center" align="left">
+                目前操作功能：用户信息
+            </td>
+        </tr>
+    </table>
+    <!-- 头部菜单 End -->
+    <Fox:Tab ID="fab1" runat="server" NavActivated="D"></Fox:Tab>
+        <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="titleOpBg Lpd10">
+                    <input type="button" value="关闭" class="btn wd1" onclick="window.close();" />
+                </td>
+            </tr>
+        </table>
+        <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0" class="listBg2">
+            <tr>
+                <td height="35" colspan="2" class="f14 bold Lpd10 Rpd10">
+                    <div class="hg3  pd7">
+                        积分信息
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    ID号码(GameID)：
+                </td>
+                <td>
+                    <span class="Rpd20 lan bold">
+                        <label id="ltGameID">@(ViewBag.GameID!=null?ViewBag.GameID:"")</label>
+                    </span>
+                    帐号：
+                    <span class="Rpd20 lan bold">
+                        <label id="ltAccounts">@(ViewBag.Accounts != null ? ViewBag.Accounts : "")</label>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    游戏：
+                </td>
+                <td>
+                    @Html.HtmlGameSelectBuilder()
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    积分：
+                </td>
+                <td>
+                    <label id="ltScore"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    赢局：
+                </td>
+                <td>
+                    <label id="ltWinCount"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    输局：
+                </td>
+                <td>
+                    <label id="ltLostCount"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    和局：
+                </td>
+                <td>
+                    <label id="ltDrawCount"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    逃局：
+                </td>
+                <td>
+                    <label id="ltFleeCount"></label>
+                </td>
+            </tr>
+            <tr>
+                <td height="35" colspan="2" class="f14 bold Lpd10 Rpd10">
+                    <div class="hg3  pd7">
+                        登录信息
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    登录房间次数：
+                </td>
+                <td>
+                    <label id="ltGameLogonTimes"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    在线时长（秒）：
+                </td>
+                <td>
+                    <label id="ltOnLineTimeCount"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    游戏时长（秒）：
+                </td>
+                <td>
+                    <label id="ltPlayTimeCount"></label>
+                    <span style="padding-left: 10px;"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    登录房间时间：
+                </td>
+                <td>
+                    <label id="ltLastLogonDate"></label>&nbsp;&nbsp;
+                    <label id="ltLogonSpacingTime"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    登录地址：
+                </td>
+                <td>
+                    <label id="ltLastLogonIP"></label>&nbsp;&nbsp;
+                    <label id="ltLogonIPInfo"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    登录机器：
+                </td>
+                <td>
+                    <label id="ltLastLogonMachine"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    注册时间：
+                </td>
+                <td>
+                    <label id="ltRegisterDate"></label>&nbsp;&nbsp;
+                    <label id="ltRegSpacingTime"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    注册地址：
+                </td>
+                <td>
+                    <label id="ltRegisterIP"></label>&nbsp;&nbsp;
+                    <label id="ltRegIPInfo"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    注册机器：
+                </td>
+                <td>
+                    <label id="ltRegisterMachine"></label>
+                </td>
+            </tr>
+        </table>
+        <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="titleOpBg Lpd10">
+                    <input type="button" value="关闭" class="btn wd1" onclick="window.close();" />
+                </td>
+            </tr>
+        </table>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#ddlGame").change(function (e) {
+                var kindID = parseInt($(this).val());
+                if (kindID < 1) {
+                    alert("请选择游戏");
+                    return false;
+                }
+                var data = { kindID: kindID, userID: parseInt('@ViewBag.Paras') }
+                AjaxSubmit("/Account/GetScoreInfoByKindIDAndUserID", data, callBack, "get");
+            });
+        });
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "get":
+                    if (jsonData != null) {
+                        $("#ltScore").html(jsonData.Score);
+                        $("#ltWinCount").html(jsonData.WinCount);
+                        $("#ltLostCount").html(jsonData.LostCount);
+                        $("#ltDrawCount").html(jsonData.DrawCount);
+                        $("#ltFleeCount").html(jsonData.FleeCount);
+                        $("#ltGameLogonTimes").html(jsonData.AllLogonTimes);
+                        $("#ltOnLineTimeCount").html(jsonData.OnLineTimeCount);
+                        $("#ltPlayTimeCount").html(jsonData.PlayTimeCount);
+                        $("#ltLastLogonDate").html(jsonData.LastLogonDate);
+                        $("#ltLogonSpacingTime").html(jsonData.LogonSpacingTime);
+
+                        $("#ltLastLogonIP").html(jsonData.LastLogonIP);
+                        $("#ltLogonIPInfo").html(jsonData.LogonIPInfo);
+                        $("#ltLastLogonMachine").html(jsonData.LastLogonMachine);
+                        $("#ltRegisterDate").html(jsonData.RegisterDate);
+                        $("#ltRegSpacingTime").html(jsonData.RegisterDate);
+
+                        $("#ltRegisterIP").html(jsonData.RegisterIP);
+                        $("#ltRegIPInfo").html(jsonData.RegIPInfo);
+                        $("#ltRegisterMachine").html(jsonData.RegisterMachine);
+                    }
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

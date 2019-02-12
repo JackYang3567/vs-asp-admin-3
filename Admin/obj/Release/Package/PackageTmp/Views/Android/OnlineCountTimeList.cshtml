@@ -1,0 +1,266 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "游戏用户 - 在线人数设置";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/pagination.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+
+    <link href="~/Content/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.10.3.custom.min.js"></script>
+</head>
+<body class="backgroud">
+    <div id="content" class="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box-inner">
+                    <div class="box-header well" data-original-title="">
+                        <h2><i class="glyphicon glyphicon-hand-right"></i>你当前位置：@ViewBag.Title </h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-round btn-default" onclick="history.go(0);">
+                                <i class="glyphicon glyphicon-repeat"></i>
+                            </a>
+                            <a href="#" class="btn btn-minimize btn-round btn-default">
+                                <i class="glyphicon glyphicon-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-content" style="overflow: hidden; display: block;">
+                        <div class="row">
+                            <div class="col-md-10" style="padding-bottom:5px; padding-top:5px; text-align:right;">
+                                <a class="btn btn-primary" href="#" onclick="ShowUpdateCount(-1)">
+                                    <i class="glyphicon glyphicon-plus icon-white"></i>新增
+                                </a>
+                                <button type="button" class="btn btn-danger" onclick="Del(0)"> <i class="glyphicon glyphicon-trash icon-white"></i>删除 </button>
+                            </div>
+                        </div>
+                        <!--table开始-->
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                            <table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th><input name="ckall" type="checkbox" value="" onclick="SelectAll(this,'cid')" /></th>
+                                        <th>房间名称</th>
+                                        <th>开始时间</th>
+                                        <th>结束时间</th>
+                                        <th>最少虚拟人数</th>
+                                        <th>最多虚拟人数</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                            </table>
+                        </div>
+                        <!--table结束-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="updateCount" style="display: none">
+        <table width="99%" border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#C8C8C8">
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>开始时间：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <input id="txtStartDate" maxlength="8" style="width:100px" type="text" />
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>结束时间：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <input id="txtEndDate" maxlength="8" style="width: 100px" type="text" />
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>最少虚拟人数：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <input id="txtAddCounts" maxlength="5" style="width: 100px" type="text" />
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>最大虚拟人数：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <input id="txtChangeRate" maxlength="5" style="width: 100px" type="text" value="" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input id="Button4" type="button" class="btn" width="100" value="确认" onclick="UpdateOnLineCount()" />
+                </td>
+            </tr>
+        </table>
+
+        </table>
+    </div>
+    <script type="text/javascript">
+        var pageObj = {};
+        var postData = {};//搜索条件
+        var roomList = new Array(), gameList = new Array(), roomJson = [];
+        var serverId = 0, serverName = "", kindId = 0, id = 0;
+        var list = [];
+        $(document).ready(function () {
+            laydate.render({
+                elem: '#txtStartDate'
+              , type: 'time'
+            });
+            laydate.render({
+                elem: '#txtEndDate'
+              , type: 'time'
+            });
+            kindId = GetQueryString("kindId");
+            serverId = GetQueryString("serverId");
+            serverName = '@ViewBag.ServerName';
+            docReady();
+        });
+        function docReady() {
+            //加载数据
+            postData.pageIndex = 1;
+            postData.ServerID = serverId;
+            AjaxSearch(postData);
+        }
+        //搜索事件
+        function AjaxSearch(postData) {
+            $('#pagin').paging("/Android/GetOnlineCountTimeList", postData, CreatTableBody, postData.pageIndex);
+        }
+
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "do":
+                    alert("操作成功");
+                    UpAnroidWindow.Close();
+                    AjaxSearch(postData);
+                    break;
+                case "del":
+                    alert("删除成功");
+                    AjaxSearch(postData);
+                    break;
+            }
+        }
+        //绑定数据
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex) {
+            var html = "";
+            if (jsondata != null && jsondata.length > 0) {
+                list = jsondata
+                $.each(jsondata, function (i, item) {
+                    html += stringFormat("<tr>");
+                    html += stringFormat("<td style=\"width: 30px;\"><input name='cid' type='checkbox' value='{0}'/></td>", item.ID);
+                    html += stringFormat("<td>{0}</td>", serverName);
+                    html += stringFormat("<td>{0}</td>", item.StartTime);
+                    html += stringFormat("<td>{0}</td>", item.EndTime);
+                    html += stringFormat("<td>{0}</td>", item.AddCounts);
+                    html += stringFormat("<td>{0}</td>", item.ChangeRate);
+                    html += stringFormat("<td><a href='javascript:void(0);' onclick='ShowUpdateCount(" + i + ");' >编辑</a>&nbsp;&nbsp;<a href='javascript:void(0);' onclick='Del(" + item.ID + ");' >删除</a></td>");
+                    html += "</tr>";
+                });
+            }
+            $("#DataTables_Table_0_wrapper tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("共 {0} 条", pageTotal));
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+
+
+        var UpdateOnLineCount = function () {
+            if (serverId == 0 || kindId == 0) {
+                alert("参数非法");
+                return;
+            }
+            var startTime = $("#txtStartDate").val();
+            var endTime = $("#txtEndDate").val();
+            if (startTime == "" || endTime == "") {
+                alert("时间不能为空");
+                return
+            }
+            var count = $("#txtAddCounts").val();
+            if (count == "") {
+                alert("最少人数不能为空");
+                return
+            }
+            if (!/^[0-9]+$/.test(count)) {
+                alert("最少人数只能为数字");
+                return
+            }
+            var rate = $("#txtChangeRate").val();
+            if (rate == "") {
+                alert("最多人数不能为空");
+                return
+            }
+            var data = {};
+            data.ID = id;
+            data.KindID = kindId;
+            data.ServerID = serverId;
+            data.StartTime = startTime;
+            data.EndTime = endTime;
+            data.AddCounts = count;
+            data.ChangeRate = rate;
+            AjaxSubmit("/Android/UpdateCount", data, callBack, "do");
+
+        }
+
+        var ShowUpdateCount = function (i) {
+            if (i >= 0) {
+                var item = list[i];
+                id = item.ID;
+                $("#txtStartDate").val(item.StartTime + ":00");
+                $("#txtEndDate").val(item.EndTime + ":00");
+                $("#txtAddCounts").val(item.AddCounts);
+                $("#txtChangeRate").val(item.ChangeRate);
+            } else {
+                id = 0;
+                $("#txtStartDate").val("");
+                $("#txtEndDate").val("");
+                $("#txtAddCounts").val("");
+                $("#txtChangeRate").val("");
+            }
+            UpAnroidWindow = new OpeIframeWindow("updateCount", "设置虚拟人数", { autoOpen: true, modal: true, height: 300, width: 500 }, true);
+        }
+        function Del(id) {
+            var data = {};
+            if (id == 0) {
+                var cid = GetSelectValues();
+                if (cid == "") {
+                    alert("未选中任何数据");
+                    return;
+                }
+                data = { cid: cid };
+            } else {
+                data.cid = id;
+            }
+            if (data.cid != null) {
+                AjaxSubmit("/Android/DelOnlineCount", data, callBack, "del");
+            }
+        }
+    </script>
+</body>
+</html>

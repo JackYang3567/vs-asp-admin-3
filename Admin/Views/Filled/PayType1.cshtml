@@ -1,0 +1,214 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "充值系统 - 充值接口";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/pagination.js"></script>
+    <style type="text/css">
+        .sort {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <!--查询栏开始-->
+                <div class="alert alert-info">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <ul class="list-inline cursor-style">
+                                <li>支付平台： @Html.HtmlPayPlatform()</li>
+                                <li>支付渠道： @Html.HtmlPayQudao()</li>
+                                <li>
+                                    <a id="btnQuery" class="btn btn-success search" href="#"><i class="glyphicon glyphicon-zoom-in icon-white"></i>查询</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!--查询栏结束-->
+                <ul class="media nav nav-tabs">
+                    <li class="active" data-id="-1"><a href="javascript:void(0)">全部</a></li>
+                    <li data-id="0"><a href="javascript:void(0)">启动</a></li>
+                    <li data-id="1"><a href="javascript:void(0)">禁用</a></li>
+                </ul>
+                <div class="box-content" style="overflow: hidden; display: block;">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div id="DataTables_Table_0_length" class="dataTables_length">
+                                <label>
+                                    <select size="1" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" id="pagecount">
+                                        <option value="100" selected>100</option>
+                                    </select> 条/页
+                                </label>
+                                <div class="dataTables_info" id="DataTables_Table_0_info">显示 1 至 10 共 10 条</div>
+                            </div>
+                        </div>
+                        @*<div class="col-md-10" style="padding-bottom:5px; padding-top:5px; text-align:right;">
+
+                                <div class="btn-group btn-group">
+                                    <button type="button" class="btn btn-primary" onclick="GrantManager('Freeze');"><i class="glyphicon glyphicon-ban-circle icon-white"></i>禁用</button>
+                                    <button type="button" class="btn btn-primary" onclick="GrantManager('Unfreeze');"><i class="glyphicon glyphicon-ok-circle icon-white"></i>启用</button>
+                                </div>
+                            </div>*@
+                    </div>
+                    <!--table开始-->
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                        <table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                            <thead>
+                                <tr role="row">
+                                    @*<th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Username: activate to sort column descending" id="allCheck">
+                                            <input name="ckall" type="checkbox" value="" onclick="SelectAll(this,'cid')" />
+                                        </th>*@
+                                    <th>排序号</th>
+                                    <th>状态</th>
+                                    <th>支付平台</th>
+                                    <th>支付渠道</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                        </table>
+                        <!--分页控件-->
+                        <div class="row">
+                            <div class="col-md-6">
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="dataTables_paginate paging_bootstrap pagination" style="float:right;">
+                                    <ul class="pagination" id="pagin"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--table结束-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var postData = {};//搜索条件
+        $(function () {
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.pageIndex = 1;
+            AjaxSearch(postData);
+
+            $('.sort').change(function () {
+                var id = $(this).attr("data-id");
+                var sort = $(this).val();
+                console.log("id:" + id + ",sort=" + sort);
+                AjaxSubmit("/Filled/UpdateSort", { id: id, sort: sort }, callBack, "UpdateSort");
+            })
+
+            $("#pagecount").change(function () {
+                postData.pageSize = parseInt($(this).val());
+                postData.pageIndex = 1;
+                AjaxSearch(postData);
+            })
+            //普通搜索事件
+            $("#btnQuery").click(function () {
+                postData.pageSize = parseInt($("#pagecount").val());
+                postData.pageIndex = 1;
+                postData.PlatformID = $('#ddlPayPlatform').val();
+                postData.QudaoID = $('#ddlPayQudao').val();
+                AjaxSearch(postData);
+            });
+            var status = -1;
+            $('.nav-tabs li').click(function () {
+                $(this).addClass("active").siblings().removeClass("active");
+                status = $(this).attr("data-id");
+                postData.Status = status;
+                AjaxSearch(postData);
+            })
+        })
+
+        function GrantManager(opType) {
+            var cidStr = GetSelectValues();
+            if (cidStr.length > 0) {
+                if (cidStr == "") {
+                    alert("未选中任何数据");
+                    return;
+                }
+                var data = { cid: cidStr };
+                switch (opType) {
+                    //禁用
+                    case "Freeze":
+                        data.Nullity = 1;
+                        AjaxSubmit("/Filled/Freeze", data, callBack, "Freeze");
+                        break;
+                        //启用
+                    case "Unfreeze":
+                        data.Nullity = 0;
+                        AjaxSubmit("/Filled/Freeze", data, callBack, "Freeze");
+                        break;
+                }
+            } else {
+                alert("请选择操作项");
+            }
+        }
+        function AjaxSearch(postData) {
+            $('#pagin').paging("/Filled/GetPayList", postData, CreatTableBody, postData.pageIndex);
+        }
+        //绑定数据
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex) {
+            var html = "";
+            if (jsondata != null && jsondata.length > 0) {
+                $.each(jsondata, function (i, item) {
+                    html += stringFormat("<tr>");
+                    //html += stringFormat("<td style=\"width: 30px;\"><input name='cid' type='checkbox' value='{0}'/></td>", item.ID);
+                    html += stringFormat("<td><input data-id=\"{0}\" type=\"text\" class=\"sort\" value=\"{1}\"/></td>", item.ID, item.SortID);
+                    html += stringFormat("<td>{0}</td>", item.Nullity == 0 ? "<font style='color:green'>启用</font>" : "<font style='color:red'>禁用</font>");
+                    html += stringFormat("<td>{0}</td>", item.PlatformName);
+                    html += stringFormat("<td>{0}</td>", item.QudaoName);
+                    html += stringFormat("<td>{0}</td>", item.Nullity == 0 ? "<button type=\"button\" class=\"btn btn-danger\" onclick='Freeze(" + item.ID + ",1)'>禁用</button>" : "<button type=\"button\" class=\"btn btn-success\" onclick='Freeze(" + item.ID + ",0)'>启用</button>");
+                    html += "</tr>";
+                });
+            }
+            $("#DataTables_Table_0_wrapper tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * postData.pageSize + 1), ((pageIndex * postData.pageSize) < pageTotal ? (pageIndex * postData.pageSize) : pageTotal), pageTotal));
+        }
+        function Freeze(id, nullity) {
+            var data = { cid: id, Nullity: nullity };
+            AjaxSubmit("/Filled/Freeze", data, callBack, "sFreeze");
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "sFreeze":
+                    alert("操作成功，一分钟内生效");
+                    AjaxSearch(postData);
+                    break;
+                default:
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

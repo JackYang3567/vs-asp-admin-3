@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{09A094A1-EEA9-49D3-95ED-548F4BAAF562}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Game.Data</RootNamespace>
+    <AssemblyName>Game.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Game.Data.Factory\ClassFactory.cs" />
+    <Compile Include="Game.Data\AccountsDataProvider.cs" />
+    <Compile Include="Game.Data\GameMatchDataProvider.cs" />
+    <Compile Include="Game.Data\GameScoreDataProvider.cs" />
+    <Compile Include="Game.Data\NativeWebDataProvider.cs" />
+    <Compile Include="Game.Data\PlatformDataProvider.cs" />
+    <Compile Include="Game.Data\PlatformManagerDataProvider.cs" />
+    <Compile Include="Game.Data\RecordDataProvider.cs" />
+    <Compile Include="Game.Data\TreasureDataProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Game.Entity\Game.Entity.csproj">
+      <Project>{acf68e9c-99d1-41e6-b24f-037879957e0f}</Project>
+      <Name>Game.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Game.IData\Game.IData.csproj">
+      <Project>{a40b1ecb-dd91-4a94-98ed-8b52eb14396a}</Project>
+      <Name>Game.IData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Game.Kernel\Game.Kernel.csproj">
+      <Project>{70ec6de2-8b09-498e-8412-000fa1c24d44}</Project>
+      <Name>Game.Kernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Game.Utils\Game.Utils.csproj">
+      <Project>{1f8c1dfd-68d9-4624-bd66-4571beb37916}</Project>
+      <Name>Game.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

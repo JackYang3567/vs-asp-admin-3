@@ -1,0 +1,217 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "财务系统 - 代理设置";
+}
+@model System.Data.DataRow
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <style>
+        .x5 {
+            width: 110px;
+            height: 25px;
+            border: 1px solid #ABADB3;
+            font-size: 14px;
+            background-color: #FFFFFF;
+            line-height: 25px;
+            margin-right: 6px;
+        }
+        .col-xs-2 {
+            width:16%;
+        }
+        .checkbox-style input {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+
+                    <div class="panel panel-info">
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">代理设置</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">系统是否开启：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <select id="systemopen">
+                                        <option value="1">开启</option>
+                                        <option value="0">关闭</option>
+                                    </select>
+                                </div>
+                            </div>
+                           
+                           
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">每周开放日期：</div>
+                                <div class="col-xs-6 col-md-8 checkbox-style" id="opdayTD">
+                                    <input type="checkbox" id="openday1" value="1" name="0" />&nbsp;周一
+                                    <input type="checkbox" id="openday2" value="2" name="1" />&nbsp;周二
+                                    <input type="checkbox" id="openday3" value="4" name="2" />&nbsp;周三
+                                    <input type="checkbox" id="openday4" value="8" name="3" />&nbsp;周四
+                                    <input type="checkbox" id="openday5" value="16" name="4" />&nbsp;周五
+                                    <input type="checkbox" id="openday6" value="32" name="5" />&nbsp;周六
+                                    <input type="checkbox" id="openday7" value="64" name="6" />&nbsp;周日
+                                </div>
+
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">开放时段：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    开放时间： <select id="openTime"></select>
+                                    关闭时间： <select id="openClose"></select>
+
+                                </div>
+
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">每日申请次数：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="x5" type="text" id="Txt_ApplyNum" value="@Model["DailyApplyTimes"]" /> 不限制册数请设置为0
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">结算价格：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="x5" type="text" id="Txt_ApplyRate" value="@Model["BalancePrice"]" /> =1元
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">每次最少结算金额：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="x5" type="text" id="Txt_MinApply" value="@Model["MinBalance"]" /> 金币 
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">结算手续费：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="x5" type="text" id="Txt_ApplyEndRate" value="@(Convert.ToDouble(Model["CounterFee"]) * 100)" /> % 
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">最低手续费：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="x5" type="text" id="Txt_MinScore" value="@Model["MinCounterFee"]" />  元
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">上下级代理抽水比例最小间隔：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="x5" type="text" id="Txt_MinCspercentBlank" value="@Model["DiffAgentRate"]" /> %
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">下级代理最高抽水比例：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="x5" type="text" id="Txt_MaxCspercent" value="@Model["MaxAgentRate"]" /> %
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="Save();"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var CreateOpenTimeDom = function () {
+            var optionHTML = new String();
+            for (var i = 1; i <= 24; i++) {
+                optionHTML += "<option value='" + i + "'>" + i + "</option>";
+            }
+            $("#openTime,#openClose").html(optionHTML);
+        }
+        var ShowData = function () {
+            $("#systemopen").val('@Model["IsOpen"]');
+            for (var i = 0; i < 7; i++) {
+                if (('@Model["WeekOpenDay"]' & Math.pow(2, i)) > 0) {
+                    $("input[name='" + i + "']").prop("checked", true);
+                }
+            }
+            $("#openTime").val('@Model["SOpenTime"]');
+            $("#openClose").val('@Model["EOpenTime"]');
+        }
+        $(function () {
+            CreateOpenTimeDom();
+            ShowData();
+        })
+        function Save() {
+           
+            var openDays = 0;
+            $("#opdayTD").children().each(function (i) {
+                var _this = $(this);
+                if (_this.prop("checked"))
+                    openDays |= _this.val()
+            });
+            var re = /^[0-9]+$/;
+            var cspercentblank = $("#Txt_MinCspercentBlank").val()
+            if (!re.test(cspercentblank)) {
+                alert("抽水比例最小间隔请输入一个正整数！");
+                return;
+            }
+            if (parseInt(cspercentblank) >= 90) {
+                alert("抽水比例最小间隔不能大于90");
+                return;
+
+            }
+            var maxcspercent = $("#Txt_MaxCspercent").val()
+            if (!re.test(maxcspercent)) {
+                alert("下级代理最高抽水比例请输入一个正整数！");
+                return;
+            }
+            if (parseInt(maxcspercent) >= 100) {
+                alert("下级代理最高抽水比例不能大于100");
+                return;
+
+            }
+            var postData = {};
+            postData.IsOpen = $("#systemopen").val();
+            postData.WeekOpenDay = openDays.toString();
+            postData.SOpenTime = $("#openTime").val();
+            postData.EOpenTime = $("#openClose").val();
+            postData.DailyApplyTimes = $("#Txt_ApplyNum").val();
+            postData.BalancePrice = $("#Txt_ApplyRate").val();
+            postData.MinBalance = $("#Txt_MinApply").val();
+            postData.CounterFee = $("#Txt_ApplyEndRate").val();
+            postData.MinCounterFee = $("#Txt_MinScore").val();
+            postData.DiffAgentRate = $("#Txt_MinCspercentBlank").val();
+            postData.MaxAgentRate = $("#Txt_MaxCspercent").val();
+            postData.sData = JSON.stringify(postData)
+            AjaxSubmit("/Daili/UpdateAgentSet", postData, callBack, "save");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "save":
+                    alert(jsonData.Msg);
+                    window.location.reload();
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

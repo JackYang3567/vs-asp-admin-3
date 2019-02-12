@@ -1,0 +1,15 @@
+D:\Mywork\haotan\yibiyi\Admin\RestSharp\bin\Release\RestSharp.dll
+D:\Mywork\haotan\yibiyi\Admin\RestSharp\bin\Release\RestSharp.pdb
+D:\Mywork\haotan\yibiyi\Admin\RestSharp\obj\Release\RestSharp.csprojResolveAssemblyReference.cache
+D:\Mywork\haotan\yibiyi\Admin\RestSharp\obj\Release\RestSharp.dll
+D:\Mywork\haotan\yibiyi\Admin\RestSharp\obj\Release\RestSharp.pdb
+D:\qipai\bl\src\网站代码\Admin\RestSharp\bin\Release\RestSharp.dll
+D:\qipai\bl\src\网站代码\Admin\RestSharp\bin\Release\RestSharp.pdb
+D:\qipai\bl\src\网站代码\Admin\RestSharp\obj\Release\RestSharp.csprojResolveAssemblyReference.cache
+D:\qipai\bl\src\网站代码\Admin\RestSharp\obj\Release\RestSharp.dll
+D:\qipai\bl\src\网站代码\Admin\RestSharp\obj\Release\RestSharp.pdb
+D:\works\网站代码3\Admin\RestSharp\bin\Release\RestSharp.dll
+D:\works\网站代码3\Admin\RestSharp\bin\Release\RestSharp.pdb
+D:\works\网站代码3\Admin\RestSharp\obj\Release\RestSharp.csprojResolveAssemblyReference.cache
+D:\works\网站代码3\Admin\RestSharp\obj\Release\RestSharp.dll
+D:\works\网站代码3\Admin\RestSharp\obj\Release\RestSharp.pdb

@@ -1,0 +1,380 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "游戏用户-在线管理";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+    <script src="~/Scripts/pagination.js"></script>
+</head>
+<body class="backgroud">
+    <div id="content" class="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box-inner">
+                    <div class="box-header well" data-original-title="">
+                        <h2><i class="glyphicon glyphicon-hand-right"></i> 你当前位置：@ViewBag.Title </h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-round btn-default" onclick="history.go(0);">
+                                <i class="glyphicon glyphicon-repeat"></i>
+                            </a>
+                            <a href="#" class="btn btn-minimize btn-round btn-default">
+                                <i class="glyphicon glyphicon-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-content" style="overflow: hidden; display: block;">
+                        <!--查询栏开始-->
+                        <div class="alert alert-info">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <ul class="list-inline cursor-style">
+                                        <li>查询方式：</li>
+                                        <li>
+                                            <select id="ddlSearchType" class="form-control input-sm">
+                                                <option value="0">所有</option>
+                                                <option value="2">玩家ID</option>
+                                                <option value="3">玩家账号</option>
+                                            </select>
+
+                                        </li>
+                                        <li><input type="text" id="txtSearch" class="form-control input-sm"></li>
+                                        <li>所在游戏：</li>
+                                        <li>
+                                            <select name="select" id="ddlGame" class="form-control input-sm input-width-150"></select>
+                                        </li>
+                                        <li>
+                                            <a class="btn btn-success search" href="#" id="btnQuery"><i class="glyphicon glyphicon-zoom-in icon-white"></i>查询</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-primary" onclick="history.go(0);"><i class="glyphicon glyphicon-repeat"></i>刷新</a>
+                                        </li>
+                                        @*<li>
+                                            刷新时间：
+                                            <select id="selTime" name="selTime">
+                                                <option value="10">10秒</option>
+                                                <option value="30">30秒</option>
+                                                <option value="60">60秒</option>
+                                                <option value="120">120秒</option>
+                                            </select>
+                                            倒计时:<label id="time" style="margin-left:5px;"></label>
+                                            <a href="#" class="btn btn-primary" id="btnStart">开始</a>
+                                        </li>*@
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--查询栏结束-->
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div id="DataTables_Table_0_length" class="dataTables_length">
+                                    <label>
+                                        <select size="1" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" id="pagecount">
+                                            <option value="10" selected="selected">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> 条/页
+                                    </label>
+                                    <div class="dataTables_info" id="DataTables_Table_0_info">显示 1 至 10 共 10 条</div>
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="padding-bottom:5px; padding-top:5px; text-align:right;">
+
+                                <div class="btn-group btn-group">
+                                    @*@if (Game.Facade.Tools.TypeUtil.IsPower(100, (int)ViewBag.UserID, "冻/解"))
+                                    {
+                                        <button type="button" class="btn btn-primary" onclick="GrantManager('DissolveTable');"><i class="glyphicon glyphicon-ok-circle icon-white"></i>解散桌子</button>
+                                    }
+                                    @if (Game.Facade.Tools.TypeUtil.IsPower(100, (int)ViewBag.UserID, "冻/解"))
+                                    {
+                                        <button type="button" class="btn btn-primary" onclick="GrantManager('FreezeAccount');"><i class="glyphicon glyphicon-ban-circle icon-white"></i>冻结</button>
+                                    }*@
+                                    @if (Game.Facade.Tools.TypeUtil.IsPower(100, (int)ViewBag.UserID, "冻/解"))
+                                    {
+                                        <button type="button" class="btn btn-primary" onclick="GrantManager('ClearOnline');"><i class="glyphicon glyphicon-ok-circle icon-white"></i>清除卡线</button>
+                                    }
+                                    @*@if (Game.Facade.Tools.TypeUtil.IsPower(100, (int)ViewBag.UserID, "赠送金币"))
+                                    {
+                                        <button type="button" class="btn btn-primary" onclick="GrantManager('GrantTreasure')"><i class="glyphicon glyphicon-export icon-white"></i>赠送游戏币</button>
+                                    }
+                                    @if (Game.Facade.Tools.TypeUtil.IsPower(100, (int)ViewBag.UserID, "赠送靓号"))
+                                    {
+                                        <button type="button" class="btn btn-primary" onclick="GrantManager('GrantGameID')"><i class="glyphicon glyphicon-export icon-white"></i>赠送靓号</button>
+                                    }*@
+                                </div>
+                            </div>
+                        </div>
+                        <!--table开始-->
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr role="row">
+                                        <th><input name="ckall" type="checkbox" value="" onclick="SelectAll(this,'cid')" /></th>
+                                        <th class="sorting">玩家ID</th>
+                                        <th class="sorting">玩家账号</th>
+                                        <th class="sorting">携带金币</th>
+                                        <th class="sorting">银行金币</th>
+                                        <th class="sorting">总输赢</th>
+                                        <th class="sorting">所在游戏</th>
+                                        <td class="sorting">所在房间</td>
+                                        <td class="sorting">最后登录IP</td>
+                                        <td class="sorting">IP归属地</td>
+                                        <td class="sorting">最后登录时间</td>
+                                        <td class="sorting">游戏时长</td>
+                                        <td class="sorting">状态</td>
+                                        @*<th class="sorting">操作</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                            </table>
+                            <!--分页控件-->
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="dataTables_paginate paging_bootstrap pagination" style="float:right;">
+                                        <ul class="pagination" id="pagin"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--table结束-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var pageObj = {};
+        var postData = {};//搜索条件
+        $(document).ready(function () {
+            //loadTime();
+            getGameList();
+            docReady();
+        });
+        function loadTime() {
+            var stopTime = 10;
+            $('#selTime').val(stopTime)
+            setTime();
+
+            $("#selTime").change(function () {
+                stopTime = $("#selTime").val();
+                setTime();
+            });
+            var start;
+            start = setInterval(setTime, 1000);
+            $("#btnStart").html("暂停")
+            $("#btnStart").click(function () {
+                if ($(this).html() == "暂停") {
+                    $(this).html("开始")
+                    clearInterval(start);
+                }
+                else {
+                    start = setInterval(setTime, 1000);
+                    $(this).html("暂停")
+                }
+            });
+            function setTime() {
+                $("#time").html(stopTime);
+                stopTime--;
+                if (stopTime < 0) {
+                    AjaxSearch(postData);
+                    stopTime = $("#selTime").val();
+                }
+            }
+        }
+
+        function getGameList() {
+            $.post("/Account/GetGameList", {}, function (data) {
+                var optHTML = new String();
+                var data = $.parseJSON(data);
+                $.each(data, function (i, o) {
+                    optHTML += "<option value='" + o.KindID + "'>" + o.KindName + "</option>";
+                });
+                $("#ddlGame").append("<option value='-1'>全部</option><option value='-2'>游戏</option><option value='0'>大厅</option>" + optHTML);
+            })
+        }
+        function docReady() {
+
+            //加载数据
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.Sort = "";
+            postData.pageIndex = 1;
+            //postData.Type = $("#ddlSearchType").val();
+            postData.kindID = parseInt($("#ddlGame").val());
+            AjaxSearch(postData);
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+            //选择页码
+            $("#pagecount").change(function (e) {
+                postData.pageSize = parseInt($(this).val());
+                postData.pageIndex = 1;
+                postData.Type = $("#ddlSearchType").val();
+                postData.kindID = parseInt($("#ddlGame").val());
+                AjaxSearch(postData);
+            });
+            //刷新
+            $("#btnRefresh").click(function (e) {
+                postData.KeyWord = $("#txtSearch").val();
+                postData.Type = $("#ddlSearchType").val();
+                postData.kindID = parseInt($("#ddlGame").val());
+                AjaxSearch(postData);
+            });
+            //普通搜索事件
+            $("#btnQuery").click(function (e) {
+                postData.pageSize = parseInt($("#pagecount").val());
+                postData.wType = $("#ddlSearchType").val();
+                postData.wValue = $("#txtSearch").val();
+                postData.kindID = parseInt($("#ddlGame").val());
+
+                AjaxSearch(postData);
+            });
+        }
+        //搜索事件
+        function AjaxSearch(postData) {
+            $('#pagin').paging("/Account/GetOnlieList", postData, CreatTableBody, postData.pageIndex);
+        }
+        //绑定数据
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex, statistics) {
+            var html = "";
+            if (jsondata != null && jsondata.length > 0) {
+                $.each(jsondata, function (i, item) {
+                    html += stringFormat("<tr>");
+                    html += stringFormat("<td style=\"width: 30px;\"><input name='cid' type='checkbox' value='{0}'/></td>", item.UserID);
+                    html += stringFormat("<td>{0}</td>", item.GameID);
+                    html += stringFormat("<td>{0}</td>", G_AddUserNameLink(item.Accounts, item.UserID, item.UserType));
+                    html += stringFormat("<td>{0}</td>", item.Score.formatMoney());
+                    html += stringFormat("<td>{0}</td>", item.InsureScore.formatMoney());
+                    html += stringFormat("<td>{0}</td>", item.TotalScore.formatMoney());
+                    html += stringFormat("<td>{0}</td>", item.KindName == null ? "大厅" : item.KindName);
+                    html += stringFormat("<td>{0}</td>", item.ServerName == null ? "大厅" : item.ServerName);
+                    html += stringFormat("<td>{0}</td>", item.LastLogonIP);
+                    html += stringFormat("<td>{0}</td>", item.LastLogonIPAddress);
+                    html += stringFormat("<td>{0}</td>", item.LastLogonDate);
+                    html += stringFormat("<td>{0}</td>", ConverTimeToDHMS(item.PlayTimeCount));
+                    html += stringFormat("<td>{0}</td>", item.Nullity == 0 ? "<font style='color:green'>正常</font>" : "<font style='color:red'>停权</font>");
+                    //html += stringFormat("<td><a href='javascript:void(0);' onclick='Unlock({0});'>玩家解锁</a>&nbsp;&nbsp;</td>", item.UserID);
+                    //<a href='javascript:void(0);' onclick='Kick({0});' >冻结</a>
+                    html += "</tr>";
+                });
+            }
+            $("#DataTables_Table_0_wrapper tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * postData.pageSize + 1), ((pageIndex * postData.pageSize) < pageTotal ? (pageIndex * postData.pageSize) : pageTotal), pageTotal));
+        }
+        var ConverTimeToDHMS = function (seconds) {
+            if (seconds <= 0)
+                return "0秒";
+            var str = "";
+            var day = parseInt(seconds / 0x15180);
+            var hour = parseInt((seconds % 0x15180) / 0xe10);
+            var minute = parseInt((seconds % 0xe10) / 60);
+            var second = parseInt(seconds % 60);
+            if (day > 0)
+                str += day + "天";
+            if (hour > 0)
+                str += hour + "小时";
+            else
+                str += "0小时";
+            if (minute > 0)
+                str += minute + "分";
+            else
+                str += "0分";
+            if (second > 0)
+                str += second + "秒";
+            else
+                str += "0秒";
+            return str;
+        };
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+
+        //解锁
+        function Unlock(uid) {
+            if (confirm("是否解锁？")) {
+                var data = { cid: uid };
+                AjaxSubmit("/Account/Unlock", data, callBack, "unlock");
+            }
+        }
+
+        //踢出
+        function Kick(uid) {
+            if (confirm("是否冻结？")) {
+                var data = { cid: uid }
+                AjaxSubmit("/Account/FreezeAccount", data, callBack, "nullity");
+            }
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            alert(jsonData.Msg);
+            AjaxSearch(postData);
+        }
+
+        function GrantManager(opType) {
+            var cidStr = GetSelectValues();
+            if (cidStr.length > 0) {
+                if (cidStr == "") {
+                    alert("未选中任何数据");
+                    return;
+                }
+                var data = { cid: cidStr };
+                switch (opType) {
+                    //解散桌子
+                    case "DissolveTable":
+                        AjaxSubmit("/Account/DissolveTable", data, callBack, "DissolveTable");
+                        break;
+                        //冻结
+                    case "FreezeAccount":
+                        AjaxSubmit("/Account/FreezeAccount", data, callBack, "FreezeAccount");
+                        break;
+                        //解冻
+                    case "UnfreezeAccount":
+                        AjaxSubmit("/Account/UnfreezeAccount", data, callBack, "UnfreezeAccount");
+                        break;
+                        //清除卡线
+                    case "ClearOnline":
+                        AjaxSubmit("/Account/Unlock", data, callBack, "unlock");
+                        break;
+                    case "GrantTreasure":
+                        openWindowOwn('@Url.Action("GrantTreasure","Account")?cid=' + cidStr, '', 600, 400);
+                        break;
+                    case "GrantGameID":
+                        openWindowOwn('@Url.Action("GrantGameID", "Account")?param=' + cidStr + '&accounts={1}', '_GrantGameID', 600, 400);
+                        break;
+
+                }
+            } else {
+                alert("请选择操作项");
+            }
+        }
+
+    </script>
+</body>
+</html>

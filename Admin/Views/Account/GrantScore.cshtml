@@ -1,0 +1,113 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "管理后台-赠送积分";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+
+                <div class="tab-content">
+                    <div class="container tab-pane active" style="padding-top:10px;padding-bottom:10px;">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group new-input-style margin-b-0 clearfix">
+                                <label class="pull-left control-label" style="text-align:right;">游戏：</label>
+                                <div class="pull-left" style="width: 100px;">
+                                    @Html.HtmlGameSelectBuilder()
+                                </div>
+
+                            </div>
+                            <div class="form-group new-input-style margin-t-b clearfix">
+                                <label class="pull-left control-label" style="text-align:right;">赠送积分：</label>
+                                <div class="pull-left" style="width: 100px;">
+                                    <input id="txtScore" class="form-control" type="text" value="" maxlength="9" placeholder="请输入赠送的游戏币数" onkeyup="if(isNaN(value))execCommand('undo');">
+                                </div>
+                                <span class="pull-left control-label"><i>*&nbsp;</i>只能为数字，范围-99999999~99999999</span>
+                            </div>
+
+                            <div class="form-group new-input-style margin-t-0 clearfix">
+                                <label class="pull-left control-label" style="text-align:right;">赠送原因：</label>
+                                <div class="pull-left" style="width: 300px;">
+                                    <textarea class="form-control" id="txtReason" rows="5" placeholder="赠送原因"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="footer-absolute">
+                    <ul class="cursor-style clearfix new-add-btn">
+                        <li class="pull-left" style="margin-right: 10px;">
+                           @if (Game.Facade.Tools.TypeUtil.IsPower((int)ViewBag.ModuleID, (int)ViewBag.UserID, "赠送积分"))
+                           { <a class="btn btn-success search btn-md" href="#" onclick="Add();"><i class="glyphicon glyphicon-send"></i>保存</a>}
+                        </li>
+                        <li class="pull-left">
+                            <a class="btn btn-primary search btn-md" href="#" onclick="window.close();"><i class="glyphicon glyphicon-off"></i>关闭</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+        function Add() {
+            var istrue = true;
+            var kindID = parseInt($("#ddlGame").val());
+            if (kindID < 1) {
+                alert("请选择游戏");
+                return false;
+            }
+            var Score = $("#txtScore").val();
+            if (istrue && Score == "") {
+                alert("请输入赠送积分");
+                return false;
+            }
+            if (istrue && isNaN(Score)) {
+                alert("赠送积分只能为数字");
+                return false;
+            }
+           
+            if (parseInt(Score) < -99999999 || parseInt(Score) > 99999999) {
+                alert("赠送积分范围-99999999~99999999");
+                return false;
+            }
+            var Reason = $("#txtReason").val()
+            if (istrue && Reason == "") {
+                alert("赠送原因不能为空");
+                return false;
+            }
+            if (istrue) {
+                var data = { kindID: kindID, Score: Score, Reason: Reason, Param: '@ViewBag.Paras', ModuleID: parseInt('@ViewBag.ModuleID') };
+                AjaxSubmit("/Account/ExcuteScore", data, callBack, "add");
+            }
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            if (fname == "add") {
+                alert(jsonData.Msg);
+                window.close();
+                window.opener.location.reload();
+            }
+        }
+    </script>
+
+</body>
+</html>

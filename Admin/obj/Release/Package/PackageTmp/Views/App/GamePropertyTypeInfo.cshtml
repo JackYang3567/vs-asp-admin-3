@@ -1,0 +1,162 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "游戏系统 - 类型管理";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <ul class="media nav nav-tabs margin-b-10">
+                    <li>
+                        <a href="javascript:void(0);" onclick="Redirect(this,'@Url.Action("GamePropertyManager", "App")')">道具管理</a>
+                    </li>
+                    <li class="active">
+                        <a href="javascript:void(0);">类型管理</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" onclick="Redirect(this,'@Url.Action("GameGiftList", "App")')">礼包管理</a>
+                    </li>
+                </ul>
+                <div class="tab-content" style="margin-top:-11px">
+                    <div class="panel panel-info">                       
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><label id="litInfo"></label>类型信息</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">类型标识：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtTypeID" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="9" onkeyup="if(isNaN(value))execCommand('undo');" value="@(ViewBag.TypeID!=null?ViewBag.TypeID:"")">
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">类型名称：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtTypeName" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="6" onkeyup="if(isNaN(value))execCommand('undo');" value="@(ViewBag.TypeName != null ? ViewBag.TypeName : "")">
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">渠道名称：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <label id="lblTagName" style="color: Blue;">@(ViewBag.TagName != null ? ViewBag.TagName : "")</label><input type="hidden" id="hdfTagID" value="@(ViewBag.TagID != null ? ViewBag.TagID : "")" />
+                            </div>
+                            <div class="col-xs-6 col-md-3" style="text-align:left">
+                               
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">排序：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtSortID" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="9" onkeyup="if(isNaN(value))execCommand('undo');" value="@(ViewBag.SortID != null ? ViewBag.SortID : "")">
+                            </div>
+                            <div class="col-xs-6 col-md-3" style="text-align:left">
+                               
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">禁用状态：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <select id="rbtnNullity" class="form-control input-sm input-width-150">
+                                    <option value="0" @((ViewBag.Nullity == null || ViewBag.Nullity == "0") ? "selected=\"selected\"" : "")>正常</option>
+                                    <option value="1" @((ViewBag.Nullity != null && ViewBag.Nullity == "1") ? "selected=\"selected\"" : "")>禁用</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-6 col-md-3" style="text-align:left">
+                                
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <ul class="list-inline">
+                                <li><a class="btn btn-success search btn-md" href="@Url.Action("GamePropertyTypeList", "App")"><i class="glyphicon glyphicon-arrow-left"></i>返回</a></li>
+                                <li><a class="btn btn-primary search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var op = '@ViewBag.OP';
+            if (op == "add") {
+                $("#txtTypeID").attr("readonly", "")
+                $("#txtTypeID").val("新增");
+            } else {
+                $("#txtTypeID").attr("readonly", "readonly")
+                $("#txtTypeID").val("更新");
+            }
+        });
+        function add() {
+            var data = {};
+            data.OP = '@ViewBag.OP';
+            data.ID = parseInt('@ViewBag.ID');
+            var typeID = $("#txtTypeID").val();
+            if (typeID == "" || isNaN(typeID)) {
+                alert("类型标识不能为空且为整数");
+                return false;
+            }
+            data.typeID = typeID;
+
+            var TypeName = $("#txtTypeName").val();
+            if (TypeName == "") {
+                alert("类型名称不能为空");
+                return false;
+            }
+            data.TypeName = TypeName;
+
+            var TagID = $("#hdfTagID").val();
+            data.TagID = TagID;
+
+            var SortID = $("#txtSortID").val();
+            if (SortID == "" || isNaN(SortID)) {
+                alert("排序不能为空且为整数");
+                return false;
+            }
+            data.SortID = SortID;
+            var Nullity = $("#rbtnNullity").val();
+            data.Nullity = Nullity;
+            AjaxSubmit("/App/DoGamePropertyTypeInfo", data, callBack, "del");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "del":
+                    alert(jsonData.Msg);
+                    //window.location.reload();
+                    window.close();
+                    window.opener.location.href = "/App/GamePropertyTypeList";
+                    //window.opener.location.reload();
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

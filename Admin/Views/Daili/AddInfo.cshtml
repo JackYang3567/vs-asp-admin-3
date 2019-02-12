@@ -1,0 +1,283 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "代理系统 - 添加代理";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+
+                    <div class="panel panel-info">
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">添加代理</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">代理账号：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="form-control input-sm input-width-150" type="text" id="txtAcc" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">代理密码：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="form-control input-sm input-width-150" type="text" id="txtPwd" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">抽水比例：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="form-control input-sm input-width-150" style="display:inline;" type="text" id="txtRate" />%
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">真实姓名：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="form-control input-sm input-width-150" type="text" id="txtRealName" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">QQ号码：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="form-control input-sm input-width-150" type="text" id="txtQQ" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">名称：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="form-control input-sm input-width-150" type="text" id="txtShowName" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">微信号：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="form-control input-sm input-width-150" type="text" id="txtWeChat" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">代理类别：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <div class="radio-inline">
+                                        <select id="dailiType">
+                                            <option value="-1">请选择</option>
+                                            <option value="0">抽水提成</option>
+                                            @*<option value="1">游戏中显示</option>*@
+                                            <option value="2">银商</option>
+                                            <option value="3">充值提成</option>
+                                        </select>
+                                    </div>
+                                    <div class="radio-inline">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">查看权限：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input name="queryRight" type="checkbox" value="1"/>玩家充值记录
+                                    <input name="queryRight" type="checkbox" value="2"/>玩家游戏记录
+                                    <input name="queryRight" type="checkbox" value="4"/>玩家提现记录
+                                    <input name="queryRight" type="checkbox" value="8"/>玩家总输赢
+                                    <input name="queryRight" type="checkbox" value="16"/>代理公告
+                                    <input name="queryRight" type="checkbox" value="32"/>资料修改
+                                    <input name="queryRight" type="checkbox" value="64"/>玩家管理
+                                    @*<input name="queryRight" type="checkbox" value="128"/>代理管理*@
+                                    <input name="queryRight" type="checkbox" value="256"/>我的报表
+                                    <input name="queryRight" type="checkbox" value="512" />我的抽水记录
+                                    <input name="queryRight" type="checkbox" value="1024"/>金币变化记录
+                                    @*<input name="queryRight" type="checkbox" value="2048"/>代理输赢情况
+                                    <input name="queryRight" type="checkbox" value="4096"/>玩家输赢情况*@
+                                    <input name="queryRight" type="checkbox" value="8192"/>提款
+                                    <input name="queryRight" type="checkbox" value="16384"/>提款记录
+                                    <input name="queryRight" type="checkbox" value="32768" />充值提成报表
+                                    <input name="queryRight" type="checkbox" value="65536" />充值提成报表
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">备注：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <textarea id="txtRemarks" class="form-control input-sm" style="width:350px; display:inline;" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">绑定域名：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="form-control input-sm input-width-150" type="text" id="txtDomain" /> 
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">排序号：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input class="form-control input-sm input-width-150" type="text" id="txtSort" value="0" />
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-success search btn-md" href="@Url.Action("Index", "Daili")"><i class="glyphicon glyphicon-arrow-left"></i>返回</a></li>
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function add() {
+            var acc = $("#txtAcc").val()
+            var pwd = $("#txtPwd").val()
+            var rate = $("#txtRate").val()
+            var realName = $("#txtRealName").val()
+            var remarks = $("#txtRemarks").val();
+            var qq = $("#txtQQ").val();
+            var domain = $("#txtDomain").val();
+            var ShowName = $("#txtShowName").val();
+            var WeChat = $("#txtWeChat").val();
+            var dailiType = $('#dailiType').val();
+
+            if (acc.length < 4) {
+                alert("代理账号必须为长度大于4位的数字，字母和下划线组成")
+                return;
+            }
+            if (!/^[A-Za-z0-9_]+$/.test(acc)) {
+                alert("代理账号必须为长度大于4位的数字，字母和下划线组成");
+                return;
+            }
+            if (pwd.length < 6) {
+                alert("代理密码必须大于6位");
+                return;
+            }
+            //if (/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_]{6,16}$/.test(pwd) == false) {
+            //    alert("密码必须是6-16位的英文数字组合!");
+            //    return;
+            //}
+
+            if (pwd.indexOf('-') > 0 || pwd.indexOf('\'') > 0) {
+                alert("密码不能包含特殊字符 - 和 ' ");
+                return;
+            }
+
+            if (!isNaN(rate)) {
+                if (rate.indexOf('.') > 0) {
+                    alert("抽水比例必须在0-100之间的整数");
+                    return;
+                }
+                if (parseInt(rate) > 100 || parseInt(rate) < 0) {
+                    alert("抽水比例必须在0-100之间的整数")
+                    return;
+                }
+            }
+            else {
+                alert("抽水比例必须在0-100之间的数字")
+                return;
+            }
+
+            if (realName === "") {
+                alert("真实姓名不能为空");
+                return
+            }
+            //if (!/[u4e00-u9fa5]+/.test(realName)) {
+            //    if (realName.length > 5) {
+            //        alert("真实姓名最多5位");
+            //        return;
+            //    }
+            //}
+            //else {
+            //    alert("真实姓名只能为中文");
+            //    return
+            //}
+            if (qq === "") {
+                alert("代理QQ不能为空")
+                return
+            }
+            if (isNaN(qq) || qq.length > 17) {
+                alert("代理QQ为小于17位的数字")
+                return
+            }
+            if (remarks.length > 500) {
+                alert("备注不要多于500字")
+                return
+
+            }
+
+            if (dailiType < 0)
+            {
+                alert("请选择代理类型");
+                return;
+            }
+            if (domain.length > 0) {
+
+                var domains = domain.split(",");
+                for (var i = 0; i < domains.length; i++) {
+                    if (!/^[a-zA-Z0-9\-]{2,67}\.(([a-zA-z0-9]{1,15})|(com\.cn)|(com\.net))$/.test(domains[i])) {
+                        alert(domains[i] + "请输入合法的域名格式,例如baidu.com,baidu.com.cn,baidu.com.net");
+                        return;
+                    }
+                }
+                if (domain.length > 900) {
+
+                    alert("域名长度不要超过900");
+                    return;
+                }
+            }
+            var Sort = $('#txtSort').val();
+            if (Sort == "")
+            {
+                alert("排序号不能为空")
+                return
+            }
+            if (!/^[0-9]*$/.test(Sort)) {
+                alert("排序号只能为数字")
+                return
+            }
+            var postData = {};
+            postData.Acc = acc;
+            postData.Pwd = pwd;
+            postData.RealName = realName;
+            postData.Remarks = remarks;
+            postData.Rate =rate;
+            postData.QQ = qq;
+            postData.Domain = domain;
+            postData.ShowName = ShowName;
+            postData.WeChat = WeChat;
+            postData.IsClient = dailiType;
+            postData.Sort = Sort;
+            postData.QueryRight = 0;
+            $("input[name='queryRight']:checked").each(function (index, item) {
+                postData.QueryRight += parseInt($(this).val());
+            });
+            AjaxSubmit("/Daili/Add", postData, callBack, "add");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    location.href="/Daili"
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/layout.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/common.js"></script>
+</head>
+<body>
+    <!-- 头部菜单 Start -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="title">
+        <tr>
+            <td width="19" height="25" valign="center" class="Lpd10">
+                <div class="arr">
+                </div>
+            </td>
+            <td width="1232" height="25" valign="center" align="left" style="width: 1232px; height: 25px; vertical-align: top; text-align: left;">
+                目前操作功能：用户信息
+            </td>
+        </tr>
+    </table>
+    <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0" class="Tmg7">
+        <tr>
+            <td height="28">
+                <ul>
+                    @if (ViewBag.NavActivated == "A")
+                    {
+                        <li class="tab1" onclick="Redirect('@Url.Action("AccountsInfo", "Account")?navActivated=A')">基本信息</li>
+                    }
+                    else
+                    {
+                        <li class="tab2" onclick="Redirect('@Url.Action("AccountsInfo", "Account")?navActivated=A')">基本信息</li>
+                    }
+                    @if (ViewBag.NavActivated == "B")
+                    {
+                        <li class="tab1" onclick="Redirect('@Url.Action("AccountsInfo", "Account")?navActivated=B')">详细信息</li>
+                    }
+                    else
+                    {
+                        <li class="tab2" onclick="Redirect('@Url.Action("AccountsInfo", "Account")?navActivated=B')">详细信息</li>
+                    }
+
+                    @if (ViewBag.NavActivated == "C")
+                    {
+
+                        <li class="tab1" onclick="Redirect('@Url.Action("AccountsInfo", "Account")?navActivated=C')">财富信息</li>
+                    }
+                    else
+                    {
+                        <li class="tab2" onclick="Redirect('@Url.Action("AccountsInfo", "Account")?navActivated=C')">财富信息</li>
+                    }
+                    @if (ViewBag.NavActivated == "D")
+                    {
+                        <li class="tab1" onclick="Redirect('@Url.Action("AccountsInfo", "Account")?navActivated=D')">积分信息</li>
+                    }
+                    else
+                    {
+                        <li class="tab2" onclick="Redirect('@Url.Action("AccountsInfo", "Account")?navActivated=D')">积分信息</li>
+                    }
+                    @if (ViewBag.NavActivated == "E")
+                    {
+                        <li class="tab1" onclick="Redirect('@Url.Action("AccountsInfo", "Account")?navActivated=E')">记录信息</li>
+                    }
+                    else
+                    {
+                        <li class="tab2" onclick="Redirect('@Url.Action("AccountsInfo", "Account")?navActivated=E')">记录信息</li>
+                    }
+                </ul>
+            </td>
+        </tr>
+    </table>
+    @RenderBody()
+</body>
+</html>

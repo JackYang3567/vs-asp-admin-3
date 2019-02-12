@@ -1,0 +1,318 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "后台登录";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>@ViewBag.Title</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <style>
+        html {
+            color: #878787;
+            background: url("/Content/images/login_bg.png") repeat;
+            font-family: Arial,'Microsoft YaHei','宋体';
+        }
+
+        body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td, strong {
+            padding: 0;
+            margin: 0;
+            font-family: 'Microsoft YaHei',Arial,'宋体';
+        }
+
+        fieldset, img {
+            border: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #00c;
+            outline: none;
+        }
+
+        var, em, strong {
+            font-style: normal;
+        }
+
+        address, caption, cite, code, dfn, em, strong, th, var, optgroup {
+            font-style: inherit;
+            font-weight: inherit;
+        }
+
+        input, button, textarea, select, optgroup, option {
+            font-family: inherit;
+            font-size: inherit;
+            font-style: inherit;
+            font-weight: inherit;
+        }
+
+        input, button, textarea, select {
+            *font-size: 100%;
+            outline: none;
+        }
+
+        body {
+            -webkit-text-size-adjust: none;
+        }
+
+        * {
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+
+        .clearfix:after {
+            content: "\200B";
+            display: block;
+            height: 0;
+            clear: both;
+        }
+
+        .clearfix {
+            *zoom: 1;
+        }
+
+        .wrap {
+            width: 100%;
+            height: 100%;
+            font-size: 14px;
+        }
+
+        .header {
+            width: 460px;
+            margin: 0 0 20px 55%;
+            padding-top: 125px;
+        }
+
+            .header h1 {
+                width: 312px;
+                height: 53px;
+                margin: 0 auto;
+                background: url("/Content/images/login_title_bg.png") no-repeat;
+                background-size: 100% 100%;
+                line-height: 53px;
+                color: #ffe9bd;
+                font-size: 34px;
+                text-align: center;
+            }
+
+        .main {
+            width: 100%;
+            height: 427px;
+            background: url("/Content/images/login_main_bg.png") no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .main-list {
+            position: relative;
+            width: 460px;
+            height: 377px;
+            margin-left: 55%;
+            padding-top: 50px;
+            background-color: #fff;
+        }
+
+            .main-list div {
+                position: relative;
+                width: 100%;
+                height: 40px;
+                margin-bottom: 30px;
+                line-height: 40px;
+            }
+
+                .main-list div label {
+                    float: left;
+                    width: 90px;
+                    margin-right: 10px;
+                    text-align: right;
+                }
+
+                .main-list div input {
+                    float: left;
+                    width: 280px;
+                    height: 38px;
+                    padding: 0 10px;
+                    border: 1px solid #999;
+                    border-radius: 8px 8px;
+                }
+
+            .main-list p {
+                margin-left: 100px;
+                color: #676767;
+            }
+
+            .main-list a {
+                margin-left: 10px;
+            }
+
+        .code-pic {
+            position: absolute;
+            right: 59px;
+            top: 1px;
+            width: 100px;
+            height: 38px;
+            background-color: #E3E3E3;
+            line-height: 38px;
+            color: #000;
+            text-align: center;
+            border-radius: 8px 8px;
+        }
+
+        .main-list .login-btn {
+            position: absolute;
+            bottom: 0;
+            left: 45px;
+            width: 370px;
+            height: 59px;
+            margin: 0 auto;
+            background: url("/Content/images/login_btn.png") 0 0 no-repeat;
+            border: none;
+        }
+
+        .login-btn:hover {
+            background-position: 0 -59px;
+        }
+
+        .footer {
+            width: 1200px;
+            height: 156px;
+            background: url("/Content/images/login_main.png") no-repeat;
+            background-size: 100% 100%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="header">
+            <h1>棋牌后台管理系统</h1>
+        </div>
+        <div class="main">
+            <div class="main-list">
+                <div>
+                    <label for="txtLoginName">账号</label>
+                    <input type="text" name="" id="txtLoginName" placeholder="请输入账号" />
+                </div>
+                <div>
+                    <label for="txtLoginPass">密码</label>
+                    <input type="password" name="" id="txtLoginPass" placeholder="请输入密码" />
+                </div>
+                
+                @*<p>验证码请按下图中的数字填写<a href="javascript:void(0)" class="l" onclick="$('#ImageCheck').attr('src', 'Common/GetValidateCode?' + Math.random())">看不清楚？ 换一个</a></p>*@
+                <input type="button" name="btnLogin" class="login-btn" id="btnLogin">
+            </div>
+        </div>
+        <div class="footer"></div>
+
+    </div>
+    <script type="text/javascript">
+        //横屏操作提示start
+        function orient() {
+            if (window.orientation == 0 || window.orientation == 180) {
+                alert("竖屏效果不好，建议横屏操作！");
+            }
+        }
+        $(function () {
+            orient();
+            //用户变化屏幕方向时调用
+            $(window).bind('orientationchange', function (e) {
+                orient();
+            });
+
+            $("#txtLoginName").focus();
+            //回车事件
+            document.onkeydown = function (e) {
+                var theEvent = window.event || e;
+                var code = theEvent.keyCode || theEvent.which;
+                if (code == 13) {
+                    $("#btnLogin").click();
+                }
+            }
+            $("#btnLogin").on("click", function () {
+                var accounts = $("#txtLoginName").val();
+                var pass = $("#txtLoginPass").val();
+                //var verifyCode = $("#txtVerifyCode").val();
+                var iscan = true;
+                var msg = "";
+                if (accounts == "") {
+                    msg = "请输入帐号";
+                    $("#txtLoginName").focus();
+                    iscan = false;
+                }
+                if (pass == "") {
+                    msg = "请填写登录密码";
+                    $("#txtLoginPass").focus();
+                    iscan = false;
+                }
+                if (pass.length >= 100) {
+                    msg = "登录密码不能超过100个字符";
+                    $("#txtLoginPass").focus();
+                    iscan = false;
+                }
+                //if (verifyCode == "") {
+                //    msg = "请输入验证码";
+                //    $("#txtVerifyCode").focus();
+                //    iscan = false;
+                //}
+                if (iscan) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/Login/ValidateLogin",
+                        dataType: "json",
+                        data: { userName: accounts, password: pass  },
+                        success: function (rsp) {
+                            if (rsp.IsOk) {
+                                parent.location.href = "/Home";
+                            } else {
+                                alert(rsp.Msg);
+                            }
+                        }
+                    });
+                } else {
+                    alert(msg);
+                }
+            })
+
+            var isSend = false, ss = 30;
+            $('.code-pic').click(function () {
+                if (isSend) return;
+                var accounts = $("#txtLoginName").val();
+                if (accounts == "") {
+                    msg = "请输入帐号";
+                    $("#txtLoginName").focus();
+                    iscan = false;
+                }
+                isSend = true;
+                ss = 30;
+                $.post("/Login/SendCode", { userName: accounts }, function (data) {
+                    alert(data.Msg)
+                    if (data.IsOk) {
+                        my_interval = setInterval(function () {
+                            if (ss > 0) {
+                                $('.code-pic').text(ss + "s后可重发");
+                                ss--;
+                            } else {
+                                clearInterval(my_interval);
+                                isSend = false;
+                                $('.code-pic').text("获取验证码");
+                            }
+                        }, 1000);
+                    } else {
+                        isSend = false;
+                    }
+                })
+            })
+        })
+    </script>
+    <script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?8ee3ec23e73c6dcda2c7c9c489c151aa";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "充值系统 - 线下充值二维码";
+    Game.Entity.Treasure.OffLineQrCode entity = ViewData["data"] == null ? null : ViewData["data"] as Game.Entity.Treasure.OffLineQrCode;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script charset="utf-8" src="~/Scripts/kindeditor-4.1.10/kindeditor-min.js"></script>
+    <script charset="utf-8" src="~/Scripts/kindeditor-4.1.10/lang/zh_CN.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="carousel box-inner">
+            <div class="box-header well clearfix" data-original-title="">
+                <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+            </div>
+            <div class="tab-content" style="margin-top:0px">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">线下充值二维码管理</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">支付方式：</div>
+                            <div class="col-xs-2 col-md-2">
+                                <label><input type="radio" name="rblPaymentTypeID" value="4" @(entity != null && (entity.PaymentTypeID.ToString() == "4") ? "checked" : "") />支付宝扫码</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" name="rblPaymentTypeID" value="5" @(entity != null && (entity.PaymentTypeID.ToString() == "5") ? "checked" :"") />微信扫码</label>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">代理商ID：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtOwnerID" style="width:395px;display:inline;" class="form-control input-sm" maxlength="50" type="text" value="@(entity != null ? entity.OwnerID.ToString() : "")"
+                                       onkeyup="value=this.value.replace(/\D+/g,'')">
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+                                <label style="color:red;">* 请输入代理商ID(数字)</label>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">二维码图地址：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <img id="upImage" src="/Content/Upload/OffLinePayQrCode/@(entity != null ? entity.IconPath : "")" alt="" title="" class="pull-left" style="width: 395px; height: 150px;" />
+                                <input id="upImageField" name="upImageField" type="file" style="display:none" onchange='UploadImg("upImageField", "/Common/UploadFileToLocal", "upImage",@((Int32)Game.Facade.EnumerationList.UploadFileEnum.OffLinePayQrCodeImg));'>
+                                <button type="button" class="form-control btn btn-primary pull-left" onclick='DelOldImg("@(entity != null ? entity.IconPath : "")");$("input[id=upImageField]").click();'><span class="glyphicon glyphicon-open"></span>更新图片</button>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left;color:red;">
+                                请统一标题设计样式。图片尺寸:1048*136px，png格式
+                            </div>
+                        </div>
+                       
+                       
+
+                    </div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <ul class="list-inline">
+                                <li><a class="btn btn-success search btn-md" href="@Url.Action("OffLineQrCodeList", "Filled")"><i class="glyphicon glyphicon-arrow-left"></i>返回</a></li>
+                                <li><a class="btn btn-primary search btn-md" href="#" id="btn"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        //编辑器
+        KindEditor.ready(function (K) {
+            window.editor = K.create('#txtDescribe', { uploadJson: '/Common/UploadFileToLocal?op=6' });
+        });
+        $(document).ready(function () {
+            docReady();
+        });
+        function docReady() {
+            $("#btn").click(function (e) {
+                e.preventDefault();
+                add();
+            });
+        }
+        function add() {
+            var data = {};
+            data.ID = parseInt('@ViewBag.ID');
+            var  PaymentTypeID = $("input[name='rblPaymentTypeID']:checked").val();
+            var PaymentName = "";
+           
+            if (PaymentTypeID == undefined) {
+                alert("请选择支付方式");
+                return false;
+            }
+            if (parseInt(PaymentTypeID) == 4) {
+                PaymentName = "支付宝扫码";
+            }
+            if (parseInt(PaymentTypeID) == 5) {
+                PaymentName = "微信扫码";
+            }
+            data.PaymentTypeID = PaymentTypeID;
+            data.PaymentName = PaymentName;
+
+            var OwnerID = $("#txtOwnerID").val().trim()
+            if (OwnerID == "") {
+                alert("代理商ID不能为空");
+                return false;
+            }
+            data.OwnerID = OwnerID;
+            var upImage = $("#upImage").attr("src").trim();
+            var IconPath = upImage.substring(upImage.lastIndexOf("/") + 1);
+            if (IconPath == "") {
+                alert("请上传图片");
+                return false;
+            }
+            data.IconPath = IconPath;
+
+           // console.log("data===", data);
+            AjaxSubmit("/Filled/DoOffLineQrCodeInfo", data, callBack, "del");
+        }
+
+        function DelOldImg(IconPath) {
+            var data = {};
+            data.path = IconPath;
+            console.log("img-data", data);
+            AjaxSubmit("/Filled/DelOffLineQrCodeImg", data, callBack, "img");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "del":
+                    alert(jsonData.Msg);
+                    window.location.href = "/Filled/OffLineQrCodeList";
+                    //window.opener.location.reload();
+                    break;
+                case "img":
+                    //alert(jsonData.Msg);
+                   
+                    break;
+            }
+        }
+    </script>
+
+</body>
+</html>

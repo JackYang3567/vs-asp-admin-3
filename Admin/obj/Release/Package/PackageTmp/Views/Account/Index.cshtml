@@ -1,0 +1,573 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "后台管理-用户管理";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+    <script src="~/Scripts/pagination.js"></script>
+    <style>
+        body .form-control {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="backgroud">
+    <div id="content" class="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box-inner">
+                    <div class="box-header well" data-original-title="">
+                        <h2><i class="glyphicon glyphicon-hand-right"></i> 你当前位置：@ViewBag.Title </h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-round btn-default" onclick="history.go(0);">
+                                <i class="glyphicon glyphicon-repeat"></i>
+                            </a>
+                            <a href="#" class="btn btn-minimize btn-round btn-default">
+                                <i class="glyphicon glyphicon-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-content" style="overflow: hidden; display: block;">
+                        <!--查询栏开始-->
+                        <div class="alert alert-info">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <ul class="list-inline cursor-style">
+                                        <li>普通查询：</li>
+                                        <li><input type="text" placeholder="普通查询：" id="txtSearch" class="form-control input-sm input-width-200"></li>
+                                        <li><input class="margin-5" name="ckitem" type="checkbox" value="0" id="ckbIsLike" /><label for="ckbIsLike">模糊查询</label></li>
+                                        <li>标识：</li>
+                                        <li>
+                                            <select id="ddlUserType" class="input-sm">
+                                                <option value="0" selected="selected">所有</option>
+                                            </select>
+                                        </li>
+                                        <li>
+                                            <a class="btn btn-success search" href="#" id="btnquery"><i class="glyphicon glyphicon-zoom-in icon-white"></i>查询</a>
+                                        </li>
+                                        <li>
+                                            <a class="btn btn-info search" href="#" id="advancedQuery"><i class="glyphicon glyphicon-hand-down"></i>高级查询</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-primary" onclick="history.go(0);"><i class="glyphicon glyphicon-repeat"></i>刷新</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="list-group-item" style="display: none;" id="advancedQueryList">
+                                    <ul class="carousel cursor-style" style="width: 85%;">
+                                        <li class="margin-t-b">
+                                            <div class="clearfix">
+                                                <span class="pull-left">用户状态：</span>
+                                                <div class="l-r-margin pull-left" style="display:none">
+                                                    <input class="margin-5" name="advancedck" type="checkbox" value="1" id="securityCheckbox" />
+                                                    <label for="securityCheckbox">申请密保</label>
+                                                </div>
+                                                <div class="l-r-margin pull-left" style="display:none">
+                                                    <input class="margin-5" name="advancedck" type="checkbox" value="2" id="memberCheckbox" />
+                                                    <label for="memberCheckbox">会员</label>
+                                                </div>
+                                                <div class="l-r-margin pull-left">
+                                                    <input class="margin-5" name="advancedck" type="checkbox" value="3" id="fuzzyCheckbox" />
+                                                    <label for="fuzzyCheckbox">冻结</label>
+                                                </div>
+                                                <div class="l-r-margin pull-left" style="display:none">
+                                                    <input class="margin-5" name="advancedck" type="checkbox" value="4" id="robotCheckbox" />
+                                                    <label for="robotCheckbox">机器人</label>
+                                                </div>
+                                                <div class="l-r-margin pull-left" style="display:none">
+                                                    <input class="margin-5" name="advancedck" type="checkbox" value="5" id="playerCheckbox" />
+                                                    <label for="playerCheckbox">真实玩家</label>
+                                                </div>
+                                                <div class="pull-left" style="display:none">
+                                                    <input class="margin-5" name="advancedck" type="checkbox" value="6" id="adminCheckbox" />
+                                                    <label for="adminCheckbox">管理员</label>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="margin-t-b clearfix">
+                                            <div class="r-margin pull-left">
+                                                注册日期：
+                                                <input id="txtStartDate" class="input-width-150" type="text" readonly="readonly" placeholder="请输入开始时间" />至<input type="text" id="txtEndDate" class="input-width-150" readonly="readonly" placeholder="请输入结束时间" />
+                                            </div>
+                                            <div class="pull-left">登录日期：<input id="txtLoStartDate" class="input-width-150" type="text" readonly="readonly" placeholder="请输入开始时间" />至<input type="text" id="txtLoEndDate" class="input-width-150" readonly="readonly" placeholder="请输入结束时间" /></div>
+                                        </li>
+                                        <li class="margin-t-b clearfix">
+                                            <div class="r-margin pull-left">注册地址：<input type="text" id="txtRegIP" class="form-control input-sm input-width-200"></div>
+                                            <div class="r-margin pull-left">注册机器：<input type="text" id="txtRegMachine" class="form-control input-sm input-width-200"></div>
+                                            <div class="r-margin pull-left">登录地址：<input type="text" id="txtLogIP" class="form-control input-sm input-width-200"></div>
+                                            <div class="r-margin pull-left">登录机器：<input type="text" id="txtLogMachine" class="form-control input-sm input-width-200"></div>
+                                        </li>
+                                        <li class="margin-t-b clearfix">
+                                            <div class="r-margin pull-left">手机号码：<input type="text" id="txtPhone" class="form-control input-sm input-width-200"></div>
+                                            <div class="r-margin pull-left">真实姓名：<input type="text" id="txtTrueName" class="form-control input-sm input-width-200"></div>
+                                            <div class="r-margin pull-left">代理商：<input type="text" id="txtAgent" class="form-control input-sm input-width-200"></div>
+                                        </li>
+                                        <li class="btn-off-section">
+                                            <a class="btn btn-success search" href="#" id="btnHightQuery"><i class="glyphicon glyphicon-zoom-in icon-white"></i>查询</a>
+                                            <a class="btn btn-primary" href="#" id="advancedQueryClose"><i class="glyphicon glyphicon-export icon-white"></i>关闭</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--查询栏结束-->
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div id="DataTables_Table_0_length" class="dataTables_length">
+                                    <label>
+                                        <select size="1" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" id="pagecount">
+                                            <option value="10" selected="selected">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> 条/页
+                                    </label>
+                                    <div class="dataTables_info" id="DataTables_Table_0_info">显示 1 至 10 共 10 条</div>
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="padding-bottom:5px; padding-top:5px; text-align:right;">
+                                @if (Game.Facade.Tools.TypeUtil.IsPower((int)ViewBag.ModuleID, (int)ViewBag.UserID, "添加"))
+                                {
+                                    <a class="btn btn-success search" href="#" onclick="openWindowOwn('@Url.Action("AddAccount", "Account")', '', 800, 800)">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                        新增
+                                    </a>
+                                }
+                                <div class="btn-group btn-group">
+                                    @if (Game.Facade.Tools.TypeUtil.IsPower((int)ViewBag.ModuleID, (int)ViewBag.UserID, "冻/解"))
+                                    {
+                                        <button type="button" class="btn btn-primary" onclick="GrantManager('DissolveTable');"><i class="glyphicon glyphicon-ok-circle icon-white"></i>解散桌子</button>
+                                        <button type="button" class="btn btn-primary" onclick="GrantManager('FreezeAccount');"><i class="glyphicon glyphicon-ban-circle icon-white"></i>冻结</button>
+                                        <button type="button" class="btn btn-primary" onclick="GrantManager('UnfreezeAccount');"><i class="glyphicon glyphicon-ok-circle icon-white"></i>解冻</button>
+                                        <button type="button" class="btn btn-primary" onclick="GrantManager('JiechuDaili');"><i class="glyphicon glyphicon-ok-circle icon-white"></i>解除绑定代理</button>
+                                    }
+                                    @*@if (Game.Facade.Tools.TypeUtil.IsPower((int)ViewBag.ModuleID, (int)ViewBag.UserID, "设置/取消机器人"))
+                                        {
+                                          <button type="button" class="btn btn-primary" onclick="GrantManager('SettingAndroid')"><i class="glyphicon glyphicon-wrench icon-white"></i>设置机器人</button>
+                                          <button type="button" class="btn btn-primary" onclick="GrantManager('CancleAndroid')"><i class="glyphicon glyphicon-minus-sign icon-white"></i>取消机器人</button>
+                                        }
+                                        @if (Game.Facade.Tools.TypeUtil.IsPower((int)ViewBag.ModuleID, (int)ViewBag.UserID, "赠送会员"))
+                                        {
+                                             <button type="button" class="btn btn-primary" onclick="GrantManager('GrantMember')"><i class="glyphicon glyphicon-export icon-white"></i>赠送会员</button>
+                                        }*@
+                                    @if (Game.Facade.Tools.TypeUtil.IsPower((int)ViewBag.ModuleID, (int)ViewBag.UserID, "赠送金币"))
+                                    {
+                                        <button type="button" class="btn btn-primary" onclick="GrantManager('GrantTreasure')"><i class="glyphicon glyphicon-export icon-white"></i>赠送游戏币</button>
+                                    }
+                                    @if (Game.Facade.Tools.TypeUtil.IsPower((int)ViewBag.ModuleID, (int)ViewBag.UserID, "赠送靓号"))
+                                    {
+                                        <button type="button" class="btn btn-primary" onclick="GrantManager('GrantGameID')"><i class="glyphicon glyphicon-export icon-white"></i>赠送靓号</button>
+                                    }
+                                    <button type="button" class="btn btn-primary" onclick="GrantManager('UpdateIpAddress');"><i class="glyphicon glyphicon-ok-circle icon-white"></i>修改归属地</button>
+                                    @*@if (Game.Facade.Tools.TypeUtil.IsPower((int)ViewBag.ModuleID, (int)ViewBag.UserID, "赠送经验"))
+                                        {
+                                         <button type="button" class="btn btn-primary" onclick="GrantManager('GrantExperience')"><i class="glyphicon glyphicon-export icon-white"></i>赠送经验</button>
+                                        }
+                                        @if (Game.Facade.Tools.TypeUtil.IsPower((int)ViewBag.ModuleID, (int)ViewBag.UserID, "赠送积分"))
+                                        {
+                                            <button type="button" class="btn btn-primary" onclick="GrantManager('GrantScore')"><i class="glyphicon glyphicon-export icon-white"></i>赠送积分</button>
+                                        }
+                                        @if (Game.Facade.Tools.TypeUtil.IsPower((int)ViewBag.ModuleID, (int)ViewBag.UserID, "清零积分"))
+                                        {
+                                         <button type="button" class="btn btn-primary" onclick="GrantManager('GrantClearScore')"><i class="glyphicon glyphicon-share icon-white"></i>清零积分</button>
+                                        }
+                                        @if (Game.Facade.Tools.TypeUtil.IsPower((int)ViewBag.ModuleID, (int)ViewBag.UserID, "清零逃率"))
+                                        {
+                                         <button type="button" class="btn btn-primary" style="margin-right: 10px;" onclick="GrantManager('GrantFlee')"><i class="glyphicon glyphicon-share icon-white"></i>清零逃率</button>
+                                        }*@
+                                </div>
+                            </div>
+                        </div>
+                        <!--table开始-->
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                            <table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Username: activate to sort column descending" id="allCheck">
+                                            <input name="ckall" type="checkbox" value="" onclick="SelectAll(this,'cid')" />
+                                        </th>
+                                        <th>用户标识</th>
+                                        <th>游戏ID</th>
+                                        <th>用户帐号</th>
+                                        @*<th>昵称</th>*@
+                                        <th>真实姓名</th>
+                                        <th>金币</th>
+                                       
+                                        <th>银行金币</th>
+                                        <th>充值总额</th>
+                                        <th>提现总额</th>
+                                        <th>代理商</th>
+                                        @*<th>性别</th>
+                                            <th>经验值</th>
+                                            <th>魅力值</th>
+                                            <th>已兑魅力</th>
+                                            <th>会员级别</th>*@
+                                        <th>推广员</th>
+                                        <th>游戏时长</th>
+                                        @*<th>管理级别</th>*@
+                                        <th>注册时间</th>
+                                        <th>注册地址</th>
+                                        @*<th>登录次数</th>*@
+                                        <th>最后登录时间</th>
+                                        <th>最后登录地址</th>
+                                        <th>状态</th>
+                                        @*<th>管理</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                            </table>
+                            <!--分页控件-->
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="dataTables_paginate paging_bootstrap pagination" style="float:right;">
+                                        <ul class="pagination" id="pagin"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--table结束-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var pageObj = {};
+        var postData = {};//搜索条件
+        $(document).ready(function () {
+            //时间选择器
+            laydate.render({
+                elem: '#txtStartDate'
+              , type: 'datetime'
+            });
+            laydate.render({
+                elem: '#txtEndDate'
+              , type: 'datetime'
+            });
+            //时间选择器
+            laydate.render({
+                elem: '#txtLoStartDate'
+              , type: 'datetime'
+            });
+            laydate.render({
+                elem: '#txtLoEndDate'
+              , type: 'datetime'
+            });
+            docReady();
+        });
+        function docReady() {
+            var userTypeHtml = "";
+            for (x in colors) {
+                userTypeHtml += "<option value=\"" + (parseInt(x)+ 1) + "\" style=\"background-color:#" + colors[x] + "\"></option>"
+            }
+            $('#ddlUserType').append(userTypeHtml);
+
+            //加载数据
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.Sort = "";
+            postData.Type = 0;
+            postData.pageIndex = 1;
+            AjaxSearch(postData);
+            postData.userType = 0;
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+            //标识选择
+            $("#ddlUserType").change(function (e) {
+                var v = parseInt($(this).val());
+                postData.userType = v;
+                switch (v) {
+                    case 1:
+                        $(this).css("background", '#0000ff');
+                        break;
+                    case 2:
+                        $(this).css("background", '#009944');
+                        break;
+                    case 3:
+                        $(this).css("background", '#b38850');
+                        break;
+                    case 4:
+                        $(this).css("background", '#ff00ff');
+                        break;
+                    default:
+                        $(this).css("background", '#ffffff');
+                        break;
+                }
+                postData.pageIndex = 1;
+                AjaxSearch(postData);
+            });
+            //选择页码
+            $("#pagecount").change(function (e) {
+                postData.pageSize = parseInt($(this).val());
+                postData.pageIndex = 1;
+                AjaxSearch(postData);
+            });
+
+            //普通搜索事件
+            $("#btnquery").click(function (e) {
+                e.preventDefault();
+                var keyWord = $("#txtSearch").val();
+                if (keyWord == "") {
+                    alert("请输入查询条件");
+                    return false;
+                }
+                postData.pageSize = parseInt($("#pagecount").val());
+                postData.Type = 0;
+                postData.IsLike = $('#ckbIsLike').is(':checked') ? 1 : 0;
+                postData.KeyWord = keyWord;
+                AjaxSearch(postData);
+            });
+            // 高级查询事件
+            $("#advancedQuery").on("click", function (e) {
+                // $(this).parents("#userManagementSearch").siblings().show("show");
+                e.preventDefault();
+                var $target = $(this).parent().parent().parent().next();
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon glyphicon-hand-up').addClass('glyphicon glyphicon-hand-down');
+                else $('i', $(this)).removeClass('glyphicon glyphicon-hand-down').addClass('glyphicon glyphicon-hand-up');
+                $target.slideToggle();
+            })
+
+            // 高级查询内容关闭事件
+            $("#advancedQueryClose").on("click", function () {
+                $(this).parents("#advancedQueryList").hide("show").siblings().children().find("#advancedQuery").children().addClass("glyphicon glyphicon-hand-down");
+            })
+            //高级搜索事件
+            $("#btnHightQuery").click(function (e) {
+                e.preventDefault();
+                var accountStuStr = "";
+                var istrue = true;
+                $("input[name='advancedck']:checked").each(function () {
+                    if (accountStuStr == "") {
+                        accountStuStr += $(this).val();
+                    } else {
+                        accountStuStr += "," + $(this).val();
+                    }
+                });
+                var txtStartDate = $("#txtStartDate").val();
+                var txtEndDate = $("#txtEndDate").val();
+                if (txtStartDate != "" && txtEndDate != "") {
+                    if (StrToDateTime(txtEndDate) < StrToDateTime(txtStartDate)) {
+                        istrue = false;
+                        alert("注册开始日期不能大于结束时间");
+                        return false;
+                    }
+                }
+                var txtLoStartDate = $("#txtLoStartDate").val();
+                var txtLoEndDate = $("#txtLoEndDate").val();
+                if (txtLoStartDate != "" && txtLoEndDate != "") {
+                    if (StrToDateTime(txtLoEndDate) < StrToDateTime(txtLoStartDate)) {
+                        istrue = false;
+                        alert("登录开始日期不能大于结束时间");
+                        return false;
+                    }
+                }
+                var RegIP = $("#txtRegIP").val();
+                var RegMachine = $("#txtRegMachine").val();
+                var LogIP = $("#txtLogIP").val();
+                var LogMachine = $("#txtLogMachine").val();
+                //if (RegIP == "" && RegMachine == "" && LogIP == "" && LogMachine == "") {
+                //    istrue = false;
+                //    alert("您没有输入任何查询条件");
+                //    return false;
+                //}
+                if (istrue) {
+                    postData.AccountStu = accountStuStr;
+                    postData.StartDate = txtStartDate;
+                    postData.EndDate = txtEndDate;
+                    postData.LoStartDate = txtLoStartDate;
+                    postData.LoEndDate = txtLoEndDate;
+                    postData.RegIP = RegIP;
+                    postData.RegMachine = RegMachine;
+                    postData.LogIP = LogIP;
+                    postData.LogMachine = LogMachine;
+                    postData.pageSize = parseInt($("#pagecount").val());
+                    postData.pageIndex = 1;
+                    postData.Type = 1;
+                    postData.Phone = $('#txtPhone').val();
+                    postData.TrueName = $('#txtTrueName').val();
+                    postData.Agent = $('#txtAgent').val();
+                }
+                AjaxSearch(postData);
+            });
+
+        }
+        //搜索事件
+        function AjaxSearch(postData) {
+            $('#pagin').paging("/Account/GetAccounts", postData, CreatTableBody, postData.pageIndex);
+        }
+
+        //
+        function GrantManager(opType) {
+            var cidStr = GetSelectValues();
+            if (cidStr.length > 0) {
+                if (cidStr == "") {
+                    alert("未选中任何数据");
+                    return;
+                }
+                var data = { cid: cidStr };
+                switch (opType) {
+                    //解除绑定代理
+                    case "JiechuDaili":
+                        if (confirm("解除后无法恢复，请慎用"))
+                            AjaxSubmit("/Account/JiechuDaili", data, callBack, "JiechuDaili");
+                        break;
+                        //解散桌子
+                    case "DissolveTable":
+                        AjaxSubmit("/Account/DissolveTable", data, callBack, "DissolveTable");
+                        break;
+                        //冻结
+                    case "FreezeAccount":
+                        AjaxSubmit("/Account/FreezeAccount", data, callBack, "FreezeAccount");
+                        break;
+                        //解冻
+                    case "UnfreezeAccount":
+                        AjaxSubmit("/Account/UnfreezeAccount", data, callBack, "UnfreezeAccount");
+                        break;
+                    case "SettingAndroid":
+                        AjaxSubmit("/Account/SettingAndroid", data, callBack, "SettingAndroid");
+                        break;
+                    case "CancleAndroid":
+                        AjaxSubmit("/Account/CancleAndroid", data, callBack, "CancleAndroid");
+                        break;
+                    case "GrantMember":
+                        openWindowOwn('@Url.Action("GrantMember", "Account")?cid=' + cidStr, '', 600, 400);
+                        break;
+                    case "GrantTreasure":
+                        openWindowOwn('@Url.Action("GrantTreasure","Account")?cid=' + cidStr, '', 600, 400);
+                        break;
+                    case "GrantGameID":
+                        openWindowOwn('@Url.Action("GrantGameID", "Account")?param=' + cidStr + '&accounts={1}', '_GrantGameID', 600, 400);
+                        break;
+                    case "GrantExperience":
+                        openWindowOwn('@Url.Action("GrantExperience", "Account")?cid=' + cidStr, '', 600, 400);
+                        break;
+                    case "GrantScore":
+                        openWindowOwn('@Url.Action("GrantScore", "Account")?cid=' + cidStr, '', 600, 400);
+                        break;
+                    case "GrantClearScore":
+                        openWindowOwn('@Url.Action("GrantClearScore", "Account")?cid=' + cidStr, '', 600, 400);
+                        break;
+                    case "GrantFlee":
+                        openWindowOwn('@Url.Action("GrantFlee", "Account")?cid=' + cidStr, '', 600, 400);
+                        break;
+                    case "UpdateIpAddress":
+                        openWindowOwn('@Url.Action("IpAddress", "Account")?cid=' + cidStr, '', 600, 300);
+                        break;
+
+                }
+            } else {
+                alert("请选择操作项");
+            }
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "DissolveTable":
+                    alert(jsonData.Msg);
+                    break;
+                default:
+                    alert(jsonData.Msg);
+                    AjaxSearch(postData);
+                    break;
+            }
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+        //绑定数据
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex) {
+            var html = "";
+            if (jsondata != null && jsondata.length > 0) {
+                $.each(jsondata, function (i, item) {
+                    html += stringFormat("<tr>");
+                    html += stringFormat("<td style=\"width: 30px;\"><input name='cid' type='checkbox' value='{0}'/></td>", item.UserID);
+                    html += stringFormat("<td><font color=\"{1}\">{0}</font></td>", item.UserID, (parseInt(item.UserType) == 1 ? "#0000ff" : (parseInt(item.UserType) == 2 ? "#009944" : (parseInt(item.UserType) == 3 ? "#b38850" : (parseInt(item.UserType) == 4 ? "#ff00ff" : "#555555")))));
+                    html += stringFormat("<td>{0}</td>", item.GameID);
+                    html += stringFormat("<td>{0}</td>", G_AddUserNameLink(item.Accounts, item.UserID, item.UserType));
+                    //html += stringFormat("<td>{0}</td>", item.NickName);
+                    //html += stringFormat("<td>{0}</td>", item.Gender);
+                    //html += stringFormat("<td>{0}</td>", item.Experience);
+                    //html += stringFormat("<td>{0}</td>", item.LoveLiness);
+                    //html += stringFormat("<td>{0}</td>", item.Present);
+                    //html += stringFormat("<td>{0}</td>", item.MemberName);
+                    //html += stringFormat("<td>{0}</td>", item.Accounts);
+                    //html += stringFormat("<td>{0}</td>", item.MasterOrder);
+                    html += stringFormat("<td>{0}</td>", item.Compellation == null ? "" : item.Compellation);
+                    html += stringFormat("<td>{0}</td>", item.Score == null ? 0.00 : item.Score.formatMoney()); 
+                    html += stringFormat("<td>{0}</td>", item.InsureScore == null ? 0.00 : item.InsureScore.formatMoney());
+                    html += stringFormat("<td>{0}</td>", item.Score == null ? 0.00 : item.rechargeAmount.formatMoney());
+                    html += stringFormat("<td>{0}</td>", item.Score == null ? 0.00 : item.withdrawamount.formatMoney());
+                    html += stringFormat("<td>{0}</td>", item.Superior == null ? "" : item.Superior);
+                    html += stringFormat("<td>{0}</td>", item.SpAccounts == null ? "" : item.SpAccounts);
+                    html += stringFormat("<td>{0}</td>", ConverTimeToDHMS(item.PlayTimeCount));
+                    html += stringFormat("<td>{0}</td>", item.RegisterDate);
+                    html += stringFormat("<td>{0}</td>", item.RegisterIP);
+                    //html += stringFormat("<td>{0}</td>", item.GameLogonTimes);
+                    html += stringFormat("<td>{0}</td>", item.LastLogonDate);
+                    html += stringFormat("<td>{0}</td>", item.LastLogonIP);
+                    html += stringFormat("<td>{0}</td>", item.Nullity == 0 ? "<font style='color:green'>正常</font>" : "<font style='color:red'>停权</font>");
+                    @*html += stringFormat("<td><a class=\"btn btn-default btn-xs\"  href=\"javascript:void(0);\" onclick=\"openWindowOwn('@Url.Action("GrantGameID", "Account")?param={0}&accounts={1}','_GrantGameID',600,400);\"><i class=\"glyphicon glyphicon-edit icon-white\"></i>赠送靓号</a></td>", item.UserID, item.Accounts);*@
+                    html += "</tr>";
+                });
+            }
+            $("#DataTables_Table_0_wrapper tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * postData.pageSize + 1), ((pageIndex * postData.pageSize) < pageTotal ? (pageIndex * postData.pageSize) : pageTotal), pageTotal));
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+        var ConverTimeToDHMS = function (seconds) {
+            if (seconds <= 0)
+                return "0秒";
+            var str = "";
+            var day = parseInt(seconds / 0x15180);
+            var hour = parseInt((seconds % 0x15180) / 0xe10);
+            var minute = parseInt((seconds % 0xe10) / 60);
+            var second = parseInt(seconds % 60);
+            if (day > 0)
+                str += day + "天";
+            if (hour > 0)
+                str += hour + "小时";
+            else
+                str += "0小时";
+            if (minute > 0)
+                str += minute + "分";
+            else
+                str += "0分";
+            if (second > 0)
+                str += second + "秒";
+            else
+                str += "0秒";
+            return str;
+        };
+    </script>
+</body>
+
+</html>

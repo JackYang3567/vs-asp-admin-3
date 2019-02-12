@@ -1,0 +1,178 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "管理后台-用户信息";
+    System.Data.DataTable dt = ViewData["kxdt"] == null ? null : ViewData["kxdt"] as System.Data.DataTable;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <link href="~/Content/laydate/need/laydate.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <ul class="media nav nav-tabs margin-b-10">
+                    <li>
+                        <a href="AccountsInfo?param=@ViewBag.Param" title="">基本信息</a>
+                    </li>
+                    <li>
+                        <a href="AccountsDetailInfo?param=@ViewBag.Param" title="">详细信息</a>
+                    </li>
+                    <li class="active">
+                        <a href="javascript:void(0);" title="">财富信息</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" title="" style="display:none">积分信息</a>
+                    </li>
+                    <li>
+                        <a href="AccountsRecordInfo?param=@ViewBag.Param" title="">记录信息</a>
+                    </li>
+                </ul>
+                <div class="tab-content" style="margin-top:-11px">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">财富信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">ID号码：</div>
+                                <div class="col-xs-2 col-md-1"><label>@(ViewBag.GameID != null ? ViewBag.GameID : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right">帐号：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label>@(ViewBag.Accounts != null ? ViewBag.Accounts : "")</label></div>
+                                @*<div class="col-xs-2 col-md-1" style="text-align:left">游戏豆数：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label id="ltCurrency">@(ViewBag.Currency != null ? ViewBag.Currency : "")</label></div>*@
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">携带金额：</div>
+                                <div class="col-xs-2 col-md-1"><label>@(ViewBag.Score != null ? ViewBag.Score : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right">保险柜金额：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label>@(ViewBag.InsureScore != null ? ViewBag.InsureScore : "")</label></div>
+                                @*<div class="col-xs-2 col-md-1" style="text-align:left">元宝数：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label>@(ViewBag.UserModel != null ? ViewBag.UserModel : "")</label></div>*@
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                @*<div class="col-xs-2 col-md-1" style="text-align:right">魅力值：</div>
+                                <div class="col-xs-2 col-md-1"><label>@(ViewBag.LoveLiness != null ? ViewBag.LoveLiness : "")</label></div>*@
+                                <div class="col-xs-2 col-md-1" style="text-align:right">赢局：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label>@(ViewBag.WinCount != null ? ViewBag.WinCount : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right">输局：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label>@(ViewBag.LostCount != null ? ViewBag.LostCount : "")</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">和局：</div>
+                                <div class="col-xs-2 col-md-1"><label>@(ViewBag.DrawCount != null ? ViewBag.DrawCount : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right">逃局：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label>@(ViewBag.FleeCount != null ? ViewBag.FleeCount : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left">游戏税收：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label>@(ViewBag.Revenue != null ? ViewBag.Revenue : "")</label></div>
+                            </div>
+
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">登录信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-3 col-md-1" style="text-align:right">登录房间次数：</div>
+                                <div class="col-xs-1 col-md-1"><label>@(ViewBag.GameLogonTimes != null ? ViewBag.GameLogonTimes : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right">在线时长(秒)：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label>@(ViewBag.OnLineTimeCount != null ? ViewBag.OnLineTimeCount : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left">游戏时长(秒)：</div>
+                                <div class="col-xs-2 col-md-1" style="text-align:left"><label>@(ViewBag.PlayTimeCount != null ? ViewBag.PlayTimeCount : "")</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-3 col-md-1" style="text-align:right">登录机器：</div>
+                                <div class="col-xs-4 col-md-1"><label>@(ViewBag.LastLogonMachine != null ? ViewBag.LastLogonMachine : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right"></div>
+                                <div class="col-xs-4 col-md-1" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-3 col-md-1" style="text-align:right">注册机器：</div>
+                                <div class="col-xs-4 col-md-1"><label>@(ViewBag.RegisterMachine != null ? ViewBag.RegisterMachine : "")</label></div>
+                                <div class="col-xs-2 col-md-1" style="text-align:right"></div>
+                                <div class="col-xs-4 col-md-1" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-3 col-md-1" style="text-align:right">登录房间时间：</div>
+                                <div class="col-xs-6 col-md-2"><label>@(ViewBag.LastLogonDate != null ? ViewBag.LastLogonDate : "")</label>&nbsp;&nbsp;<label>@(ViewBag.LogonSpacingTime != null ? ViewBag.LogonSpacingTime : "")</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-3 col-md-1" style="text-align:right">登录地址：</div>
+                                <div class="col-xs-4 col-md-2"><label>@(ViewBag.LastLogonIP != null ? ViewBag.LastLogonIP : "")</label>&nbsp;&nbsp;<label>@(ViewBag.LogonIPInfo != null ? ViewBag.LogonIPInfo : "")</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-3 col-md-1" style="text-align:right">注册时间：</div>
+                                <div class="col-xs-4 col-md-2"><label>@(ViewBag.RegisterDate != null ? ViewBag.RegisterDate : "")</label></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-3 col-md-1" style="text-align:right">注册地址：</div>
+                                <div class="col-xs-4 col-md-2"><label>@(ViewBag.RegisterIP != null ? ViewBag.RegisterIP : "")</label>&nbsp;&nbsp;<label>@(ViewBag.RegIPInfo != null ? ViewBag.RegIPInfo : "")</label></div>
+                            </div>
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">卡线信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <ul class="list-group">
+                                    <li class="list-group-item" style="height:35px; background-color:ghostwhite;">
+                                        <ul class="list-inline">
+                                            <li class="col-xs-3 col-md-1">时间</li>
+                                            <li class="col-xs-3 col-md-1">游戏</li>
+                                            <li class="col-xs-3 col-md-1">房间</li>
+                                            <li class="col-xs-3 col-md-1">登录地址</li>
+                                        </ul>
+                                    </li>
+
+                                    @if (dt != null && dt.Rows.Count > 0)
+                                    {
+                                        foreach (System.Data.DataRow r in dt.Rows)
+                                        {
+                                            <li class="list-group-item" style="height:35px;">
+                                                <ul class="list-inline">
+                                                    <li class="col-xs-3 col-md-1">@r["CollectDate"].ToString()</li>
+                                                    <li class="col-xs-3 col-md-1">@(Game.Facade.Tools.TypeUtil.GetGameKindName(Game.Facade.Tools.TypeUtil.ObjectToInt(r["CollectDate"])))</li>
+                                                    <li class="col-xs-3 col-md-1">@(Game.Facade.Tools.TypeUtil.GetGameRoomName(Game.Facade.Tools.TypeUtil.ObjectToInt(r["ServerID"])))</li>
+                                                    <li class="col-xs-3 col-md-1">@r["EnterMachine"].ToString()</li>
+                                                </ul>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="window.close();"><i class="glyphicon glyphicon-off"></i>关闭</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });      
+    </script>
+</body>
+</html>

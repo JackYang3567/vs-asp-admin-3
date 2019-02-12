@@ -1,0 +1,377 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "代理系统 - 详细资料";
+}
+@model Game.Entity.Accounts.AgentInfo
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+
+    <link href="~/Content/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.10.3.custom.min.js"></script>
+
+    <style type="text/css">
+        .col-md-2, .col-md-3 {
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+
+                    <div class="panel panel-info">
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">详细资料</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-2" style="text-align:right">代理账号：</div>
+                                <div class="col-md-3">
+                                    <input type="text" id="AgentAcc" value="@Model.AgentAcc" />
+                                </div>
+                            </div>
+
+
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-2" style="text-align:right">代理密码：</div>
+                                <div class="col-md-3">
+                                    <input type="text" id="Pwd" />
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-2" style="text-align:right">真实姓名：</div>
+                                <div class="col-md-3">
+                                    <input type="text" id="RealName" value="@Model.RealName" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-2" style="text-align:right">QQ号码：</div>
+                                <div class="col-md-3">
+                                    <input type="text" id="QQ" value="@Model.QQ" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-2" style="text-align:right">名称：</div>
+                                <div class="col-md-3">
+                                    <input class="form-control input-sm input-width-150" type="text" id="txtShowName" value="@Model.ShowName" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-2" style="text-align:right">微信号：</div>
+                                <div class="col-md-3">
+                                    <input class="form-control input-sm input-width-150" type="text" id="txtWeChat" value="@Model.WeChat" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+                                <div class="col-md-2" style="text-align:right">代理类别：</div>
+                                <div class="col-md-3">
+                                    <select id="dailiType">
+                                        <option value="0">抽水提成</option>
+                                        @*<option value="1">游戏中显示</option>*@
+                                        <option value="2">银商</option>
+                                        <option value="3">充值提成</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-2" style="text-align:right">开户行名称：</div>
+                                <div class="col-md-3">
+                                    <input type="text" id="BankName" value="@Model.BankName" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-2" style="text-align:right">开户行账号：</div>
+                                <div class="col-md-3">
+                                    <input type="text" id="BankAcc" value="@Model.BankAcc" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-2" style="text-align:right">开户行地址：</div>
+                                <div class="col-md-3">
+                                    <input type="text" id="BankAddress" value="@Model.BankAddress" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-2" style="text-align:right">资产（金币）：</div>
+                                <div class="col-md-3">
+                                    <input type="text" id="Score" value="@Model.Score" readonly="readonly" />
+                                    <a class="btn btn-primary search btn-md" href="#" onclick="ShowPayScore();"><i class="glyphicon glyphicon-export"></i>充值</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-2" style="text-align:right">抽水比例：</div>
+                                <div class="col-md-3">
+                                    <input type="text" id="AgentRate" value="@Model.AgentRate" />%
+                                </div>
+                                <font color="red">提示：选择是抽水比例无效</font>
+                            </div>
+
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-2" style="text-align:right">状态：</div>
+                                <div class="col-md-3">
+                                    <select class="x4" id="statSelect">
+                                        <option value="0">正常</option>
+                                        <option value="1">停用</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;display:none">
+                                <div class="col-md-2" style="text-align:right">上级代理：</div>
+                                <div class="col-md-3">
+                                    <input type="text" id="ParentAcc" value="@Model.ParentAcc" />
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-2" style="text-align:right">绑定域名：</div>
+                                <div class="col-md-3">
+                                    <input type="text" id="AgentDomain" value="@Model.AgentDomain" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;" id="queryrightdiv">
+                                <div class="col-md-2" style="text-align:right">查看权限：</div>
+                                <div class="col-md-3">
+                                    <input name="queryRight" type="checkbox" value="1" @((Model.QueryRight & 1) == 1 ? "checked=\"checked\"" : "") />玩家充值记录
+                                    <input name="queryRight" type="checkbox" value="2" @((Model.QueryRight & 2) == 2 ? "checked=\"checked\"" : "") />玩家游戏记录
+                                    <input name="queryRight" type="checkbox" value="4" @((Model.QueryRight & 4) == 4 ? "checked=\"checked\"" : "") />玩家提现记录
+                                    <input name="queryRight" type="checkbox" value="8" @((Model.QueryRight & 8) == 8 ? "checked=\"checked\"" : "") />查看总输赢
+                                    <input name="queryRight" type="checkbox" value="16" @((Model.QueryRight & 16) == 16 ? "checked=\"checked\"" : "") />代理公告
+                                    <input name="queryRight" type="checkbox" value="32" @((Model.QueryRight & 32) == 32 ? "checked=\"checked\"" : "") />资料修改
+                                    <input name="queryRight" type="checkbox" value="64" @((Model.QueryRight & 64) == 64 ? "checked=\"checked\"" : "") />玩家管理
+                                    @*<input name="queryRight" type="checkbox" value="128" @((Model.QueryRight & 128) == 128 ? "checked=\"checked\"" : "") />代理管理*@
+                                    <input name="queryRight" type="checkbox" value="256" @((Model.QueryRight & 256) == 256 ? "checked=\"checked\"" : "") />我的报表
+                                    <input name="queryRight" type="checkbox" value="512" @((Model.QueryRight & 512) == 512 ? "checked=\"checked\"" : "") />我的抽水记录
+                                    <input name="queryRight" type="checkbox" value="1024" @((Model.QueryRight & 1024) == 1024 ? "checked=\"checked\"" : "") />金币变化记录
+                                    @*<input name="queryRight" type="checkbox" value="2048" @((Model.QueryRight & 2048) == 2048 ? "checked=\"checked\"" : "") />代理输赢情况
+                                    <input name="queryRight" type="checkbox" value="4096" @((Model.QueryRight & 4096) == 4096 ? "checked=\"checked\"" : "") />玩家输赢情况*@
+                                    <input name="queryRight" type="checkbox" value="8192" @((Model.QueryRight & 8192) == 8192 ? "checked=\"checked\"" : "") />提款
+                                    <input name="queryRight" type="checkbox" value="16384" @((Model.QueryRight & 16384) == 16384 ? "checked=\"checked\"" : "") />提款记录
+                                    <input name="queryRight" type="checkbox" value="32768" @((Model.QueryRight & 32768) == 32768 ? "checked=\"checked\"" : "") />充值提成报表
+                                    <input name="queryRight" type="checkbox" value="65536" @((Model.QueryRight & 65536) == 65536 ? "checked=\"checked\"" : "") />在线玩家
+                                    @*<input name="queryRight" type="checkbox" value="32768" @((Model.QueryRight & 32768) == 32768 ? "checked=\"checked\"" : "") />查看订单充值*@
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-2" style="text-align:right">备注：</div>
+                                <div class="col-md-3">
+                                    <textarea id="Memo" class="form-control input-sm" style="width:350px;display:inline;" rows="3">@Model.Memo</textarea>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-md-2" style="text-align:right">排序号：</div>
+                                <div class="col-md-3">
+                                    <input class="form-control input-sm input-width-150" type="text" id="txtSort" value="@Model.ShowSort" />
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li class="col-md-2" style="text-align:right"><a class="btn btn-success" href="javascript:window.close()"><i class="glyphicon glyphicon-remove"></i>关闭</a></li>
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="ClearAgentPack();"><i class="glyphicon glyphicon-save"></i>解绑所有玩家</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="payScore" style="display: none">
+        <table width="99%" border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#C8C8C8">
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>充值金额：</strong>
+                </td>
+                <td height="30" align="left" bgcolor="#FBFFFF">
+                    <input id="TextScore" class="x4" type="text" maxlength="12" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input id="Button4" type="button" onclick="PayScore()" class="btn" width="80" value="确认" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script type="text/javascript">
+        var aid = '@Model.AgentID'
+        var dailiType = parseInt('@Model.IsClient');
+        //页面初始化
+        $(document).ready(function () {
+            if (dailiType == 2) {
+                $("#queryrightdiv").hide();
+            } else {
+                $("#queryrightdiv").show();
+            }
+            $('#dailiType').val(dailiType);
+            $('#statSelect').val('@Model.AgentStatus');
+            //选择页码
+            $("#dailiType").change(function (e) {
+                if (parseInt($(this).val()) == 2) {
+                    $("#queryrightdiv").hide();
+                } else {
+                    $("#queryrightdiv").show();
+                }
+            });
+        });
+        function add() {
+            var postData = {};
+            postData.Pwd = $("#Pwd").val();
+            postData.RealName = $("#RealName").val();
+            postData.QQ = $("#QQ").val();
+            postData.BankName = $("#BankName").val();
+            postData.BankAcc = $("#BankAcc").val();
+            postData.BankAddress = $("#BankAddress").val();
+            postData.AgentRate = $("#AgentRate").val();
+            postData.AgentStatus = $("#statSelect").val();
+            postData.ParentAcc = $("#ParentAcc").val();
+            postData.Memo = $("#Memo").val();
+            postData.AgentDomain = $("#AgentDomain").val();
+            postData.ShowName = $("#txtShowName").val();
+            postData.WeChat = $("#txtWeChat").val();
+            postData.IsClient = $('#dailiType').val();
+            if (postData.Pwd != "") {
+                if (postData.Pwd.length < 6) {
+                    alert("代理密码必须大于6位");
+                    return;
+                }
+                //if (/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_]{6,16}$/.test(postData.Pwd) == false) {
+                //    alert("密码必须是6-16位的英文数字组合!");
+                //    return;
+                //}
+
+                //if (postData.Pwd.indexOf('-') > 0 || postData.Pwd.indexOf('\'') > 0) {
+                //    alert("密码不能包含特殊字符 - 和 ' ");
+                //    return;
+                //}
+            }
+            if (!isNaN(postData.AgentRate)) {
+                if (postData.AgentRate.indexOf('.') > 0) {
+                    alert("抽水比例必须在0-100之间的整数");
+                    return;
+                }
+                if (parseInt(postData.AgentRate) > 100 || parseInt(postData.AgentRate) < 0) {
+                    alert("抽水比例必须在0-100之间的整数")
+                    return;
+                }
+            }
+            else {
+                alert("抽水比例必须在0-100之间的数字")
+                return;
+            }
+
+            if (postData.RealName === "") {
+                alert("真实姓名不能为空");
+                return;
+            }
+            //if (!/[u4e00-u9fa5]+/.test(postData.RealName)) {
+            //    if (postData.RealName.length > 5) {
+            //        alert("真实姓名最多5位");
+            //        return;
+            //    }
+            //}
+            //else {
+            //    alert("真实姓名只能为中文");
+            //    return;
+            //}
+            if (postData.Memo.length > 1000) {
+                alert("备注不能多于1000字")
+                return;
+
+            }
+            if (postData.AgentDomain.length > 0) {
+                if (postData.AgentDomain.length > 900) {
+
+                    alert("域名长度不要超过900");
+                    return;
+                }
+
+            }
+            var Sort = $('#txtSort').val();
+            if (Sort == "") {
+                alert("排序号不能为空")
+                return
+            }
+            if (!/^[0-9]*$/.test(Sort)) {
+                alert("排序号只能为数字")
+                return
+            }
+
+            postData.ShowSort = Sort;
+            postData.AgentRate = postData.AgentRate / 100;
+            postData.RechargeRate = postData.RechargeRate / 100;
+            postData.AgentID = aid;
+            postData.QueryRight = 0;
+            $("input[name='queryRight']:checked").each(function (index, item) {
+                postData.QueryRight += parseInt($(this).val());
+            });
+            postData.sData = JSON.stringify(postData);
+
+            AjaxSubmit("/Daili/Edit", postData, callBack, "add");
+        }
+
+        //解绑所有玩家
+        function ClearAgentPack() {
+            if (confirm("解除绑定后不能恢复，请再次确认")) {
+                AjaxSubmit("/Daili/ClearAgentPack", { aid: aid }, callBack, "ClearAgentPack");
+            }
+        }
+
+        var PayScore = function () {
+            var pscore = $("#TextScore").val();
+            if (pscore == "")
+                alert("充值金额不能为空")
+            else if (isNaN(pscore))
+                alert("充值金额不正确");
+            else {
+                AjaxSubmit("/Daili/Pay", { aid: aid, score: pscore }, callBack, "pay");
+            }
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.close();
+                    //window.opener.location.reload();
+                    break;
+                case "pay":
+                    alert(jsonData.Msg);
+                    location.reload();
+                    break;
+                case "ClearAgentPack":
+                    alert(jsonData.Msg);
+                    break;
+            }
+        }
+        var ShowPayScore = function () {
+            $("#payScore").dialog({
+                autoOpen: true,
+                height: 150,
+                width: 300,
+                modal: true,
+                title: "充值金额"
+            });
+        }
+    </script>
+</body>
+</html>

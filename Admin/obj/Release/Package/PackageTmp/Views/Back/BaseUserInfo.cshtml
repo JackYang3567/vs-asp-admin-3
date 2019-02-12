@@ -1,0 +1,183 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "后台系统 - 管理员管理";
+    Game.Entity.PlatformManager.Base_Users role = ViewData["data"] == null ? null : ViewData["data"] as Game.Entity.PlatformManager.Base_Users;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box-inner">
+                    <div class="box-header well" data-original-title="">
+                        <h2><i class="glyphicon glyphicon-hand-right"></i> 你当前位置：@ViewBag.Title </h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-round btn-default" onclick="history.go(0);">
+                                <i class="glyphicon glyphicon-repeat"></i>
+                            </a>
+                            <a href="#" class="btn btn-minimize btn-round btn-default">
+                                <i class="glyphicon glyphicon-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-content" style="overflow: hidden; display: block;">
+                        <ul class="media nav nav-tabs margin-b-10">
+                            <li class="active">
+                                <a href="@Url.Action("Index", "Back")">角色管理</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">用户管理</a>
+                            </li>
+
+                        </ul>
+                        <div class="panel panel-primary" style="margin-top:-11px;margin-left:-10px;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">@(ViewBag.OP)用户信息</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row" style="padding-top:5px;">
+                                    <div class="col-md-1" style="text-align:right;">登录帐号：</div>
+                                    <div class="col-md-4" style="text-align:left;"><input type="text" class="form-control input-sm" id="txtAccounts" value="@(role != null ? role.Username : "")" placeholder="请输入角色名称" /></div>
+                                    <div class="col-md-4" style="text-align:left;"><label style="color:red;">请输入登录帐号</label></div>
+                                </div>
+                                <div class="row" style="padding-top:5px;">
+                                    <div class="col-md-1" style="text-align:right;">登录密码：</div>
+                                    <div class="col-md-4" style="text-align:left;"><input id="txtLogonPass" type="password" class="form-control input-sm" value="@(role!=null?"*******":"")" /></div>
+                                    <div class="col-md-4" style="text-align:left;"></div>
+                                </div>
+                                <div class="row" style="padding-top:5px;">
+                                    <div class="col-md-1" style="text-align:right;">确认密码：</div>
+                                    <div class="col-md-4" style="text-align:left;"><input id="txtConfirmPass" type="password" class="form-control input-sm" value="@(role!=null?"*******":"")" /></div>
+                                    <div class="col-md-4" style="text-align:left;"></div>
+                                </div>
+                                <div class="row" style="padding-top:5px;">
+                                    <div class="col-md-1" style="text-align:right;">手机号码：</div>
+                                    <div class="col-md-4" style="text-align:left;"><input type="text" class="form-control input-sm" id="txtPhone" value="@(role != null ? role.MobilePhone : "")" placeholder="手机号码用于登录验证" /></div>
+                                </div>
+                                <div class="row" style="padding-top:5px;">
+                                    <div class="col-md-1" style="text-align:right;">用户角色：</div>
+                                    <div class="col-md-4" style="text-align:left;">@Html.HtmlUserRoleSelectBuilder(role!=null?role.RoleID:0)</div>
+                                    <div class="col-md-4" style="text-align:left;"></div>
+                                </div>
+                                <div class="row" style="padding-top:5px;display:none">
+                                    <div class="col-md-1" style="text-align:right;">运营助手：</div>
+                                    <div class="col-md-4" style="text-align:left;"><label><input type="radio" name="rblIsAssist" value="0" @((role == null || role.IsAssist == 0) ? "checked=\"checked\"" : "")/>无权限</label><label><input type="radio" name="rblIsAssist" value="1" @((role != null && role.IsAssist == 1) ? "checked=\"checked\"" : "") />有权限</label></div>
+                                    <div class="col-md-4" style="text-align:left;"></div>
+                                </div>
+                                <div class="row" style="padding-top:5px;">
+                                    <div class="col-md-1" style="text-align:right;">禁用状态：</div>
+                                    <div class="col-md-4" style="text-align:left;"><label><input type="radio" name="rbtnNullity" value="0" @((role == null || role.Nullity == 0) ? "checked=\"checked\"" : "") />正常</label><label><input type="radio" name="rbtnNullity" value="1" @((role != null && role.Nullity == 1) ? "checked=\"checked\"" : "") />禁用</label></div>
+                                    <div class="col-md-4" style="text-align:left;"></div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-md-1" style="text-align:right;"></div>
+                                    <div class="col-md-4" style="text-align:left;">
+                                        <a class="btn btn-primary" href='@Url.Action("BaseUserList", "Back")'>
+                                            <i class="glyphicon glyphicon-fast-backward icon-white"></i>返回
+                                        </a>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <button type="button" class="btn btn-success" onclick="Del()"> <i class="glyphicon glyphicon-plus icon-white"></i>保存 </button>
+                                    </div>
+                                    <div class="col-md-4" style="text-align:left;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var pageObj = {};
+        var postData = {};//搜索条件
+        $(document).ready(function () {
+            docReady();
+        });
+        function docReady() {
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+        }
+        function Del(id) {
+            var data = {};
+            data.UserID = parseInt('@(role!=null?role.UserID:0)');
+            var Username = $("#txtAccounts").val();
+            if (Username == "") {
+                alert("请输入登录帐号");
+                return false;
+            }
+            data.Username = Username;
+            var LogonPass = $("#txtLogonPass").val().trim();
+            if (LogonPass == "") {
+                alert("请输入登录密码");
+                return false;
+            }
+            var ConfirmPass = $("#txtConfirmPass").val().trim();
+            if (ConfirmPass != "*******") {
+                if (ConfirmPass == "") {
+                    alert("请输入确认密码");
+                    return false;
+                }
+                if (LogonPass != ConfirmPass) {
+                    alert("确认密码与登录密码不一致");
+                    return false;
+                }
+                data.Password = LogonPass;
+            } else {
+                data.BandIP = '@(role!=null?role.Password:"")';
+            }   
+            data.RoleID = parseInt($("#ddlRole").val());
+            var IsAssist = $("input:radio[name='rblIsAssist']:checked").val();
+            if (IsAssist == null) {
+                alert("请选择运营助手");
+                return false;
+            } else {
+                data.IsAssist = parseInt(IsAssist);
+            }
+            var Nullity = $("input:radio[name='rbtnNullity']:checked").val();
+            if (Nullity == null) {
+                alert("请选择禁用状态");
+                return false;
+            } else {
+                data.Nullity = parseInt(Nullity);
+            }
+            var phone = $('#txtPhone').val();
+            if (phone != "" && !(/^1[3|4|5|7|8][0-9]{9}$/.test(phone)))
+            {
+                alert("手机号码格式错误");
+                return false;
+            }
+            data.MobilePhone = phone;
+            AjaxSubmit("/Back/DoBaseUserInfo", data, callBack, "del");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "del":
+                    alert(jsonData.Msg);
+                    window.location.href = "/Back/BaseUserList";
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+
+Log Entry : 
+02/12/2019 10:02:26
+遇到意外字符“à”。
+________________________________________________________
+
+Log Entry : 
+02/12/2019 10:02:55
+遇到意外字符“à”。
+________________________________________________________
+
+Log Entry : 
+02/12/2019 10:03:21
+遇到意外字符“à”。
+________________________________________________________
+
+Log Entry : 
+02/12/2019 10:03:49
+遇到意外字符“à”。
+________________________________________________________
+
+Log Entry : 
+02/12/2019 10:07:00
+System.ArgumentOutOfRangeException: 索引超出范围。必须为非负值并小于集合大小。
+参数名: index
+   在 System.Collections.ArrayList.get_Item(Int32 index)
+   在 System.Web.HttpFileCollection.Get(Int32 index)
+   在 System.Web.HttpFileCollectionWrapper.get_Item(Int32 index)
+   在 Admin.Controllers.CommonController.UploadFileToLocal() 位置 d:\works\网站代码3\Admin\Admin\Controllers\CommonController.cs:行号 164
+________________________________________________________
+
+Log Entry : 
+02/12/2019 14:00:26
+System.ArgumentOutOfRangeException: 索引超出范围。必须为非负值并小于集合大小。
+参数名: index
+   在 System.Collections.ArrayList.get_Item(Int32 index)
+   在 System.Web.HttpFileCollection.Get(Int32 index)
+   在 System.Web.HttpFileCollectionWrapper.get_Item(Int32 index)
+   在 Admin.Controllers.CommonController.UploadFileToLocal() 位置 d:\works\网站代码3\Admin\Admin\Controllers\CommonController.cs:行号 169
+________________________________________________________
+
+Log Entry : 
+02/12/2019 15:01:45
+System.ArgumentOutOfRangeException: 索引超出范围。必须为非负值并小于集合大小。
+参数名: index
+   在 System.Collections.ArrayList.get_Item(Int32 index)
+   在 System.Web.HttpFileCollection.Get(Int32 index)
+   在 System.Web.HttpFileCollectionWrapper.get_Item(Int32 index)
+   在 Admin.Controllers.CommonController.UploadFileToLocal() 位置 d:\works\网站代码3\Admin\Admin\Controllers\CommonController.cs:行号 169
+________________________________________________________

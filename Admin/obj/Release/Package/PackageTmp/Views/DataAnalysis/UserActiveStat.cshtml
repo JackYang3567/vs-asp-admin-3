@@ -1,0 +1,178 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "数据分析 - 活跃玩家";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/laydate/laydate.js"></script>
+    <script src="~/Scripts/comm.js"></script> 
+</head>
+<body>
+    <div id="content" class="main-content">
+
+        <div class="carousel box-inner">
+            <div class="box-header well clearfix" data-original-title="">
+                <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn btn-round btn-default" onclick="history.go(0);">
+                        <i class="glyphicon glyphicon-repeat"></i>
+                    </a>
+                    <a href="#" class="btn btn-minimize btn-round btn-default">
+                        <i class="glyphicon glyphicon-chevron-up"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="tab-content" style="margin-top:0px">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">用户流失统计图</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <ul class="list-inline cursor-style">
+                                
+                                <li>日期时间：
+                                    <input id="txtStartDate" class="input-width-150" type="text" readonly="readonly" value="@ViewBag.StartTime" />至<input type="text" id="txtEndDate" class="input-width-150" readonly="readonly" value="@ViewBag.EndTime" />
+                                </li>
+                                <li><select id="ddlType"><option value="0">曲线图</option><option value="1">柱状图</option></select></li>
+                                <li>
+                                    <a class="btn btn-success search" href="#" id="btnquery"><i class="glyphicon glyphicon-zoom-in icon-white"></i>查询</a>
+                                </li>                           
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <img id="pic" src="@Url.Action("DayUserActiveStatChart", new { startDate = ViewBag.StartTime, endDate = ViewBag.EndTime, type = 0, UserType = 0 })" />
+                        </div>
+                    </div>
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <img id="pic1" src="@Url.Action("MonthUserActiveStatChart", new { })" />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-7" id="dt">
+                                
+                            </div>
+                            <div class="col-md-4">
+                                <table class="table">
+                                    <tbody>
+                                        <tr><td style="text-align:right;">用户平均在线时长：</td><td style="text-align:left;"><label id="ltAVGOnlineTime">@(ViewBag.AVGOnlineTime)</label>人<label style="color:green;">所有用户的在线时长总和 / 注册用户数</label></td></tr>
+                                        <tr><td style="text-align:right;">当天活跃用户数：</td><td style="text-align:left;"><label id="ltActiveUserCounts">@(ViewBag.ActiveUserCounts)</label>人<label style="color:green;">在线时长超过1个小时的用户为活跃用户</label></td></tr>
+                                        <tr><td style="text-align:right;">活跃用户转化率：</td><td style="text-align:left;"><label id="ltActiveUserRate">@(ViewBag.ActiveUserRate)</label>人<label style="color:green;">活跃用户数/总注册人数</label></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        var data = {};
+        $(document).ready(function () {
+            //时间选择器
+            laydate.render({
+                elem: '#txtStartDate'
+            });
+            laydate.render({
+                elem: '#txtEndDate'
+            });
+            docReady();
+        });
+        function docReady() {
+            data.startDate = '@ViewBag.StartTime';
+            data.endDate = '@ViewBag.EndTime';
+            data.type = parseInt($("#ddlType").val());
+            add(0);
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+            $("#btnquery").click(function (e) {
+                e.preventDefault();
+                var startDate = $("#txtStartDate").val();
+                var endDate = $("#txtEndDate").val();
+                if (startDate == "" || endDate == "") {
+                    alert("请选择时间");
+                    return false;
+                }
+                data.startDate = startDate;
+                data.endDate = endDate;
+                data.type = parseInt($("#ddlType").val());
+                add(1);
+            });
+           
+        }
+        function add(o) {
+            if (o == 1) {
+                $("#pic").attr("src", "@Url.Action("DayUserActiveStatChart", "DataAnalysis")?startDate=" + data.startDate + "&endDate=" + data.endDate + "&type=" + data.type +  "&t=" + Math.random());
+                AjaxSubmit("/DataAnalysis/GetUserActiveStat", data, callBack, "del");
+            } else if (o == 2) {
+                $("#pic1").attr("src", "@Url.Action("MonthUserActiveStatChart", "DataAnalysis")?t=" + Math.random());
+            } else {
+                AjaxSubmit("/DataAnalysis/GetUserActiveStat", data, callBack, "del");
+            }
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "del":
+                    var html = "<table class=\"table table-striped table-bordered bootstrap-datatable datatable responsive dataTable\">";
+                    html += "<thead><tr role=\"row\">";
+                    var len = jsonData.length;
+                    var rows = (len / 5) + 1;
+                    html += "<th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">统计时间</th><th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">活跃玩家数</th>";
+                    html += "<th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">统计时间</th><th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">活跃玩家数</th>";
+                    html += "<th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">统计时间</th><th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">活跃玩家数</th>";
+                    html += "<th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">统计时间</th><th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">活跃玩家数</th>";
+                    html += "<th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">统计时间</th><th class=\"sorting\" role=\"columnheader\" rowspan=\"1\" colspan=\"1\">活跃玩家数</th>";
+                    html += "</thead></tr>";
+                    html += "<tbody role=\"alert\">";
+                    for (var i = 1; i < rows; i++) {
+                        html += "<tr>";
+                        for (var j = (i - 1) * 5; j < i * 5; j++) {
+                            if (jsonData[j] != null && typeof (jsonData[j]) != "undefined") {
+                                html += "<td>" + jsonData[j].key + "</td><td>" + jsonData[j].vaule + "</td>";
+                            } else {
+                                html += "<td></td><td></td>"
+                            }
+                        }
+                        html += "</tr>";
+                    }
+                    html += "</tbody></table>";
+                    $("#dt").html(html);
+                    break;
+            }
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+    </script>
+</body>
+</html>

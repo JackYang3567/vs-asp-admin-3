@@ -1,0 +1,247 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "控制系统 - 游戏控制";
+}
+@model IList<Game.Entity.Platform.GameKindItem>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/pagination.js"></script>
+
+    <link href="~/Content/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.10.3.custom.min.js"></script>
+</head>
+<body class="backgroud">
+    <div id="content" class="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box-inner">
+                    <div class="box-header well" data-original-title="">
+                        <h2><i class="glyphicon glyphicon-hand-right"></i> 你当前位置：@ViewBag.Title </h2>
+                        <div class="box-icon">
+                            <a href="#" id="reload" class="btn btn-round btn-default">
+                                <i class="glyphicon glyphicon-repeat"></i>
+                            </a>
+                            <a href="#" class="btn btn-minimize btn-round btn-default">
+                                <i class="glyphicon glyphicon-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <ul class="media nav nav-tabs">
+                        @foreach (var item in Model)
+                        {
+                             <li data-id="@item.KindID"><a href="javascript:void(0)" title="@item.KindName">@item.KindName</a></li>
+                        }
+                    </ul>
+                    <div class="box-content" style="overflow: hidden; display: block;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div id="DataTables_Table_0_length" class="dataTables_length">
+                                    <label>
+                                        <select size="1" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" id="pagecount">
+                                            <option value="10" selected="selected">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> 条/页
+                                    </label>
+                                    <div class="dataTables_info" id="DataTables_Table_0_info">显示 1 至 10 共 10 条</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--table开始-->
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper table-center" role="grid">
+                            <table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th>ID</th>
+                                        <th>房间名</th>
+                                        <th>房间损耗（不含当日）</th>
+                                        <th>今日房间损耗</th>
+                                        <th>机器人胜率</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                            </table>
+                            <!--分页控件-->
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="dataTables_paginate paging_bootstrap pagination" style="float:right;">
+                                        <ul class="pagination" id="pagin"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--table结束-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="AddAcc" style="display: none">
+        <table width="99%" border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#C8C8C8">
+            <tr>
+                <td height="30" align="right" bgcolor="#FBFFFF">
+                    <strong>胜率：</strong>
+                </td>
+                <td id="CountsText" height="30" align="left" bgcolor="#FBFFFF">
+                    <select class="x4" name="select" id="winRate">
+                        <option value="0">0</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                        <option value="60">60</option>
+                        <option value="70">70</option>
+                        <option value="80">80</option>
+                        <option value="90">90</option>
+                        <option value="100">100</option>
+                    </select>%
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input id="Button3" type="button" onclick="DoSetting()" class="btn" width="80" value="确认" />
+                    <!--<input id="Button3" type="button" onclick="window.close();" class="btn" width="80" value="取消" />-->
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script type="text/javascript">
+        
+
+        var pageObj = {};
+        var postData = {};//搜索条件
+        var sid = 0;
+        var OpObj;
+
+        $(document).ready(function () {
+            docReady();
+        });
+        function docReady() {
+            $('.nav-tabs li:first').addClass("active");
+            var kid = $('.nav-tabs li:first').attr("data-id");
+
+            postData.pageSize = parseInt($("#pagecount").val());
+            postData.pageIndex = 1;
+            postData.KindID = kid;
+            AjaxSearch(postData);
+
+            $('.nav-tabs li').click(function () {
+                $(this).addClass("active").siblings().removeClass("active");
+                kid = $(this).attr("data-id");
+                postData.KindID = kid;
+                AjaxSearch(postData);
+            })
+            
+            $('#reload').click(function () {
+                AjaxSearch(postData);
+            })
+            //收放事件
+            $('.btn-minimize').click(function (e) {
+                e.preventDefault();
+                var $target = $(this).parent().parent().next('.box-content');
+                if ($target.is(':visible')) $('i', $(this)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                else $('i', $(this)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $target.slideToggle();
+            });
+
+            //选择页码
+            $("#pagecount").change(function (e) {
+                postData.pageSize = parseInt($(this).val());
+                postData.pageIndex = 1;
+                AjaxSearch(postData);
+            });
+            //普通搜索事件
+            $("#btnQuery").click(function (e) {
+                var keyWord = $("#txtSearch").val();
+                postData.pageSize = parseInt($("#pagecount").val());
+                postData.KeyWord = keyWord;
+                AjaxSearch(postData);
+            });
+        }
+        //搜索事件
+        function AjaxSearch(postData) {
+            $('#pagin').paging("/KongZhi/GetGameSettingList", postData, CreatTableBody, postData.pageIndex);
+        }
+        //绑定数据
+        function CreatTableBody(jsondata, pageTotal, pageCount, pageIndex) {
+            var html = "";
+            if (jsondata != null && jsondata.length > 0) {
+                $.each(jsondata, function (i, item) {
+                    html += stringFormat("<tr>");
+                    html += stringFormat("<td>{0}</td>", item.ServerID);
+                    html += stringFormat("<td>{0}</td>", item.ServerName);
+                    html += stringFormat("<td>{0}</td>", item.Waste);
+                    html += stringFormat("<td>{0}</td>", item.TdWaste);
+                    html += stringFormat("<td>{0}</td>", item.WinRate);
+                    html += stringFormat("<td>{0}</td>", item.IsOpen == "1" ? "<font color=green>开启</font>" : "<font color=red>禁止</font>");
+                    html += stringFormat("<td> <a href='#' onclick='ShowAdd({1},{2})'>修改</a>&nbsp;{0}</td>", item.IsOpen == "0" ? "<a href='#' onclick='setOpen(" + item.ServerID + ",1,1)'>开启</a>" : "<a href='#' onclick='setOpen(" + item.ServerID + ",0,1)'>关闭", item.ServerID, item.WinRate);
+                    html += "</tr>";
+                });
+            }
+            $("#DataTables_Table_0_wrapper tbody").html(html);
+            $("#DataTables_Table_0_info").html(stringFormat("显示 {0} 至 {1} 共 {2} 条", ((pageIndex - 1) * postData.pageSize + 1), ((pageIndex * postData.pageSize) < pageTotal ? (pageIndex * postData.pageSize) : pageTotal), pageTotal));
+        }
+        //字符串格式化
+        function stringFormat() {
+            if (arguments.length == 0)
+                return null;
+            var str = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+                str = str.replace(re, arguments[i]);
+            }
+            return str;
+        }
+       
+        var ShowAdd = function (id, winRate) {
+            OpObj = new OpeIframeWindow("AddAcc", "修改胜率", { autoOpen: true, height: 200, width: 300, modal: true }, true);
+            sid = id;
+            $("#winRate").val(winRate);
+        }
+
+        var DoSetting = function () {
+            var data = { ServerID: sid, WinRate: $("#winRate").val() }
+            AjaxSubmit("/KongZhi/DoSetting", data, callBack, "do");
+        }
+
+        function setOpen(id, isOpen) {
+            if (isOpen == 0) {
+                if (confirm('确认关闭吗？')) {
+                    AjaxSubmit("/KongZhi/IsOpen", {ServerID:id,IsOpen:isOpen}, callBack, "open");
+                }
+            } else {
+                AjaxSubmit("/KongZhi/IsOpen", { ServerID: id, IsOpen: isOpen }, callBack, "open");
+            }
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "do":
+                    alert(jsonData.Msg);
+                    OpObj.Close();
+                    AjaxSearch(postData);
+                    break;
+                case "open":
+                    AjaxSearch(postData);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "后台管理-用户信息";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/layout.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/common.js"></script>
+</head>
+<body>
+    <!-- 头部菜单 Start -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="title">
+        <tr>
+            <td width="19" height="25" valign="top" class="Lpd10">
+                <div class="arr">
+                </div>
+            </td>
+            <td width="1232" height="25" valign="top" align="left">
+                目前操作功能：用户信息
+            </td>
+        </tr>
+    </table>
+    <!-- 头部菜单 End -->
+        <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="titleOpBg Lpd10">
+                    <input type="button" value="关闭" class="btn wd1" onclick="window.close();" />
+                    <input type="button" value="确认" class="btn wd1" onclick="submit();" />
+                </td>
+            </tr>
+        </table>
+        <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0" class="listBg2">
+            <tr>
+                <td class="listTdLeft">
+                    ID号码（UserID）：
+                </td>
+                <td>
+                   <label id="ltUserID">@(ViewBag.UserID!=null?ViewBag.UserID:"")</label>
+               帐号：<label id="ltAccounts">@(ViewBag.Accounts != null ? ViewBag.Accounts : "")</label>
+              </td>
+            </tr>
+            <tr>
+                <td class="listTdLeft">
+                    密码：
+                </td>
+                <td>
+                    <input type="text" id="txtConfirmPass" class="text wd4"/>&nbsp;
+                </td>
+            </tr>
+        </table>
+        <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="titleOpBg Lpd10">
+                    <input type="button" value="关闭" class="btn wd1" onclick="window.close();" />
+                    <input type="button" value="确认" class="btn wd1" onclick="submit();" />
+                </td>
+            </tr>
+        </table>
+    <script type="text/javascript">
+        function submit() {
+            var data = {};
+            var RecordID = parseInt('@ViewBag.RecordID');
+            var IntPassType = parseInt('@ViewBag.IntType');
+            var strPass = $("#txtConfirmPass").val();
+            if (strPass == "") {
+                alert("密码不能为空");
+                return false;
+            }
+            data.RecordID = RecordID;
+            data.IntPassType = IntPassType;
+            data.strPass = strPass;
+            AjaxSubmit("/Account/AddRecordPasswdExpendConfirm", data, callBack, "add");
+        }
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.close();
+                    window.opener.location.reload();
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

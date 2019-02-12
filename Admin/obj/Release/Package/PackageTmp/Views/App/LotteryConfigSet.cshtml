@@ -1,0 +1,115 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "系统维护 - 转盘管理";
+    Game.Entity.Treasure.LotteryConfig lotteryConfig = ViewData["data"] == null ? null : ViewData["data"] as Game.Entity.Treasure.LotteryConfig;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <ul class="media nav nav-tabs margin-b-10">
+                    <li class="active">
+                        <a href="@Url.Action("LotteryConfigSet","App")" title="">转盘配置</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("LotteryItemSet","App")">奖品配置</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("LotteryRecord", "App")">抽奖明细</a>
+                    </li>
+                </ul>
+                <div class="tab-content" style="margin-top:-11px">
+
+                    <div class="panel panel-info">
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">转盘配置</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right"><label style="color:red;">* </label>每日免费次数：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtFreeCount" style="width:350px;display:inline;" class="form-control input-sm" type="text" onkeyup="if(isNaN(value))execCommand('undo');" value="@(lotteryConfig != null ? lotteryConfig.FreeCount.ToString() : "0")">
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right"><label style="color:red;">* </label>付费金额：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtChargeFee" style="width:350px;display:inline;" class="form-control input-sm" type="text" maxlength="10" onkeyup="if(isNaN(value))execCommand('undo');" value="@(lotteryConfig != null ? lotteryConfig.ChargeFee.ToString() : "0")"></d></div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">是否付费抽奖：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <p class="">
+                                        <span class="">
+                                            <input type="checkbox" id="cbIsCharge" @(lotteryConfig != null && lotteryConfig.IsCharge == 1 ? "checked=\"checked\"" : "") />
+                                            <label for="cbIsCharge">允许付费</label>
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="col-xs-4 col-md-2" style="text-align:left"></div>
+                            </div>
+
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function add() {
+            var data = {};
+            var FreeCount = $("#txtFreeCount").val();
+            if (FreeCount == "" || isNaN(FreeCount)) {
+                alert("每日免费次数不能为空且为整数");
+                return false;
+            }
+            var ChargeFee = $("#txtChargeFee").val();
+            if (ChargeFee == "" || isNaN(ChargeFee)) {
+                alert("付费金额不能为空且为整数");
+                return false;
+            }
+            var cbIsCharge = $("#cbIsCharge").is(':checked') ? 1 : 0;            
+            data.FreeCount = FreeCount;
+            data.ChargeFee = ChargeFee;
+            data.IsCharge = cbIsCharge;
+            AjaxSubmit("/App/DoLotteryConfigSet", data, callBack, "add");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.location.href = "/App/LotteryConfigSet";
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

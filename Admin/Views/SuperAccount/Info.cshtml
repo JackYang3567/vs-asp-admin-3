@@ -1,0 +1,91 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "控制系统-超权管理";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+                    <div class="panel panel-primary" style="margin-left:-10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@ViewBag.Title</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">超权ID：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtGameID" class="form-control input-sm" type="text" maxlength="10" value="@ViewBag.GameID"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">跟踪ID：</div>
+                                <div class="col-xs-6 col-md-3"><input id="txtFollowGameID" class="form-control input-sm" type="text" maxlength="10" value="@ViewBag.FollowGameID"></div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="@Url.Action("Index","SuperAccount")"><i class="glyphicon glyphicon-circle-arrow-left"></i>返回</a></li>
+                                    <li><a class="btn btn-success search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-send"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function add() {
+            var gameId = $("#txtGameID").val();
+            var followGameID = $("#txtFollowGameID").val();
+            if (gameId == "") {
+                alert("超权ID不能为空");
+                return false;
+            }
+            var reg = /^[0-9]+$/;
+            if (!reg.test(gameId)) {
+                alert("超权ID只能为数字");
+                return
+            }
+            if (followGameID != "" && !reg.test(followGameID)) {
+                alert("跟踪ID只能为数字");
+                return
+            }
+
+            var data = { gameId: gameId, followGameID: followGameID };
+            AjaxSubmit("/SuperAccount/Edit", data, callBack, "add");
+        }
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "add":
+                    alert(jsonData.Msg);
+                    window.location.href = "/SuperAccount"
+                    break;
+            }
+        }
+        function StrToDateTime(timestr) {
+            var dt = new Date(timestr.replace("-", "/").replace("-", "/"));
+            return dt;
+        }
+    </script>
+</body>
+</html>

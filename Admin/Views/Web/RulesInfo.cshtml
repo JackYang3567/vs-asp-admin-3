@@ -1,0 +1,350 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "比赛系统 - 新闻编辑";
+    Game.Entity.NativeWeb.GameRulesInfo entity = ViewData["data"] == null ? null : ViewData["data"] as Game.Entity.NativeWeb.GameRulesInfo;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script charset="utf-8" src="~/Scripts/kindeditor-4.1.10/kindeditor-min.js"></script>
+    <script charset="utf-8" src="~/Scripts/kindeditor-4.1.10/lang/zh_CN.js"></script>
+    <style type="text/css">
+        .form-control, .input-sm {
+            padding: 5px 1px;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" class="main-content">
+
+        <div class="carousel box-inner">
+            <div class="box-header well clearfix" data-original-title="">
+                <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+            </div>
+            <div class="tab-content" style="margin-top:0px">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@(ViewBag.Info)规则</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">游戏名称：</div>
+                            <div class="col-xs-2 col-md-2">
+                                @(Request["cmd"] == "add" ? Html.HtmlGameRulesSelectList() :new MvcHtmlString(entity.KindName))
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+                                
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;display:none">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">游戏ICO图标：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <img id="upThumbnailUrl" src="/Content/Upload/Rules/@(entity!=null?entity.ThumbnailUrl:"")" alt="" title="" class="pull-left" style="width: 395px; height: 150px;" />
+                                <input id="upThumbnailField" name="upThumbnailField" type="file" style="display:none" onchange='UploadImg("upThumbnailField", "/Common/UploadFileToLocal", "upThumbnailUrl",@((Int32)Game.Facade.EnumerationList.UploadFileEnum.RulesImg));'>
+                                <button type="button" class="form-control btn btn-primary pull-left" onclick="$('input[id=upThumbnailField]').click();"><span class="glyphicon glyphicon-open"></span>更新图片</button>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">PC网站效果图：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <img id="upShowPictureUrl" src="/Content/Upload/Rules/@(entity != null ? entity.ImgRuleUrl : "")" alt="" title="" class="pull-left" style="width: 395px; height: 150px;" />
+                                <input id="upShowPictureField" name="upShowPictureField" type="file" style="display:none" onchange='UploadImg("upShowPictureField", "/Common/UploadFileToLocal", "upShowPictureUrl",@((Int32)Game.Facade.EnumerationList.UploadFileEnum.RulesImg));'>
+                                <button type="button" class="form-control btn btn-primary pull-left" onclick="$('input[id=upShowPictureField]').click();"><span class="glyphicon glyphicon-open"></span>更新图片</button>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">移动端网站效果图：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <img id="upMobilePictureUrl" src="/Content/Upload/Rules/@(entity != null ? entity.MobileImgUrl : "")" alt="" title="" class="pull-left" style="width: 395px; height: 150px;" />
+                                <input id="upMobilePictureField" name="upMobilePictureField" type="file" style="display:none" onchange='UploadImg("upMobilePictureField", "/Common/UploadFileToLocal", "upMobilePictureUrl",@((Int32)Game.Facade.EnumerationList.UploadFileEnum.RulesImg));'>
+                                <button type="button" class="form-control btn btn-primary pull-left" onclick="$('input[id=upMobilePictureField]').click();"><span class="glyphicon glyphicon-open"></span>更新图片</button>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;display:none">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">移动版设置：</div>
+                            <div class="col-xs-2 col-md-2">
+                                <select id="cblMoblieGameType" class="form-control input-sm">
+                                    <option value="1" @(entity != null && entity.MobileGameType == 1 ? "selected=\"selected\"" : "")>是否有Android版</option>
+                                    <option value="2" @(entity != null && entity.MobileGameType == 2 ? "selected=\"selected\"" : "")>是否有IOS版</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">Android版下载地址：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtAndroidDownloadUrl" style="width:350px;display:inline;" class="form-control input-sm" maxlength="512" type="text" value="@(entity!=null?entity.AndroidDownloadUrl:"")">                            
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+                                无Android版不填写
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">IOS版下载地址：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtIOSDownloadUrl" style="width:350px;display:inline;" class="form-control input-sm" maxlength="512" type="text" value="@(entity!=null?entity.IOSDownloadUrl:"")">
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+                                无IOS版不填写
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">移动端大小：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtMoileSize" style="width:350px;display:inline;" class="form-control input-sm" maxlength="512" type="text" value="@(entity!=null?entity.MobileSize:"")">
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+                                无Android版不填写
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">移动端更新时间：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtMobileDate" style="width:350px;display:inline;" class="laydate-icon strtime" readonly="readonly" onclick="laydate({istime: true,festival: true, format: 'YYYY-MM-DD'})" type="text" value="@(entity!=null?entity.MobileDate:"")">
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+                                无IOS版不填写
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">移动端版本号：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtMobileVersion" style="width:350px;display:inline;" class="form-control input-sm" maxlength="512" type="text" value="@(entity!=null?entity.MobileVersion:"")">
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+                                无IOS版不填写
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">游戏介绍：</div>
+                            <div class="col-xs-10 col-md-6">
+                                <textarea id="txtHelpIntro" class="form-control input-sm" rows="4" style="width: 650px; display: inline;">@(entity!=null?entity.HelpIntro:"")</textarea>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+                                
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">规则介绍：</div>
+                            <div class="col-xs-10 col-md-6">
+                                <textarea id="txtHelpRule" class="form-control input-sm" rows="6" style="width: 650px; display: inline;">
+                                    @(entity!=null?entity.HelpRule:"")
+                                </textarea>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">等级介绍：</div>
+                            <div class="col-xs-10 col-md-6">
+                                <textarea id="txtHelpGrade" class="form-control input-sm" rows="6" style="width: 650px; display: inline;">
+                                    @(entity!=null?entity.HelpGrade:"")
+                                </textarea>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">禁用状态：</div>
+                            <div class="col-xs-2 col-md-2">
+                                <select id="rbtnNullity" class="form-control input-sm">
+                                    <option value="0" @(entity != null && entity.Nullity == 0 ? "selected=\"selected\"" : "")>正常</option>
+                                    <option value="1" @(entity != null && entity.Nullity == 1 ? "selected=\"selected\"" : "")>禁用</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;display:none">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">创建时间：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <label id="lblCollectDate" class="form-control input-sm">@(entity!=null?entity.CollectDate.ToString("yyyy-MM-dd hh:mm:ss"):"")</label>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">修改时间：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <label id="lblModifyDate" class="form-control input-sm">@(entity != null ? entity.ModifyDate.ToString("yyyy-MM-dd hh:mm:ss") : "")</label>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <ul class="list-inline">
+                                <li><a class="btn btn-success search btn-md" href="@Url.Action("RulesList", "Web")"><i class="glyphicon glyphicon-arrow-left"></i>返回</a></li>
+                                <li><a class="btn btn-primary search btn-md" href="#" id="btn"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        //编辑器
+        KindEditor.ready(function (K) {
+            window.editor = K.create('#txtHelpRule', { uploadJson: '/Common/UploadFileToLocal?op=2' });
+            window.editor1 = K.create('#txtHelpGrade', { uploadJson: '/Common/UploadFileToLocal?op=2' });
+        });
+        $(document).ready(function () {
+            docReady();
+        });
+        function docReady() {
+            $("#btn").click(function (e) {
+                e.preventDefault();
+                add();
+            });
+        }
+        function add() {
+            var data = {};
+            data.ID = parseInt('@ViewBag.ID');
+            data.OP = '@ViewBag.Info';
+            if (data.OP == "新增")
+            {
+                var KindId = $("#ddlGameKind").val().trim();
+                if (KindId == "" || isNaN(KindId) || parseInt(KindId) < 1) {
+                    alert("游戏名称不能为空");
+                    return false;
+                }
+                data.KindID = KindId;
+                data.KindName = $("#ddlGameKind").find("option:selected").text().trim();
+            }
+            var ThumbnailUrl = $("#upThumbnailUrl").attr("src").trim();
+            var Thumbnail = ThumbnailUrl.substring(ThumbnailUrl.lastIndexOf("/") + 1);
+            //if (Thumbnail=="") {
+            //    alert("请输入游戏ICO图标");
+            //    return false;
+            //}
+            data.ThumbnailUrl = Thumbnail;
+
+            var ImgRuleUrl = $("#upShowPictureUrl").attr("src").trim();
+            var ImgRule = ImgRuleUrl.substring(ImgRuleUrl.lastIndexOf("/") + 1);
+            if (ImgRule == "") {
+                alert("请输入PC网站效果图");
+                return false;
+            }
+            data.ImgRuleUrl = ImgRule;
+
+            var MobileImgUrl = $("#upMobilePictureUrl").attr("src").trim();
+            var MobileImg = MobileImgUrl.substring(MobileImgUrl.lastIndexOf("/") + 1);
+            //if (MobileImg == "") {
+            //    alert("请输入移动端网站效果图");
+            //    return false;
+            //}
+            data.MobileImgUrl = MobileImg;
+            data.MobileGameType = parseInt($("#cblMoblieGameType").val());
+
+            var AndroidDownloadUrl = $("#txtAndroidDownloadUrl").val().trim();
+            //if (data.MobileGameType == 1 && AndroidDownloadUrl == "") {
+            //    alert("Android版下载地址不能为空");
+            //    return false;
+            //}
+            data.AndroidDownloadUrl = AndroidDownloadUrl == "" ? "" : AndroidDownloadUrl;
+           
+            var IOSDownloadUrl = $("#txtIOSDownloadUrl").val().trim();
+            //if (data.MobileGameType == 2 && IOSDownloadUrl == "") {
+            //    alert("IOS版下载地址不能为空");
+            //    return false;
+            //}
+            data.IOSDownloadUrl = IOSDownloadUrl == "" ? "" : IOSDownloadUrl;
+
+
+            var MoileSize = $("#txtMoileSize").val().trim()
+            //if (data.MobileGameType == 1 && MoileSize == "") {
+            //    alert("Android版移动端大小不能为空");
+            //    return false;
+            //}
+            data.MobileSize = MoileSize == "" ? 0 : parseFloat(MoileSize);
+
+
+            var MobileDate = $("#txtMobileDate").val().trim();
+            //if (data.MobileGameType == 2 && MoileSize == "") {
+            //    alert("Android版移动端更新时间不能为空");
+            //    return false;
+            //}
+            data.MobileDate = MobileDate == "" ? "2000-01-01" : MobileDate;
+
+            var MobileVersion = $("#txtMobileVersion").val().trim();
+            //if (data.MobileGameType == 2 && MoileSize == "") {
+            //    alert("Android移动端版本号不能为空");
+            //    return false;
+            //}
+            data.MobileVersion = MobileVersion == "" ? "" : MobileVersion;
+            
+            var HelpIntro = $("#txtHelpIntro").val().trim();
+            if (HelpIntro == "") {
+                alert("游戏介绍不能为空");
+                return false;
+            }
+            data.HelpIntro =  HelpIntro;
+
+            var HelpRule = editor.html();
+            if (HelpRule == "") {
+                alert("规则介绍不能为空");
+                return false;
+            }
+            data.HelpRule = HelpRule;
+
+            var HelpGrade = editor1.html();
+            if (HelpGrade == "") {
+                alert("等级介绍不能为空");
+                return false;
+            }
+            data.HelpGrade = HelpGrade;
+
+            var Nullity = $("#rbtnNullity").val().trim();
+            //if (Nullity == "" || isNaN(Nullity) || parseInt(Nullity) < 1) {
+            //    alert("请选择禁用状态");
+            //    return false;
+            //}
+            data.Nullity = Nullity;
+            AjaxSubmit("/Web/DoRulesInfo", data, callBack, "del");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "del":
+                    alert(jsonData.Msg);
+                    window.location.href = "/Web/RulesList";
+                    //window.opener.location.reload();
+                    break;
+            }
+        }
+    </script>
+
+</body>
+</html>

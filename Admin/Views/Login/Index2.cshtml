@@ -1,0 +1,137 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "后台登录";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>@ViewBag.Title</title>
+    <link href="~/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/login.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+</head>
+<body>
+    <div class="wrap" id="print">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-5 col-sm-6 col-md-4 pull-right header">
+                    <h4>棋牌后台管理系统</h4>
+                </div>
+            </div>
+        </div>
+        <div class="main clearfix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 pull-right main-list">
+                        <div class="row">
+                            <label class="col-xs-3 col-sm-2 col-md-2 col-lg-2 padding-margin-0" for="txtLoginName">账号</label>
+                            <input class="col-xs-7 col-sm-7 col-md-5 col-lg-5" type="text" name="" id="txtLoginName" placeholder="请输入账号" />
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-3 col-sm-2 col-md-2 col-lg-2 padding-margin-0" for="txtLoginPass">密码</label>
+                            <input class="col-xs-7 col-sm-7 col-md-5 col-lg-5" type="password" name="" id="txtLoginPass" placeholder="请输入密码" />
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-3 col-sm-2 col-md-2 col-lg-2 padding-margin-0" for="txtVerifyCode">验证码</label>
+                            <input class="col-xs-7 col-sm-7 col-md-5 col-lg-5" type="text" name="" id="txtVerifyCode" placeholder="请输入验证码" />
+                            <img class="code-pic" src="/Common/GetValidateCode" id="ImageCheck" title="点击更换验证码图片!" onclick="this.src = this.src + '?'">
+                        </div>
+                        <div class="row">
+                            <p class="col-md-8">验证码请按下图中的数字填写<a href="javascript:void(0)" class="l" onclick="$('#ImageCheck').attr('src', 'Common/GetValidateCode?' + Math.random())">看不清楚？ 换一个</a></p>
+                        </div>
+                        <div class="row">
+                            <input type="button" name="btnLogin" class="login-btn" id="btnLogin">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="container">
+            <div class="row footer"></div>
+        </div>
+    </div>
+    <script type="text/javascript">    
+        //横屏操作提示start
+        function orient() {
+            if (window.orientation == 0 || window.orientation == 180) {
+                alert("竖屏效果不好，建议横屏操作！");
+            }   
+        }
+        //页面加载时调用
+        $(function () {
+            orient();
+        });
+        //用户变化屏幕方向时调用
+        $(window).bind('orientationchange', function (e) {
+            orient();
+        });
+        //横屏操作提示end
+
+        $(function () {
+            $("#txtLoginName").focus();
+            //回车事件
+            document.onkeydown = function (e) {
+                var theEvent = window.event || e;
+                var code = theEvent.keyCode || theEvent.which;
+                if (code == 13) {
+                    $("#btnLogin").click();
+                }
+            }
+            $("#btnLogin").on("click", function () {
+                var accounts = $("#txtLoginName").val();
+                var pass = $("#txtLoginPass").val();
+                var verifyCode = $("#txtVerifyCode").val();
+                var iscan = true;
+                var msg = "";
+                if (accounts == "") {
+                    msg = "请填写您的用户帐号";
+                    $("#txtLoginName").focus();
+                    iscan = false;
+                }
+                if (pass == "") {
+                    msg = "请填写登录密码";
+                    $("#txtLoginPass").focus();
+                    iscan = false;
+                }
+                if (pass.length >= 100) {
+                    msg = "登录密码不能超过100个字符";
+                    $("#txtLoginPass").focus();
+                    iscan = false;
+                }
+                if (verifyCode == "") {
+                    msg = "请填写验证码";
+                    $("#txtVerifyCode").focus();
+                    iscan = false;
+                }
+                if (iscan) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/Login/ValidateLogin",
+                        dataType: "json",
+                        data: { userName: accounts, password: pass, verifyCode: verifyCode },
+                        success: function (rsp) {
+                            if (rsp.IsOk) {
+                                parent.location.href = "/Home";
+                            } else {
+                                alert(rsp.Msg);
+                            }
+                        }
+                    });
+                } else {
+                    alert(msg);
+                }
+            })
+
+        })
+    </script>
+</body>
+</html>

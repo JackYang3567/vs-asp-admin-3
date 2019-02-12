@@ -1,0 +1,212 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "财务系统 - 金币交易设置";
+}
+@model Game.Entity.Accounts.CashSetting
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <style>
+        .x5 {
+            width: 50px;
+            height: 25px;
+            border: 1px solid #ABADB3;
+            font-size: 14px;
+            background-color: #FFFFFF;
+            line-height: 25px;
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <div class="tab-content" style="margin-top:0px">
+
+                    <div class="panel panel-info">
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">金币交易设置</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">系统是否开启：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input type="checkbox" class="fxk" name="checkbox" id="systemSwitch" value="checkbox" />开启
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">锁定金币出售：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input name="regGoldCanSale" type="radio" value="1" />
+                                    出售
+                                    <input name="regGoldCanSale" type="radio" value="0" checked="checked" />
+                                    不出售
+                                </div>
+                                
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">限制局数：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input name="" class="x5" type="text" id="leastCount" />局 &nbsp;填写玩家多少局后才可以兑换金币
+                                </div>
+                                
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">每周开放日期：</div>
+                                <div class="col-xs-6 col-md-3" id="opdayTD">
+                                    <input type="checkbox" class="fxk" name="checkbox" value="1" id="w1" />周一
+                                    <input type="checkbox" class="fxk" name="checkbox" value="2" id="w2" />周二
+                                    <input type="checkbox" class="fxk" name="checkbox" value="4" id="w3" />周三
+                                    <input type="checkbox" class="fxk" name="checkbox" value="8" id="w4" />周四
+                                    <input type="checkbox" class="fxk" name="checkbox" value="16" id="w5" />周五
+                                    <input type="checkbox" class="fxk" name="checkbox" value="32" id="w6" />周六
+                                    <input type="checkbox" class="fxk" name="checkbox" value="64" id="w7" />周日
+                                </div>
+                                
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">开放时段：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input name="Input" type="text" class="x5" id="openTime1" value="@Model.Shour" />--<input name="Input2" type="text" class="x5" id="openTime2" value="@Model.Ehour" />
+                                   
+                                </div>
+                                
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">每天限制出售：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input name="" class="x5" type="text" id="saleTimes" value="@Model.DailyApplyTimes" />次 &nbsp;&nbsp;不限制次数请设置为0
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">金币出售价格：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input name="" class="x5" type="text" id="ratio" value="@Model.BalancePrice" />金币=1元
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">最少出售金币：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input name="" class="x5" type="text" id="leastScore" value="@Model.MinBalance" />
+                                    金币
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">交易手续费：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input name="" class="x5" type="text" id="serverChargeRatio" value="@(Model.CounterFee*100)" />
+                                    %交易金额
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">最低手续费：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input name="" class="x5" type="text" id="leastCharge" value="@Model.MinCounterFee" />元
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">最低银行金币：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input name="" class="x5" type="text" id="leastPower" value="@Model.MinPlayerScore" />金币&nbsp; &nbsp;玩家银行金币只有大于此设置才能进入交易页面
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-1" style="text-align:right">交易金额倍数：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input name="" class="x5" type="text" id="drawMultiple" value="@Model.DrawMultiple" />倍
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="Save();"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            if ('@Model.IsOpen' == 1) {
+                $("#systemSwitch").attr("checked", "checked");
+            } else {
+                $("#systemSwitch").removeAttr("checked");
+            }
+
+            if ('@Model.IsSale' == 1) {
+                $("input[name='regGoldCanSale']").eq(0).prop("checked", true);
+            } else {
+                $("input[name='regGoldCanSale']").eq(1).prop("checked", true);
+            }
+
+            $("#leastCount").val('@Model.GameCnt');
+
+            for (var i = 0; i < 7; i++) {
+                if (('@Model.WeekOpenDay' & Math.pow(2, i)) > 0) {
+                    $("#w" + (i + 1)).prop("checked", true);
+                }
+            }
+        })
+        function Save() {
+            var openDate = 0;
+            $("#opdayTD").children().each(function (i) {
+                var _this = $(this);
+                if (_this.prop("checked")) {
+                    openDate |= _this.val()
+                }
+            });
+            var postData = {};
+            postData.ID = 1;
+            postData.IsOpen = $("#systemSwitch").prop("checked") ? 1 : 0;
+            postData.WeekOpenDay = openDate;
+            postData.Shour = $("#openTime1").val();
+            postData.Ehour = $("#openTime2").val();
+            postData.DailyApplyTimes = $("#saleTimes").val();
+            postData.BalancePrice = $("#ratio").val();
+            postData.MinBalance = $("#leastScore").val();
+            postData.CounterFee = $("#serverChargeRatio").val();
+            postData.MinCounterFee = $("#leastCharge").val();
+            postData.MinPlayerScore = $("#leastPower").val();
+            postData.GameCnt = $("#leastCount").val();
+            postData.IsSale = $("input[name='regGoldCanSale']:checked").val()
+            postData.DrawMultiple =parseInt($('#drawMultiple').val());
+            if (postData.DrawMultiple < 1)
+            {
+                alert("最低倍数为1");
+                return false;
+            }
+            postData.sData = JSON.stringify(postData)
+            
+            AjaxSubmit("/Trade/UpdateTradeSet", postData, callBack, "save");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "save":
+                    alert(jsonData.Msg);
+                    window.location.reload();
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

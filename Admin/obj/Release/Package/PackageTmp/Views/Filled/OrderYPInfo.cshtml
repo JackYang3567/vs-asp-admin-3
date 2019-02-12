@@ -1,0 +1,135 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "充值系统 - 易宝记录";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/layout.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/common.js"></script>
+</head>
+<body>
+    <!-- 头部菜单 Start -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="title">
+        <tr>
+            <td width="19" height="25" valign="center" class="Lpd10"><div class="arr"></div></td>
+            <td width="1232" height="25" valign="center" align="left">你当前位置：@ViewBag.Title</td>
+        </tr>
+    </table>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="titleOpBg Lpd10">
+                <input type="button" value="关闭" class="btn wd1" onclick="javascript:window.close()" />
+            </td>
+        </tr>
+    </table>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="listBg2">
+        <tr>
+            <td height="35" colspan="2" class="f14 bold Lpd10 Rpd10"><div class="hg3  pd7">基本信息</div></td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">订单号码：</td>
+            <td>
+                <label id="litR6_Order">@(ViewBag.R6_Order!=null?Html.Raw(ViewBag.R6_Order):"")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">支付状态：</td>
+            <td>
+                <label id="litR1_Code">@(ViewBag.R1_Code != null ?Html.Raw(ViewBag.R1_Code) : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">订单金额：</td>
+            <td>
+                <label id="litR3_Amt">@(ViewBag.R3_Amt != null ? ViewBag.R3_Amt : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">商品名称：</td>
+            <td>
+               <label id="litR5_Pid">@(ViewBag.R5_Pid != null ? ViewBag.R5_Pid : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">充值用户：</td>
+            <td>
+               <label id="litR8_MP">@(ViewBag.R8_MP != null ? ViewBag.R8_MP : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">充值时间：</td>
+            <td>
+                <label id="litCollectDate">@(ViewBag.CollectDate != null ? ViewBag.CollectDate : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td height="35" colspan="2" class="f14 bold Lpd10 Rpd10"><div class="hg3  pd7">交易信息</div></td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">易宝交易号：</td>
+            <td>
+                <label id="litR2_TrxId">@(ViewBag.R2_TrxId != null ? ViewBag.R2_TrxId : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">交易结果返回类型：</td>
+            <td>
+                <label id="litR9_BType">@(ViewBag.R9_BType != null ? ViewBag.R9_BType : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">银行名称：</td>
+            <td>
+                <label id="litRb_BankId">@(ViewBag.Rb_BankId != null ? ViewBag.Rb_BankId : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">银行订单号：</td>
+            <td>
+               <label id="litRo_BankOrderId">@(ViewBag.Ro_BankOrderId != null ? ViewBag.Ro_BankOrderId : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">支付成功时间：</td>
+            <td>
+                <label id="litRp_PayDate">@(ViewBag.Rp_PayDate != null ? ViewBag.Rp_PayDate : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">神州行充值卡号：</td>
+            <td>
+               <label id="litRq_CardNo">@(ViewBag.Rq_CardNo != null ? ViewBag.Rq_CardNo : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">交易结果通知时间：</td>
+            <td>
+               <label id="litRu_Trxtime">@(ViewBag.Ru_Trxtime != null ? ViewBag.Ru_Trxtime : "")</label>
+            </td>
+        </tr>
+        <tr>
+            <td height="35" colspan="2" class="f14 bold Lpd10 Rpd10"><div class="hg3  pd7">其它信息</div></td>
+        </tr>
+        <tr>
+            <td class="listTdLeft">签名数据：</td>
+            <td>
+                <label id="litHmac">@(ViewBag.Hmac != null ? ViewBag.Hmac : "")</label>
+            </td>
+        </tr>
+    </table>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="titleOpBg Lpd10">
+                <input type="button" value="关闭" class="btn wd1" onclick="javascript:window.close()" />
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

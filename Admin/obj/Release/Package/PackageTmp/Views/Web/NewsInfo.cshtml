@@ -1,0 +1,182 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "比赛系统 - 新闻编辑";
+    Game.Entity.NativeWeb.News entity = ViewData["Data"] == null ? null : ViewData["Data"] as Game.Entity.NativeWeb.News;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    <script charset="utf-8" src="~/Scripts/kindeditor-4.1.10/kindeditor-min.js"></script>
+    <script charset="utf-8" src="~/Scripts/kindeditor-4.1.10/lang/zh_CN.js"></script>
+    <style type="text/css">
+        input {
+            color:black;
+        }
+        .tab2 {
+            width:auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" class="main-content">
+
+        <div class="carousel box-inner">
+            <div class="box-header well clearfix" data-original-title="">
+                <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+            </div>
+            <div class="tab-content" style="margin-top:0px">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@(ViewBag.Info)新闻</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">标题：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtSubject" style="width:350px;display:inline;" class="form-control input-sm" type="text" value="@(ViewBag.Subject)">
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+                                <label style="color:red;">请输入标题内容</label>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">类别：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <select id="ddlClassID" class="form-control input-sm input-width-150">
+                                    <option value="1" @(ViewBag.ClassID=="1"?"selected=\"selected\"":"")>新闻</option>
+                                    <option value="2" @(ViewBag.ClassID == "2" ? "selected=\"selected\"" : "")>公告</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;display:none">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">引用：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtLinkUrl" style="width:350px;display:inline;" class="form-control input-sm" type="text" value="@(ViewBag.LinkUrl)">
+                                <p class="checkbox-radio">
+                                    <span class="break-word"><input id="chkIsLinks" type="checkbox" name="chkIsLinks" @((bool)ViewBag.IsLinks ? "checked=\"checked\"" : "") /> <label for="chkIsLinks">链接地址</label></span>
+                                </p>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px; margin-bottom: 5px; display: none">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">属性：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <p class="checkbox-radio">
+                                    <span class="break-word"><input id="chkOnTop" type="checkbox" name="chkOnTop" @((bool)ViewBag.OnTop ? "checked=\"checked\"" : "") /> <label for="chkOnTop">置顶</label></span>
+                                    <span class="break-word"><input id="chkOnTopAll" type="checkbox" name="chkOnTopAll" @((bool)ViewBag.OnTopAll ? "checked=\"checked\"" : "") /> <label for="chkOnTopAll">总置顶</label></span>
+                                    <span class="break-word"><input id="chkIsElite" type="checkbox" name="chkIsElite" @((bool)ViewBag.IsElite ? "checked=\"checked\"" : "") /> <label for="chkIsElite">推荐</label></span>
+                                    <span class="break-word"><input id="chkIsHot" type="checkbox" name="chkIsHot" @((bool)ViewBag.IsHot ? "checked=\"checked\"" : "") /> <label for="chkIsHot">热门</label></span>
+                                    <span class="break-word"><input id="chkIsLock" type="checkbox" name="chkIsLock" @((bool)ViewBag.IsLock ? "checked=\"checked\"" : "") /> <label for="chkIsLock">立即发布</label></span>
+                                </p>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">内容：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <textarea id="txtBody" class="form-control input-sm" style="width:350px;display:inline;" rows="30">@(ViewBag.Body)</textarea>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <ul class="list-inline">
+                                <li><a class="btn btn-success search btn-md" href="@Url.Action("Index", "Web")"><i class="glyphicon glyphicon-arrow-left"></i>返回</a></li>
+                                <li><a class="btn btn-primary search btn-md" href="#" id="btn"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        //编辑器
+        KindEditor.ready(function (K) {
+            window.editor = K.create('#txtBody', { uploadJson: '/Common/UploadFileToLocal?op=6' });
+        });
+        $(document).ready(function () {
+            docReady();
+        });
+        function docReady()
+        {
+            $("#btn").click(function (e) {
+                e.preventDefault();
+                add();
+            });
+        }
+        function add() {
+            var data = {};
+            data.NewsID = '@ViewBag.ID';
+            var Subject = $("#txtSubject").val().trim();
+            if (Subject == "") {
+                alert("标题不能为空");
+                return false;
+            }
+            data.Subject = Subject;
+            var ClassID = $("#ddlClassID").val();
+            data.ClassID =parseInt(ClassID);
+            var IsLinks = $("#chkIsLinks").is(":checked") ? 1 : 0;
+            data.IsLinks = IsLinks;
+            var LinkUrl = $("#txtLinkUrl").val().trim();
+            if (IsLinks == 1 && (LinkUrl == "" || LinkUrl == "http://")) {
+                alert("请输入引用");
+                return false;
+            }
+            data.LinkUrl = LinkUrl;
+            var OnTop = $("#chkOnTop").is(":checked") ? 1 : 0;
+            data.OnTop = OnTop;
+            var OnTopAll = $("#chkOnTopAll").is(":checked") ? 1 : 0;
+            data.OnTopAll = OnTopAll;
+            var IsElite = $("#chkIsElite").is(":checked") ? 1 : 0;
+            data.IsElite = IsElite;
+            var IsHot = $("#chkIsHot").is(":checked") ? 1 : 0;
+            data.IsHot = IsHot;
+            var IsLock = $("#chkIsLock").is(":checked") ? 1 : 0;
+            data.IsLock = IsLock;
+            var body = editor.html();
+            if (body == "")
+            {
+                alert("内容不能为空");
+                return false;
+            }
+            data.Body = body;
+            
+            AjaxSubmit("/Web/DoNewsInfo", data, callBack, "del");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "del":
+                    alert(jsonData.Msg);
+                    window.location.href = "/Web/Index";
+                    //window.opener.location.reload();
+                    break;
+            }
+        }
+    </script>
+
+</body>
+</html>

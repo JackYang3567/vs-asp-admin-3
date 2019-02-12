@@ -1,0 +1,317 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "系统维护 - 道具管理";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <div id="content" class="main-content">
+        <div class="">
+            <div class="carousel box-inner">
+                <div class="box-header well clearfix" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+                </div>
+                <ul class="media nav nav-tabs margin-b-10">
+                    <li>
+                        <a href="javascript:void(0);" onclick="Redirect(this,'@Url.Action("GamePropertyManager", "App")')">道具管理</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" onclick="Redirect(this,'@Url.Action("GamePropertyTypeList", "App")')">类型管理</a>
+                    </li>
+                    <li class="active">
+                        <a href="javascript:void(0);">礼包管理</a>
+                    </li>
+                </ul>
+                <div class="tab-content" style="margin-top:-11px">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><label id="litInfo"></label>礼包信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">礼包名称：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtName" style="width:350px;display:inline;" class="form-control input-sm" type="text" value="@(ViewBag.Name != null ? ViewBag.Name : "")">
+                                </div>
+                                <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">游戏豆价格：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtCash" style="width:350px;display:inline;" class="form-control input-sm" type="text" value="@(ViewBag.Cash != null ? ViewBag.Cash : "")">
+                                </div>
+                                <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">游戏币价格：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtGold" style="width:350px;display:inline;" class="form-control input-sm" type="text" onkeyup="if(isNaN(value))execCommand('undo');" value="@(ViewBag.Gold != null ? ViewBag.Gold : "")">
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">元宝价格：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtUserMedal" style="width:350px;display:inline;" onkeyup="if(isNaN(value))execCommand('undo');" class="form-control input-sm" type="text" value="@(ViewBag.UserMedal != null ? ViewBag.UserMedal : "")">
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">魅力值价格：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtLoveLiness" style="width:350px;display:inline;" class="form-control input-sm" type="text" value="@(ViewBag.LoveLiness != null ? ViewBag.LoveLiness : "")" onkeyup="if(isNaN(value))execCommand('undo');">
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">使用范围：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    @Html.HtmlIssueAreaCHKListBuilder("ckbIssueArea", (int)ViewBag.IssueArea)
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">作用范围：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    @Html.HtmlIssueAreaCHKListBuilder("ckbServiceArea", (int)ViewBag.ServiceArea)
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">赠送魅力值：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtSendLoveLiness" style="width:350px;display:inline;" class="form-control input-sm" type="text" value="@(ViewBag.SendLoveLiness != null ? ViewBag.SendLoveLiness : "")" >
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">接收魅力值：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtRecvLoveLiness" style="width:350px;display:inline;" class="form-control input-sm" type="text" value="@(ViewBag.RecvLoveLiness != null ? ViewBag.RecvLoveLiness : "")">
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">增加金币：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtUseResultsGold" style="width:350px;display:inline;" class="form-control input-sm" type="text" value="@(ViewBag.UseResultsGold != null ? ViewBag.UseResultsGold : "")">
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">持续时间：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtUseResultsValidTime" style="width:350px;display:inline;" class="form-control input-sm" type="text" value="@(ViewBag.UseResultsValidTime != null ? ViewBag.UseResultsValidTime : "")">&nbsp;秒
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">积分倍率：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <input id="txtUseResultsValidTimeScoreMultiple" style="width:350px;display:inline;" class="form-control input-sm" type="text" value="@(ViewBag.UseResultsValidTimeScoreMultiple != null ? ViewBag.UseResultsValidTimeScoreMultiple : "")">
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">使用说明：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <textarea id="txtRegulationsInfo" class="form-control input-sm" style="width:350px;display:inline;" maxlength="256">@(ViewBag.RegulationsInfo != null ? ViewBag.RegulationsInfo : "")</textarea>
+
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+                                    使用说明字符长度不可超过256个字符
+                                </div>
+                            </div>                               
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">是否推荐：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <p class="checkbox-radio">
+                                        <span class="break-word"><input id="ckbRecommend" type="checkbox" name="ckbRecommend" @(ViewBag.Recommend ? "checked=\"checked\"" : "") /><label for="ckbRecommend">支持</label></span>
+                                    </p>
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right">是否启用：</div>
+                                <div class="col-xs-6 col-md-3">
+                                    <p class="checkbox-radio">
+                                        <span class="break-word"><input id="ckbNullity" type="checkbox" name="ckbNullity" @(ViewBag.Nullity ? "checked=\"checked\"" : "") /><label for="ckbNullity">支持</label></span>
+                                    </p>
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                                <div class="col-xs-2 col-md-2" style="text-align:right"></div>
+                                <div class="col-xs-6 col-md-3">
+                                    <label style="color:red;">注意：修改成功后需重启游戏服务端才可生效</label>
+                                </div>
+                                <div class="col-xs-6 col-md-3" style="text-align:left">
+
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <ul class="list-inline">
+                                    <li><a class="btn btn-success search btn-md" href="@Url.Action("GameGiftList", "App")"><i class="glyphicon glyphicon-arrow-left"></i>返回</a></li>
+                                    <li><a class="btn btn-primary search btn-md" href="#" onclick="add();"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function add() {
+            var data = {};
+            data.OP = '@ViewBag.OP';
+            data.ID = '@ViewBag.ID';
+            var Name = $("#txtName").val().trim();
+            if (Name == "") {
+                alert("礼包名称");
+                return false;
+            }
+            data.Name = Name;
+
+            var Cash = $("#txtCash").val().trim();
+            if (Cash == "" || isNaN(Cash)) {
+                alert("游戏豆价格不能为空且为整数");
+                return false;
+            }
+            data.Cash = Cash;
+
+            var Gold = $("#txtGold").val().trim();
+            if (Gold == "" || isNaN(Gold)) {
+                alert("游戏币价格不能为空且为整数");
+                return false;
+            }
+            data.Gold = Gold;
+
+            var UserMedal = $("#txtUserMedal").val().trim();
+            if (UserMedal == "" || isNaN(UserMedal)) {
+                alert("元宝价格不能为空且为整数");
+                return false;
+            }
+            data.UserMedal = UserMedal;
+
+            var LoveLiness = $("#txtLoveLiness").val().trim();
+            if (LoveLiness == "" || isNaN(LoveLiness)) {
+                alert("魅力值价格不能为空且为整数");
+                return false;
+            }
+            data.LoveLiness = LoveLiness;
+            var ServiceArea = 0;
+            $("input[name='ckbServiceArea']:checked").each(function () {
+                ServiceArea += parseInt($(this).val());
+            });
+            data.ServiceArea = ServiceArea;
+
+            var IssueArea = 0;
+            $("input[name='ckbIssueArea']:checked").each(function () {
+                IssueArea += parseInt($(this).val());
+            });
+            data.IssueArea = IssueArea;
+           
+            var SendLoveLiness = $("#txtSendLoveLiness").val().trim();
+            if (SendLoveLiness == "" || isNaN(SendLoveLiness)) {
+                alert("赠送魅力值不能为空且为整数");
+                return false;
+            }
+            data.SendLoveLiness = SendLoveLiness;
+
+            var RecvLoveLiness = $("#txtRecvLoveLiness").val().trim();
+            if (RecvLoveLiness == "" || isNaN(RecvLoveLiness)) {
+                alert("接收魅力值不能为空且为整数");
+                return false;
+            }
+            data.RecvLoveLiness = RecvLoveLiness;
+
+            var UseResultsGold = $("#txtUseResultsGold").val().trim();
+            if (UseResultsGold == "" || isNaN(UseResultsGold)) {
+                alert("增加金币不能为空且为整数");
+                return false;
+            }
+            data.UseResultsGold = UseResultsGold;
+
+            var UseResultsValidTime = $("#txtUseResultsValidTime").val().trim();
+            if (UseResultsValidTime == "" || isNaN(UseResultsValidTime)) {
+                alert("持续时间不能为空且为整数");
+                return false;
+            }
+            data.UseResultsValidTime = UseResultsValidTime;
+
+            var UseResultsValidTimeScoreMultiple = $("#txtUseResultsValidTimeScoreMultiple").val().trim();
+            if (UseResultsValidTimeScoreMultiple == "" || isNaN(UseResultsValidTimeScoreMultiple)) {
+                alert("积分倍率不能为空且为整数");
+                return false;
+            }
+            data.UseResultsValidTimeScoreMultiple = UseResultsValidTimeScoreMultiple;
+
+            var RegulationsInfo = $("#txtRegulationsInfo").val().trim();
+            if (RegulationsInfo == "") {
+                alert("使用说明不能为空");
+                return false;
+            }
+            data.RegulationsInfo = RegulationsInfo;
+
+            var Nullity = $("input[name='ckbNullity']").attr("checked") == "checked" ? 0 : 1;
+            data.Nullity = Nullity;
+            var Recommend = $("input[name='ckbRecommend']").attr("checked") == "checked" ? 1 : 0;
+            data.Recommend = Recommend;
+            AjaxSubmit("/App/DoGameGiftInfo", data, callBack, "del");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "del":
+                    alert(jsonData.Msg);
+                    window.location.reload();
+                    //window.opener.location.reload();
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

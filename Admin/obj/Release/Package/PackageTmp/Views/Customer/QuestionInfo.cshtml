@@ -1,0 +1,179 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "客服中心 - 问题编辑";
+}
+@model Game.Entity.NativeWeb.GameIssueInfo
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Admin/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/charisma-app.css" rel="stylesheet" />
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/comm.js"></script>
+    @*<script charset="utf-8" src="~/Scripts/kindeditor-4.1.10/kindeditor-min.js"></script>
+    <script charset="utf-8" src="~/Scripts/kindeditor-4.1.10/lang/zh_CN.js"></script>*@
+</head>
+<body>
+    <div id="content" class="main-content">
+
+        <div class="carousel box-inner">
+            <div class="box-header well clearfix" data-original-title="">
+                <h2><i class="glyphicon glyphicon-hand-right"></i>目前操作功能：@ViewBag.Title</h2>
+            </div>
+            <div class="tab-content" style="margin-top:0px">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span id="info">编辑</span>问题</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">标题：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <input id="txtSubject" style="width:350px;display:inline;" class="form-control input-sm" type="text" value="@(Model==null?"":Model.IssueTitle)">
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+                                <label style="color:red;">请输入标题内容</label>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">问题类型：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <select id="ddlTypeID" class="form-control input-sm input-width-150"></select>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">是否置顶：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <label class="radio-inline">
+                                    <input type="radio" name="rbtnHot" value="1" @(Model == null ? "" : Model.Hot == 1 ? "checked" : "")> 是
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="rbtnHot" value="0" @(Model == null ? "checked" : Model.Hot == 0 ? "checked" : "")> 否
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">禁用状态：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <label class="radio-inline">
+                                    <input type="radio" name="rbtnNullity" value="0" @(Model == null ? "checked" : Model.Nullity == 0 ? "checked" : "")> 正常
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="rbtnNullity" value="1" @(Model == null ? "" : Model.Nullity == 1 ? "checked" : "")> 禁用
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="row" style="margin-top:5px;margin-bottom:5px;">
+                            <div class="col-xs-2 col-md-2" style="text-align:right">内容：</div>
+                            <div class="col-xs-6 col-md-3">
+                                <textarea id="txtBody" class="form-control input-sm" style="width:700px;display:inline;" rows="20">@(Model == null ? "" : Model.IssueContent)</textarea>
+                            </div>
+                            <div class="col-xs-5 col-md-3" style="text-align:left">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <ul class="list-inline">
+                                <li><a class="btn btn-success search btn-md" href="@Url.Action("QuestionList", "Customer")"><i class="glyphicon glyphicon-arrow-left"></i>返回</a></li>
+                                <li><a class="btn btn-primary search btn-md" href="#" id="btn"><i class="glyphicon glyphicon-save"></i>保存</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        //编辑器
+        //KindEditor.ready(function (K) {
+        //    window.editor = K.create('#txtBody', { uploadJson: '/Common/UploadFileToLocal?op=6' });
+        //});
+        $(document).ready(function () {
+            var cmd = GetQueryString("cmd")
+            if (cmd == "add") {
+                $('#info').html("添加");
+            }
+            loadType();
+            var type = '@Model.TypeID';
+            if (type != null)
+                $('#ddlTypeID').val(type);
+            docReady();
+        });
+        function loadType() {
+            $.ajaxSetup({
+                async: false
+            });
+            $.get("/Customer/GetQuestionType", {}, function (json) {
+                if (json != "") {
+                    var json = $.parseJSON(json)
+                    var html = "";
+                    $.each(json, function () {
+                        html += "<option value=\"" + this.ID + "\">" + this.TypeName + "</option>";
+                    })
+                    $('#ddlTypeID').html(html);
+                }
+
+            })
+        }
+        function docReady() {
+            $("#btn").click(function (e) {
+                add();
+            });
+        }
+        function add() {
+            var data = {};
+            var param = GetQueryString("param");
+            data.IssueID = param == null ? 0 : param;
+            var Subject = $("#txtSubject").val().trim();
+            if (Subject == "") {
+                alert("标题不能为空");
+                return false;
+            }
+            data.IssueTitle = Subject;
+            data.TypeID = parseInt($("#ddlTypeID").val());
+
+            var nullity = $('input:radio[name="rbtnNullity"]:checked').val();
+            if (nullity == null) {
+                alert("请选择禁用状态");
+                return false;
+            }
+            data.Nullity = nullity;
+            var hot = $('input:radio[name="rbtnHot"]:checked').val();
+            if (hot == null) {
+                alert("请选择是否置顶");
+                return false;
+            }
+            data.Hot = hot;
+            var body = $('#txtBody').val();  //editor.html();
+            if (body == "") {
+                alert("内容不能为空");
+                return false;
+            }
+            data.IssueContent = body;
+
+            AjaxSubmit("/Customer/DoQuestionInfo", data, callBack, "ae");
+        }
+        //回调函数
+        function callBack(jsonData, fname) {
+            switch (fname) {
+                case "ae":
+                    alert(jsonData.Msg);
+                    window.location.href = "/Customer/QuestionList";
+                    break;
+            }
+        }
+    </script>
+
+</body>
+</html>
