@@ -793,6 +793,22 @@ namespace Game.Facade
             return aideTreasureData.ExecuteSql(sql);
         }
 
+        public int UpdateGameScoreInfoInsertShareDetailInfo(int userID,string accounts,int gameID,int payAmount,string applyDate)
+        {
+            //string sql1 = "UPDATE OffLinePayOrders SET IsAuded=" + isAuded + " WHERE OffLinePayID =" + id;
+            //aideTreasureData.ExecuteSql(sql1);
+            //string sql2 = "UPDATE OffLinePayOrders SET IsAuded=" + isAuded + " WHERE OffLinePayID =" + id;
+            //aideTreasureData.ExecuteSql(sql2);
+            string sql = "UPDATE GameScoreInfo SET  Score = Score + " + payAmount + "  WHERE UserID = " + userID;
+            aideTreasureData.ExecuteSql(sql);
+            //  -- 99999 :线下充值，4：支付宝扫码 5：微信扫码
+            string sql1 = "INSERT  ShareDetailInfo (OperUserID,ShareID,UserID,GameID,Accounts,CardTypeID " ;
+                   sql1+= ",SerialID ,OrderID  ,OrderAmount ,DiscountScale,PayAmount ,Currency ,BeforeCurrency ,IPAddress,ApplyDate,Gold,BeforeGold,RoomCard,BeforeRoomCard,AUShow)";
+                   sql1 += " VALUES  (14 ,99999 ," + userID + "," + gameID + ",'" + accounts + "',0  ,''  ,''  ,0.00 ,1.00 ," + payAmount + "   ,0.00  ,0.00 ";
+                   sql1+= " ,'','"+applyDate+"'  ,500   ,0.00  ,0  ,0   ,'True')";
+            return aideTreasureData.ExecuteSql(sql1);
+        }
+
         public int UpdateOffLinePay(int isAuded, int id)
         {
             string sql = "UPDATE OffLinePayOrders SET IsAuded=" + isAuded + " WHERE OffLinePayID =" + id;

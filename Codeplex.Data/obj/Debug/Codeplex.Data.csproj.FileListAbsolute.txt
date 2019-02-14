@@ -23,6 +23,6 @@ D:\qipai\bl\src\网站代码\Admin\Codeplex.Data\obj\Debug\Codeplex.Data.dll
 D:\qipai\bl\src\网站代码\Admin\Codeplex.Data\obj\Debug\Codeplex.Data.pdb
 D:\works\网站代码3\Admin\Codeplex.Data\bin\Debug\Codeplex.Data.dll
 D:\works\网站代码3\Admin\Codeplex.Data\bin\Debug\Codeplex.Data.pdb
-D:\works\网站代码3\Admin\Codeplex.Data\obj\Debug\Codeplex.Data.csprojResolveAssemblyReference.cache
 D:\works\网站代码3\Admin\Codeplex.Data\obj\Debug\Codeplex.Data.dll
 D:\works\网站代码3\Admin\Codeplex.Data\obj\Debug\Codeplex.Data.pdb
+D:\works\网站代码3\Admin\Codeplex.Data\obj\Debug\Codeplex.Data.csprojResolveAssemblyReference.cache

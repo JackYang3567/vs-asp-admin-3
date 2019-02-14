@@ -161,8 +161,12 @@ namespace Admin.Controllers
 						num2 = 10;
 						text = "/Content/Upload/Site/";
 						break;
-                    case EnumerationList.UploadFileEnum.OffLinePayQrCodeImg:
+                    case EnumerationList.UploadFileEnum.OffLinePayQrCodeAliImg:
                         num2 = 11;
+                        text = "/Content/Upload/OffLinePayQrCode/";
+                        break;
+                    case EnumerationList.UploadFileEnum.OffLinePayQrCodeWeixinImg:
+                        num2 = 12;
                         text = "/Content/Upload/OffLinePayQrCode/";
                         break;
 					}
@@ -212,7 +216,14 @@ namespace Admin.Controllers
 
                         if (num2 == 11)
                         {
-                            str = DateTime.Now.ToString("yyyyMMddHHmmss") + "_QrCode.png";
+                           // str = DateTime.Now.ToString("yyyyMMddHHmmss") + "_QrCode.png";
+                            str =  "Ali_QrCode.png";
+                            text2 += str;
+                        }
+                        if (num2 == 12)
+                        {
+                           // str = DateTime.Now.ToString("yyyyMMddHHmmss") + "_QrCode.png";
+                            str = "Weixin_QrCode.png";
                             text2 += str;
                         }
 						if (flag)

@@ -69,7 +69,10 @@
                             <thead>
                                 <tr role="row">
                                     <th><input name="ckall" type="checkbox" value="" onclick="SelectAll(this,'cid')" /></th>
+                                    <th>用户标识</th>
                                     <th>会员账号</th>
+                                    <th>游戏ID</th>
+                                    
                                     <th>存款金额</th>
                                     <th>支付方式</th>
                                     <th>转账单号（最后4位数字）</th>
@@ -110,6 +113,29 @@
                     </h4>
                 </div>
                 <div class="modal-body">
+                    <p>
+                        用户标识：<span id="txtUserID" class="txtAmount" > </span>
+                    </p>
+                    <p>
+                        会员账号：<span type="text" id="txtAccounts"> </span>
+                    </p>
+                    <p>
+                        游戏 ID：<span type="text" id="txtGameID"> </span>
+                    </p>
+                    <p>
+
+                       存款金额：<span type="text" id="txtPayAmount"> </span>
+                    </p>
+                 
+                    <p>
+                        支付方式：<span type="text" id="txtPaymentType"> </span>
+                    </p>
+                    <p>
+                        转账单号：<span type="text" id="txtOrderID"> </span>  转账单号（最后4位数字）
+                    </p>
+                    <p>
+                        存款时间：<span type="text" id="txtApplyDate"> </span>
+                    </p>
                     <p>
                         状态：<input type="radio" name="txtAmount" id="txtAmount_1" class="txtAmount btn" value="1" />通过 &nbsp;&nbsp;
                         <input type="radio" name="txtAmount" class="txtAmount btn" id="txtAmount_0" value="0" />未通过
@@ -160,7 +186,7 @@
             $("#myModalLabel").html("通过确认");
             $('#myModal').modal('show');
         }
-        function update(pid, isAuded) {
+        function update(pid, isAuded, UserID, GameID, Accounts, PayAmount, ApplyDate, OrderID, PaymentType) {
             id = pid; 
             if (parseInt(isAuded) == 1) {
                 $("#txtAmount_1").attr('checked', 'true')
@@ -171,6 +197,14 @@
                 $("#txtAmount_0").attr('checked', 'true');
             }
             $("#txtAmount").val(isAuded);
+
+            $("#txtUserID").html(UserID);
+            $("#txtAccounts").html(Accounts);
+            $("#txtGameID").html(GameID);
+            $("#txtPayAmount").html(PayAmount);
+            $("#txtPaymentType").html(parseInt(PaymentType) == 4 ? "支付宝扫码" : (parseInt(PaymentType) == 5 ? "微信扫码" : item.BankName));
+            $("#txtOrderID").html(OrderID);
+            $("#txtApplyDate").html(ApplyDate);
             $('.txtAmount').click(function () {
                 //$('.txtAmount').each(function () {
                 //    $(this).removeAttr("checked");
@@ -193,7 +227,25 @@
                 alert("金额格式错误");
                 return false;
             }
-            var data = { PaymentType: postData.PaymentType, IsAuded: isAuded, OffLinePayID: id };
+            var UserID = $("#txtUserID").html();
+            var Accounts = $("#txtAccounts").html();
+            var GameID = $("#txtGameID").html();
+            var PayAmount = $("#txtPayAmount").html();
+           // $("#txtPaymentType").html(parseInt(PaymentType) == 4 ? "支付宝扫码" : (parseInt(PaymentType) == 5 ? "微信扫码" : item.BankName));
+            var OrderID =  $("#txtOrderID").html();
+            var ApplyDate = $("#txtApplyDate").html();
+
+            var data = {
+                PaymentType: postData.PaymentType,
+                IsAuded: isAuded,
+                OffLinePayID: id,
+                UserID: UserID,
+                Accounts: Accounts,
+                GameID: GameID,
+                PayAmount: PayAmount,
+                OrderID: OrderID,
+                ApplyDate:ApplyDate
+                };
             //console.log(data);
             AjaxSubmit("/Filled/UpdateOffLinePay", data, callBack, "save");
         }
@@ -226,13 +278,18 @@
                 $.each(jsondata, function (i, item) {
                     html += stringFormat("<tr>");
                     html += stringFormat("<td><input name='cid' type='checkbox' value='{0}'/></td>", item.OffLinePayID);
+                    html += stringFormat("<td>{0}</td>", item.UserID);                  
                     html += stringFormat("<td>{0}</td>", item.Accounts);
+                    html += stringFormat("<td>{0}</td>", item.GameID);
                     html += stringFormat("<td>{0}</td>", item.PayAmount);
                     html += stringFormat("<td>{0}</td>", parseInt(item.PaymentType) == 4 ? "支付宝扫码" : (parseInt(item.PaymentType) == 5 ? "微信扫码" : item.BankName));
                     html += stringFormat("<td>{0}</td>", item.OrderID);
                     html += stringFormat("<td>{0}</td>", item.ApplyDate);
                     html += stringFormat("<td>{0}</td>", item.IsAuded?"通过":"<span style='color:red'>未通过</span>");
-                    html += stringFormat("<td><a href=\"javascript:void(0)\" onclick=\"update({0},{1})\">通过</a>&nbsp;&nbsp;<a href=\"javascript:void(0)\" onclick=\"del({0})\">删除</a></td>", item.OffLinePayID, item.IsAuded);
+                   // html += stringFormat("<td><a href=\"javascript:void(0)\" onclick=\"update({0},{1},{2},{3},'{4}',{5},'{6}',{7},{8})\">通过</a>&nbsp;&nbsp;<a href=\"javascript:void(0)\" onclick=\"del({0})\">删除</a></td>", item.OffLinePayID, item.IsAuded, item.UserID, item.GameID, item.Accounts, item.PayAmount, item.ApplyDate, item.OrderID, item.PaymentType);
+                    html += "<td>";
+                    html += parseInt(item.IsAuded) == 0 ? stringFormat("<a href=\"javascript:void(0)\" onclick=\"update({0},{1},{2},{3},'{4}',{5},'{6}',{7},{8})\">通过</a>", item.OffLinePayID, item.IsAuded, item.UserID, item.GameID, item.Accounts, item.PayAmount, item.ApplyDate, item.OrderID, item.PaymentType) : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                    html += "&nbsp;&nbsp;" + stringFormat("<a href=\"javascript:void(0)\" onclick=\"del({0})\">删除</a></td>", item.OffLinePayID);
                     html += "</tr>";
                 });
             }

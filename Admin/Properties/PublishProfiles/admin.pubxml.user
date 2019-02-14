@@ -37,10 +37,10 @@
       <publishTime>07/01/2018 17:12:35</publishTime>
     </File>
     <File Include="bin/Admin.dll">
-      <publishTime>02/12/2019 16:13:40</publishTime>
+      <publishTime>02/13/2019 18:32:59</publishTime>
     </File>
     <File Include="bin/Codeplex.Data.dll">
-      <publishTime>02/12/2019 16:13:35</publishTime>
+      <publishTime>02/13/2019 18:32:02</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>07/01/2018 17:28:13</publishTime>
@@ -49,25 +49,25 @@
       <publishTime>07/01/2018 17:28:13</publishTime>
     </File>
     <File Include="bin/Game.Data.dll">
-      <publishTime>02/12/2019 16:13:36</publishTime>
+      <publishTime>02/13/2019 18:32:17</publishTime>
     </File>
     <File Include="bin/Game.Entity.dll">
-      <publishTime>02/12/2019 16:13:35</publishTime>
+      <publishTime>02/13/2019 18:32:10</publishTime>
     </File>
     <File Include="bin/Game.Facade.dll">
-      <publishTime>02/12/2019 16:13:37</publishTime>
+      <publishTime>02/13/2019 18:32:26</publishTime>
     </File>
     <File Include="bin/Game.IData.dll">
-      <publishTime>02/12/2019 16:13:36</publishTime>
+      <publishTime>02/13/2019 18:32:14</publishTime>
     </File>
     <File Include="bin/Game.Kernel.dll">
-      <publishTime>02/12/2019 16:13:36</publishTime>
+      <publishTime>02/13/2019 18:32:12</publishTime>
     </File>
     <File Include="bin/Game.Utils.dll">
-      <publishTime>02/12/2019 16:13:35</publishTime>
+      <publishTime>02/13/2019 18:32:00</publishTime>
     </File>
     <File Include="bin/Jiguang.JPush.dll">
-      <publishTime>02/12/2019 16:13:38</publishTime>
+      <publishTime>02/13/2019 18:32:40</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>07/01/2018 21:53:05</publishTime>
@@ -100,7 +100,7 @@
       <publishTime>07/01/2018 17:29:40</publishTime>
     </File>
     <File Include="bin/RestSharp.dll">
-      <publishTime>02/12/2019 16:13:35</publishTime>
+      <publishTime>02/13/2019 18:32:00</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Formatting.dll">
       <publishTime>07/02/2018 09:24:54</publishTime>
@@ -2815,10 +2815,10 @@
       <publishTime>07/01/2018 17:15:32</publishTime>
     </File>
     <File Include="Views/Filled/OffLinePayList.cshtml">
-      <publishTime>02/11/2019 14:08:45</publishTime>
+      <publishTime>02/13/2019 18:08:52</publishTime>
     </File>
     <File Include="Views/Filled/OffLineQrCodeInfo.cshtml">
-      <publishTime>02/12/2019 16:06:57</publishTime>
+      <publishTime>02/13/2019 10:35:33</publishTime>
     </File>
     <File Include="Views/Filled/OffLineQrCodeList.cshtml">
       <publishTime>02/12/2019 14:59:13</publishTime>

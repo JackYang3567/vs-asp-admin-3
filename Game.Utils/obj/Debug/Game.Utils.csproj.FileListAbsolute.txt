@@ -24,3 +24,4 @@ D:\works\网站代码3\Admin\Game.Utils\bin\Debug\Game.Utils.dll
 D:\works\网站代码3\Admin\Game.Utils\bin\Debug\Game.Utils.pdb
 D:\works\网站代码3\Admin\Game.Utils\obj\Debug\Game.Utils.dll
 D:\works\网站代码3\Admin\Game.Utils\obj\Debug\Game.Utils.pdb
+D:\works\网站代码3\Admin\Game.Utils\obj\Debug\Game.Utils.csprojResolveAssemblyReference.cache

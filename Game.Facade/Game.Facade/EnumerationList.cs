@@ -121,9 +121,11 @@ namespace Game.Facade
 			[Description("移动版注册网站LOGO图片")]
 			SiteMobileRegLogoImg,
 
-            [Description("代理商收款二维码图片")]
-            OffLinePayQrCodeImg
-            
+            [Description("代理商收款二维码支付宝图片")]
+            OffLinePayQrCodeAliImg,
+
+            [Description("代理商收款二维码微信图片")]
+            OffLinePayQrCodeWeixinImg
 		}
 
 		public enum MemberType

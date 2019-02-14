@@ -54,8 +54,8 @@
                             <div class="col-xs-2 col-md-2" style="text-align:right">二维码图地址：</div>
                             <div class="col-xs-6 col-md-3">
                                 <img id="upImage" src="/Content/Upload/OffLinePayQrCode/@(entity != null ? entity.IconPath : "")" alt="" title="" class="pull-left" style="width: 395px; height: 150px;" />
-                                <input id="upImageField" name="upImageField" type="file" style="display:none" onchange='UploadImg("upImageField", "/Common/UploadFileToLocal", "upImage",@((Int32)Game.Facade.EnumerationList.UploadFileEnum.OffLinePayQrCodeImg));'>
-                                <button type="button" class="form-control btn btn-primary pull-left" onclick='DelOldImg("@(entity != null ? entity.IconPath : "")");$("input[id=upImageField]").click();'><span class="glyphicon glyphicon-open"></span>更新图片</button>
+                                <input id="upImageField" name="upImageField" type="file" style="display:none" onchange='UploadImg("upImageField", "/Common/UploadFileToLocal", "upImage",@((Int32)Game.Facade.EnumerationList.UploadFileEnum.OffLinePayQrCodeAliImg));'>
+                                <button id="changBtb" type="button" class="form-control btn btn-primary pull-left" onclick='DelOldImg("@(entity != null ? entity.IconPath : "")");$("input[id=upImageField]").click();'><span class="glyphicon glyphicon-open"></span>更新图片</button>
                             </div>
                             <div class="col-xs-5 col-md-3" style="text-align:left;color:red;">
                                 请统一标题设计样式。图片尺寸:1048*136px，png格式
@@ -94,6 +94,29 @@
                 add();
             });
         }
+        $(function(){
+
+            var _var = $("input[name='rblPaymentTypeID']:checked").val();
+            if(_var== undefined)
+            {
+                $("#changBtb").attr('disabled', true);
+            }
+
+            $("input[name='rblPaymentTypeID']").click(function () {
+                var PTID = $("input[name='rblPaymentTypeID']:checked").val()
+                if(parseInt(PTID) == 4)
+                {
+                    $("#upImageField").attr('onchange', 'UploadImg("upImageField", "/Common/UploadFileToLocal", "upImage",@((Int32)Game.Facade.EnumerationList.UploadFileEnum.OffLinePayQrCodeAliImg));');//  
+               
+                }
+                if(parseInt(PTID) == 5) {
+                    $("#upImageField").attr('onchange', 'UploadImg("upImageField", "/Common/UploadFileToLocal", "upImage",@((Int32)Game.Facade.EnumerationList.UploadFileEnum.OffLinePayQrCodeWeixinImg));');//  
+
+                }
+                 $("#changBtb").attr('disabled', false);
+            })
+            
+        })
         function add() {
             var data = {};
             data.ID = parseInt('@ViewBag.ID');

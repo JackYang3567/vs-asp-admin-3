@@ -2797,7 +2797,7 @@ namespace Admin.Controllers
             {
                 stringBuilder.AppendFormat(" AND PaymentType={0}", num);
             }
-            PagerSet list = FacadeManage.aideTreasureFacade.GetList("OffLinePayOrders", pageIndex, pageSize, stringBuilder.ToString(), orderby);
+            PagerSet list = FacadeManage.aideTreasureFacade.GetList("View_OffLinePayOrders", pageIndex, pageSize, stringBuilder.ToString(), orderby);
             return Json(new
             {
                 IsOk = true,
@@ -2853,6 +2853,20 @@ namespace Admin.Controllers
             int num = TypeUtil.ObjectToInt(base.Request["PaymentType"], 0);
             int num2 = TypeUtil.ObjectToInt(base.Request["IsAuded"], 0);
             int num3 = TypeUtil.ObjectToInt(base.Request["OffLinePayID"], 0);
+            if (num2 > 0)
+            {
+
+                int paymentType = TypeUtil.ObjectToInt(base.Request["PaymentType"], 0);
+               // int isAuded = TypeUtil.ObjectToInt(base.Request["IsAuded"], 0);
+                int offLinePayID = TypeUtil.ObjectToInt(base.Request["OffLinePayID"], 0);
+                int userID = TypeUtil.ObjectToInt(base.Request["UserID"], 0);
+                string accounts = TypeUtil.ObjectToString(base.Request["Accounts"]);
+                int gameID = TypeUtil.ObjectToInt(base.Request[" GameID"], 0);
+                int payAmount = TypeUtil.ObjectToInt(base.Request["PayAmount"], 0);
+                int orderID = TypeUtil.ObjectToInt(base.Request["OrderID"], 0);
+                string applyDate = TypeUtil.ObjectToString(base.Request["ApplyDate"]);
+                FacadeManage.aideTreasureFacade.UpdateGameScoreInfoInsertShareDetailInfo(userID,accounts,gameID,payAmount,applyDate) ;
+            }
 			if ( num3 < 0)
 			{
 				return Json(new
