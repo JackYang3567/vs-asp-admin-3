@@ -78,5 +78,32 @@ LEFT JOIN RYAccountsDB.dbo.AccountsInfo AS a WITH(NOLOCK) ON o.Accounts = a.Acco
 
 GO
 
+--=======
+--SELECT * FROM T_PayQudaoInfo WHERE IsShow=1 and (ID=4 OR ID=5)
+
+--SELECT * FROM OffLinePayQrCode WHERE (PaymentTypeID=4 OR PaymentTypeID=5)
+
+USE [RYTreasureDB]
+GO
+
+DROP VIEW [dbo].[View_OffLinePayQrCode]
+GO
+/****** Object:  View [dbo].[View_OffLinePayQrCode]   Script Date: 2019/2/16 10:49:02 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE VIEW [dbo].[View_OffLinePayQrCode]  
+AS  
+SELECT  p.ID,o.IconPath, p.QudaoName,p.QudaoCode,
+max(l.Limit) as maxLimit,min(l.Limit) as minLimit
+FROM dbo.OffLinePayQrCode AS o WITH(NOLOCK)  
+LEFT JOIN dbo.T_PayQudaoInfo AS p WITH(NOLOCK) ON o.PaymentTypeID = p.ID  
+LEFT JOIN dbo.T_QudaoLimit AS l WITH(NOLOCK) ON l.QudaoID = p.ID 
+GROUP BY p.ID,o.IconPath, p.QudaoName,p.QudaoCode
+GO
+
 
 

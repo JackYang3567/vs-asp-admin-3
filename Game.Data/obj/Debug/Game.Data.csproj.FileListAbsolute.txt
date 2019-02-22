@@ -76,3 +76,16 @@ D:\works\网站代码3\Admin\Game.Data\bin\Debug\Game.Utils.pdb
 D:\works\网站代码3\Admin\Game.Data\obj\Debug\Game.Data.csprojResolveAssemblyReference.cache
 D:\works\网站代码3\Admin\Game.Data\obj\Debug\Game.Data.dll
 D:\works\网站代码3\Admin\Game.Data\obj\Debug\Game.Data.pdb
+E:\works\网站代码3\Admin\Game.Data\bin\Debug\Game.Data.dll
+E:\works\网站代码3\Admin\Game.Data\bin\Debug\Game.Data.pdb
+E:\works\网站代码3\Admin\Game.Data\bin\Debug\Game.Entity.dll
+E:\works\网站代码3\Admin\Game.Data\bin\Debug\Game.IData.dll
+E:\works\网站代码3\Admin\Game.Data\bin\Debug\Game.Kernel.dll
+E:\works\网站代码3\Admin\Game.Data\bin\Debug\Game.Utils.dll
+E:\works\网站代码3\Admin\Game.Data\bin\Debug\Game.Entity.pdb
+E:\works\网站代码3\Admin\Game.Data\bin\Debug\Game.IData.pdb
+E:\works\网站代码3\Admin\Game.Data\bin\Debug\Game.Kernel.pdb
+E:\works\网站代码3\Admin\Game.Data\bin\Debug\Game.Utils.pdb
+E:\works\网站代码3\Admin\Game.Data\obj\Debug\Game.Data.csprojResolveAssemblyReference.cache
+E:\works\网站代码3\Admin\Game.Data\obj\Debug\Game.Data.dll
+E:\works\网站代码3\Admin\Game.Data\obj\Debug\Game.Data.pdb

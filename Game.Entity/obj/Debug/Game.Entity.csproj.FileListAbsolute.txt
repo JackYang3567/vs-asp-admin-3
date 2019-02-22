@@ -40,3 +40,10 @@ D:\works\网站代码3\Admin\Game.Entity\bin\Debug\Game.Utils.pdb
 D:\works\网站代码3\Admin\Game.Entity\obj\Debug\Game.Entity.csprojResolveAssemblyReference.cache
 D:\works\网站代码3\Admin\Game.Entity\obj\Debug\Game.Entity.dll
 D:\works\网站代码3\Admin\Game.Entity\obj\Debug\Game.Entity.pdb
+E:\works\网站代码3\Admin\Game.Entity\bin\Debug\Game.Entity.dll
+E:\works\网站代码3\Admin\Game.Entity\bin\Debug\Game.Entity.pdb
+E:\works\网站代码3\Admin\Game.Entity\bin\Debug\Game.Utils.dll
+E:\works\网站代码3\Admin\Game.Entity\bin\Debug\Game.Utils.pdb
+E:\works\网站代码3\Admin\Game.Entity\obj\Debug\Game.Entity.csprojResolveAssemblyReference.cache
+E:\works\网站代码3\Admin\Game.Entity\obj\Debug\Game.Entity.dll
+E:\works\网站代码3\Admin\Game.Entity\obj\Debug\Game.Entity.pdb

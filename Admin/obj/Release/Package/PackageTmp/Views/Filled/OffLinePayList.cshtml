@@ -286,7 +286,10 @@
                     html += stringFormat("<td>{0}</td>", item.OrderID);
                     html += stringFormat("<td>{0}</td>", item.ApplyDate);
                     html += stringFormat("<td>{0}</td>", item.IsAuded?"通过":"<span style='color:red'>未通过</span>");
-                    html += stringFormat("<td><a href=\"javascript:void(0)\" onclick=\"update({0},{1},{2},{3},'{4}',{5},'{6}',{7},{8})\">通过</a>&nbsp;&nbsp;<a href=\"javascript:void(0)\" onclick=\"del({0})\">删除</a></td>", item.OffLinePayID, item.IsAuded, item.UserID, item.GameID, item.Accounts, item.PayAmount, item.ApplyDate, item.OrderID, item.PaymentType);
+                   // html += stringFormat("<td><a href=\"javascript:void(0)\" onclick=\"update({0},{1},{2},{3},'{4}',{5},'{6}',{7},{8})\">通过</a>&nbsp;&nbsp;<a href=\"javascript:void(0)\" onclick=\"del({0})\">删除</a></td>", item.OffLinePayID, item.IsAuded, item.UserID, item.GameID, item.Accounts, item.PayAmount, item.ApplyDate, item.OrderID, item.PaymentType);
+                    html += "<td>";
+                    html += parseInt(item.IsAuded) == 0 ? stringFormat("<a href=\"javascript:void(0)\" onclick=\"update({0},{1},{2},{3},'{4}',{5},'{6}',{7},{8})\">通过</a>", item.OffLinePayID, item.IsAuded, item.UserID, item.GameID, item.Accounts, item.PayAmount, item.ApplyDate, item.OrderID, item.PaymentType) : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                    html += "&nbsp;&nbsp;" + stringFormat("<a href=\"javascript:void(0)\" onclick=\"del({0})\">删除</a></td>", item.OffLinePayID);
                     html += "</tr>";
                 });
             }

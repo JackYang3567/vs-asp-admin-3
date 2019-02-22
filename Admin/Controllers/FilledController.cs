@@ -2932,6 +2932,29 @@ namespace Admin.Controllers
             });
         }
 
+         [CheckCustomer]
+        public JsonResult GetOffLinePayQrCodeIconPathLimit()
+        {
+            int pageIndex = TypeUtil.ObjectToInt(base.Request["pageIndex"], 1);
+            int pageSize = TypeUtil.ObjectToInt(base.Request["pageSize"], 50);
+            int num = TypeUtil.ObjectToInt(base.Request["ID"], 0);
+            string orderby = "ORDER BY ID ASC";
+            StringBuilder stringBuilder = new StringBuilder("WHERE 1=1");
+            if (num > 0)
+            {
+                stringBuilder.AppendFormat(" AND ID={0}", num);
+            }
+            PagerSet list = FacadeManage.aideTreasureFacade.GetList("View_OffLinePayQrCode  ", pageIndex, pageSize, stringBuilder.ToString(), orderby);
+            return Json(new
+            {
+                IsOk = true,
+                Msg = "",
+                Total = list.RecordCount,
+                Data = JsonHelper.SerializeObject(list.PageSet.Tables[0])
+            });
+        }
+
+
         [CheckCustomer]
         public JsonResult DelOffLineQrCodeImg()
         {
@@ -2961,6 +2984,8 @@ namespace Admin.Controllers
                 });
             }
         }
+
+
 
          [CheckCustomer]
          public JsonResult DelOffLineQrCode()
