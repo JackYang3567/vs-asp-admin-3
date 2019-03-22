@@ -2791,7 +2791,7 @@ namespace Admin.Controllers
             int pageIndex = TypeUtil.ObjectToInt(base.Request["pageIndex"], 1);
             int pageSize = TypeUtil.ObjectToInt(base.Request["pageSize"], 50);
             int num = TypeUtil.ObjectToInt(base.Request["PaymentType"], 0);
-            string orderby = "ORDER BY OffLinePayID ASC";
+            string orderby = "ORDER BY ApplyDate DESC";
             StringBuilder stringBuilder = new StringBuilder("WHERE 1=1");
             if (num > 0)
             {
